@@ -1,0 +1,26 @@
+\begin{tikzpicture}[scale=0.8]
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=node] (1) at (1, 9) {};
+		\node [style=node] (2) at (2, 7) {};
+		\node [style=node] (3) at (3, 10) {};
+		\node [style=node] (4) at (4, 8) {};
+		\node [style=node] (5) at (6, 4) {};
+		\node [style=node] (6) at (7, 1) {};
+		\node [style=node] (7) at (8, 3) {};
+		\node [style=node] (8) at (9, 5) {};
+		\node [style=node] (9) at (10, 2) {};
+		\node [style=none] (0) at (0, 0) {};
+		\node [style=none] (halfx) at (5, 0) {};
+		\node [style=none] (topx) at (5, 11) {};
+		\node [style=none] (halfy) at (0, 6) {};
+		\node [style=none] (topy) at (11, 6) {};
+		\node [style=none] (x) at (11, 0) {};
+		\node [style=none] (y) at (0, 11) {};
+	\end{pgfonlayer}
+	\begin{pgfonlayer}{edgelayer}
+		\draw (0.center) to (x.center);
+		\draw (0.center) to (y.center);
+		\draw (halfx.center) to (topx.center);
+		\draw (halfy.center) to (topy.center);
+	\end{pgfonlayer}
+\end{tikzpicture}

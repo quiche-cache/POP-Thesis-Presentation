@@ -1,0 +1,174 @@
+\documentclass[12pt,twoside,openright]{book}
+
+\usepackage[utf8]{inputenc}
+\usepackage[toc,page]{appendix}
+% Multifile
+\usepackage{standalone}
+\usepackage{subfiles}
+\usepackage{makeidx}
+\usepackage{graphicx} 
+
+% Bibliography
+% style=authoryear,
+\usepackage[sorting=ynt,block=ragged,backend=bibtex8]{biblatex}
+\addbibresource{references.bib}
+
+% Thesis formatting
+\usepackage{emptypage} % For making pages really empty
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm,bindingoffset=6mm]{geometry}
+\setlength{\headheight}{15pt} % at least 14.49998pt
+
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhead{} % Clear header
+\fancyhead[LO]{\leftmark}
+\fancyhead[RE]{SECTION \rightmark}
+\fancyfoot{} % Clear footer
+\fancyfoot[CE,CO]{ \thepage}
+
+% Colorful tables
+\usepackage[table,xcdraw]{xcolor}
+% If you use beamer only pass "xcolor=table" option, i.e. \documentclass[xcolor=table]{beamer}
+\usepackage{multirow} 
+
+% For posets
+\usepackage{tikzit}
+\input{node.tikzstyles}
+
+% For multiline tables
+\usepackage{fourier} 
+\usepackage{array}
+\usepackage{makecell}
+\renewcommand\theadalign{bc}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
+
+% Content 
+\usepackage{ulem} % Underlining for emphasis
+\usepackage[breaklinks]{hyperref} % Hyperlinks
+\usepackage{microtype}
+\usepackage{mathtools}
+% \usepackage{cancel}
+\usepackage{amsthm} % For proof env and others
+\usepackage{amssymb} % \varnothing
+\usepackage{enumerate} % Allows for enumerate tagging shortut
+
+% Math mode strikeout
+\usepackage{xcolor,cancel}
+\newcommand\hcancel[2][black]{\setbox0=\hbox{$#2$}%
+\rlap{\raisebox{.45\ht0}{\textcolor{#1}{\rule{\wd0}{1pt}}}}#2} 
+
+% For declaring large plus signs
+\DeclareMathOperator*{\Plus}{\scalerel*{\color{gray} +}{\textstyle\sum}}
+\DeclareMathOperator*{\Bullet}{\scalerel*{\bullet}{\textstyle\sum}}
+% \DeclareMathOperator*{\Bar}{\scalerel*{-}{\textstyle\sum}}
+\usepackage{scalerel}
+
+\newcommand{\inv}{{^{-1}}} % Inverse
+\newcommand{\id}{\text{Id}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\Z}{{\mathbb Z}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\bc}[1]{{\quad \text{(#1)}}} 	% Justification in math env
+\newcommand{\st}{\text{ such that }} % Such that
+\newcommand{\fa}{\text{ for all }} % For all
+\newcommand{\stfa}{\text{ such that for all }} % such that for all
+\newcommand{\abs}[1]{{\left |#1\right |}}  % Abs value / Cardinality
+\newcommand{\ontop}[2]{\stackrel{\mathclap{\normalfont\mbox{#2}}}{#1}} % Text above equations
+\newcommand{\circled}[1]{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {#1}}}} % Custom circled symbols
+\newcommand{\todo}[1]{\textcolor{orange}{\textbf{To-do: }{\textit{#1}\\}}}
+\newcommand{\alert}[1]{\textcolor{red}{\textbf{Caution: }{\textit{#1}\\}}}
+\newcommand{\rremark}[1]{\textcolor{blue}{\textbf{Remark: }{\textit{#1}\\}}}
+\newcommand{\udots}{\reflectbox{$\ddots$}}  
+
+% Markers 
+\theoremstyle{plain} %  sets the text in italic and adds extra space above and below
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{prop}{Proposition}[section]
+
+\theoremstyle{definition} % adds extra space above and below, but sets the text in roman
+\newtheorem{definition}{Definition}[section]
+\newtheorem{notation}{Notation}[section]
+\newtheorem{conjecture}{Conjecture}
+\renewcommand{\labelenumi}{\bf \alph{enumi}.} % enumerate uses a., b., c., ...
+
+\theoremstyle{remark} % set in roman, with no additional space above or below
+\newtheorem{remark}{Remark}
+\newtheorem{observation}{Observation}
+\newtheorem{example}{Example}[section]
+
+% Custom packages 
+% \usepackage{thesis-packages}
+
+\hbadness=20000 % Increasing the threshold to suppress error message
+
+% Title
+\title{Permutations Avoiding Certain Partially-ordered Patterns}
+\author{Keshia Yap}
+\date{\today}
+
+\begin{document}
+% ------- UNCOMMENT FOR PRODUCTION -------- %
+% ---------------------------------------- %
+\frontmatter
+\subfile{thesis/frontmatter/titlepage}
+\cleardoublepage
+\thispagestyle{empty}
+
+\chapter*{Abstract}
+\subfile{thesis/frontmatter/abstract}
+
+\chapter*{Acknowledgements}
+\subfile{thesis/frontmatter/acknowledgements}
+
+% \chapter*{Declaration}
+
+\tableofcontents
+\listoffigures
+\listoftables
+------------------------------------------ %
+
+\mainmatter
+
+\chapter{Introduction}\label{chap:intro}
+\subfile{thesis/chapters/intro} 
+
+\chapter{Preliminaries}\label{chap:prelim}
+\subfile{thesis/chapters/preliminary}
+
+\chapter{Permutations avoiding \texorpdfstring{$\lambda$}{lambda}}\label{chap:av1}
+\subfile{thesis/chapters/Av1} 
+
+\chapter{\texorpdfstring{$Q_k$}{Qk} and two connections to classical combinatorial objects}\label{chap:Q}
+% (Problems \#5, \#13)
+\subfile{thesis/chapters/Q}
+
+\chapter{Levels in compositions of \texorpdfstring{$n$}{n} of ones and twos}\label{chap:levels}
+% (Problem \#9)
+\subfile{thesis/chapters/levels}
+
+\chapter{Partial sums of signed displacements}\label{chap:av10}
+\subfile{thesis/chapters/Av10}
+
+\chapter{Simple permutations avoiding 2413, 3412 and 3421}\label{chap:fib}
+\subfile{thesis/chapters/fibonacci}
+
+\chapter{Conclusion}\label{chap:conclusion}
+\subfile{thesis/chapters/conclusion}
+
+\backmatter
+
+% UNCOMMENT FOR PRODUCTION --------------- %
+% ---------------------------------------- %
+\printbibliography
+
+% \begin{appendices}
+%     \chapter{POPs}
+%     \subfile{thesis/data/data}
+% \end{appendices}
+% % ---------------------------------------- %
+
+\end{document}

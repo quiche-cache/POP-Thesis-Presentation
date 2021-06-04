@@ -1,0 +1,627 @@
+% !TEX root = ../../main.tex
+\documentclass[../main.tex]{subfiles}
+%
+\begin{document}
+
+    For an $n$-permutation $\pi$, 
+    we say that $\pi_{i_1}\, \pi_{i_2}\,\cdots\,\pi_{i_k}$ 
+    is a \textit{subsequence} of $\pi$ if and only if 
+    $1\leq i_1 < i_2 < \cdots i_k \leq n$ and $k\in [n]$.
+    % 
+    For an $n$-permutation $\pi$ and any $1\leq i,\, j\leq n$,
+    the contiguous substring $\pi_i\pi_{i+1}\,\cdots\,\pi_j$ 
+    is called a \textit{factor} of $\pi$.
+    We denote $\pi_i\pi_{i+1}\,\cdots\,\pi_j$ simply as $\pi_{[i,j]}$.
+    Note that if $i=j$, then $\pi_{[i,j]}=\pi_i$ has length 1
+    and we call it a \textit{point}, \textit{term} or an \textit{element}.
+    If $i>j$ then $\pi_{[i,j]}$ has length 0,
+    and we say that it is \textit{empty}.  
+    % 
+    Let $\alpha=\pi_{[i_1,j_1]}$ and $\beta=\pi_{[i_2,j_2]}$ be non-empty factors of $\pi$.
+    We write $\alpha<\beta$ if and only if 
+    $\pi_{\ell_1}<\pi_{\ell_2}$ for all $\ell_1\in [i_1,j_1]$ and $\ell_2\in [i_2,j_2]$.\\
+
+    Note that we may extend the definition of factors of permutations to factors of factors.
+    If $\pi$ is a factor of size $n$ of a larger $m$-permutation $\zeta$,
+    say $\pi=\zeta_{[i,j]}$ for some $1\leq i\leq j\leq m$,
+    then we use $\pi_k$ to denote $\zeta_{i+k-1}$ for any $k\in [n]$.
+    Then $\pi_{[k,\ell]} = \zeta_{[i+k-1,\, i_\ell-1]}$ for any $1\leq k\leq \ell\leq n$.\\
+
+%     Sometimes, it may be useful to state a point of a factor $\pi$, 
+%     where its exact position within $\pi$ is arbitrary.
+%     We denote such a point by $\hat{\rho}$. 
+    
+    We say that a factor $\sigma=\pi_{[i,j]}$ (for some $1\leq i\leq j\leq n$) of an $n$-permutation $\pi$ 
+    \textit{contains the number} $x$, denoted as $x\in \sigma$,
+    if and only if $\pi_{\ell}=x$ for some $\ell\in [i,j]$.
+    Otherwise, we say that $\sigma$ does not contain the number $x$
+    and write $x\not\in \sigma$.\\
+
+% \begin{definition} % [Interval]
+    For an $n$-permutation $\pi$, we say that a factor $\pi_{[i,j]}$ 
+    is an \textit{interval} if and only if it contains exactly the numbers in a contiguous interval of $[n]$.
+    That is, if and only if 
+    $\{\pi_\ell \mid \ell\in [i,j]\} = [s,t]$ for some $s,t\in [n]$.
+    For example, the factor 2413 is an interval
+    while the factor 241 is not an interval.
+    An interval of an $n$-permutation is \textit{trivial}
+    if and only if its length is 0, 1 or $n$.\\
+% \end{definition}
+% 
+
+% \begin{definition} % [Reduction]
+    % Let $\pi=\pi_1\pi_2\cdots \pi_n$ be a permutation,
+    Let $\pi_{i_1}\pi_{i_2}\,\cdots\,\pi_{i_k}$ be a subsequence of an $n$-permutation $\pi$.
+    The \textit{reduced} subsequence 
+    $\text{red}(\pi_{i_1}\pi_{i_2}\,\cdots\,\pi_{i_k})$ 
+    is defined as the $k$-permutation that is order-isomorphic to the subsequence.
+    That is, $\text{red}(\pi_{i_1}\, \pi_{i_2}\,\cdots\,\pi_{i_k})=\sigma$ is the $k$-permutation
+    where $\sigma_{s}<\sigma_{t}$ if and only if $\pi_{i_s}<\pi_{i_t}$
+    We say that $\sigma$ is the \textit{reduction} of the subsequence $\pi_{i_1}\pi_{i_2}\,\cdots\,\pi_{i_k}$.
+% \end{definition}
+
+\begin{example}
+    Let $\pi=1435726$. 
+    Then the following statements are true:
+    \begin{enumerate}[(a)]
+        \item $1576$ is a subsequence of $\pi$
+        \item $\text{red}(1576)=1243$
+        \item $\pi_{[3,5]}=357$ and $\pi_{[6,7]}=26$ are factors of $\pi$   
+        \item $\pi_{[2,4]}=435$ is an interval of $\pi$
+    \end{enumerate}
+\end{example}
+
+
+\section{Simple permutations}\label{sect:intro-simple}
+
+\begin{definition}
+    An $n$-permutation is \textit{simple} if and only if 
+    % it has no factors of length $2\leq k\leq n-1$ that are 
+    all its intervals are trivial. That is, if and only if 
+    its intervals are all of length 0, 1 or $n$.
+\end{definition}
+
+\begin{definition}
+    Let $\sigma$ be a $k$-permutation,
+        and for $\ell\in [k]$,
+        let $\alpha^{(\ell)}$ be a permutation of length $i_\ell$.
+        % $\alpha^{(1)},\, \alpha^{(2)},\,\dots,\, \alpha^{(k)}$ and $\sigma$ be permutations
+        % of lengths $i_1,\, i_2,\,\,\dots,\, i_k$ and $k$ respectively.
+    We define the \textit{inflation} of $\sigma$ by $\alpha^{(1)}, \alpha^{(2)},\dots, \alpha^{(k)}$ 
+    as the permutation \[\pi=\sigma[\alpha^{(1)}, \alpha^{(2)},\dots, \alpha^{(k)}]\]
+    of length $n := i_1+i_2+\cdots i_k$
+    where given $s_0:=0$, $\ell\in [k]$, $s_\ell := i_1+i_2+\cdots i_\ell$,
+    the following hold:
+    \begin{itemize}
+        \item the factors $\pi_{[s_{\ell-1}+1,\, s_{\ell}]}$ are intervals
+        \item $\text{red}(\pi_{[s_{\ell-1}+1,\, s_{\ell}]}) = \alpha^{(\ell)}$ 
+        \item $\pi_{[s_{t-1}+1,\, s_t]}<\pi_{[s_{u-1}+1,\, s_u]}$ if and only if $\sigma_t < \sigma_u$.
+    \end{itemize}
+    % 
+    We call $\sigma$ a \textit{quotient} of $\pi$.
+    %  and $\pi$ the \textit{deflation} of $\sigma[\alpha^{(1)}, \alpha^{(2)},\dots, \alpha^{(k)}]$.
+\end{definition}
+
+\begin{example}
+    The permutation 526314 is simple while the 4215763 is not.
+    The following statements are true: 
+    \begin{enumerate}[(a)]
+        \item $4215763=3142[1,21,132,1]$. Note 4, 21, 576 and 3 are intervals of 4215763.
+        \item 3142 is a quotient of 4215763
+        \item 4215763 is an inflation of 3142 
+    \end{enumerate}
+\end{example}
+
+% Prop 8.1.6 in the book by Kitaev
+\begin{prop}[Albert and Atkinson (2010) \cite{albert-atkinson}]
+    Every permutation may be written as the inflation of a unique simple permutation. 
+    Moreover, if $\pi$ can be written as $\sigma[\alpha^{(1)},\, \alpha^{(2)},\, \dots,\, \alpha^{(m)}]$ 
+    where $\sigma$ is simple and $m\geq 4$, 
+    then the $\alpha^{(i)}$s are unique.
+\end{prop}
+
+\section{Separable permutations}
+
+\begin{definition}
+    Suppose $\pi$ and $\sigma$ are permutations of length $n$ and $m$ respectively.
+    We define the \textit{direct sum} (or simply, \textit{sum}), using the operator $\oplus$, and the skew sum, using the operator $\ominus$,
+    of $\pi$ and $\sigma$ as the permutations of length $m+n$ as follows:
+    \[\pi \oplus \sigma = 12[\pi,\sigma]
+    \quad \text{and}\quad
+    \pi \ominus \sigma = 21[\pi,\sigma].\]
+    % \begin{align*}
+    %     (\pi \oplus \sigma)_i & = \begin{cases}
+    %         \pi_i &\text{if }1\leq i\leq m,\\
+    %         \sigma_{i-m}+m  &\text{if }m+1\leq i\leq m+n,
+    %     \end{cases}\\
+    %     (\pi \ominus \sigma)_i & = \begin{cases}
+    %         \pi_i +n &\text{if }1\leq i\leq m,\\
+    %         \sigma_{i-m}  &\text{if }m+1\leq i\leq m+n,
+    %     \end{cases}
+    % \end{align*}
+    \end{definition}
+
+\begin{definition}
+    If a permutation is an inflation of 12 or 21, 
+    we call it 
+    \textit{sum decomposable} and \textit{skew sum decomposable} respectively.
+    If a permutation is not sum decomposable we say it is \textit{sum indecomposable},
+    and if it is not skew sum decomposable we say it is \textit{skew-sum indecomposable}.
+\end{definition}
+
+\begin{definition} % [Separable permutations]
+    A permutation is \textit{separable} if it can be obtained
+    by repeatedly applying the $\oplus$ and $\ominus$ operations on the permutation 1.
+\end{definition}
+
+\begin{example}
+    The permutation 587694231 is separable, since 
+    \begin{align*}
+        587694231
+        &=14325\ominus 4231\\
+        &=(1\oplus 3214)\ominus (1\ominus 231)\\
+        &=(1\oplus (321\oplus 1)\ominus (1\ominus (12\ominus 1)))\\
+        &=(1\oplus ((1\ominus 21)\oplus 1)\ominus (1\ominus (12\ominus 1)))\\
+        &=(1\oplus ((1\ominus (1\ominus 1))\oplus 1)\ominus (1\ominus ((1\oplus 1)\ominus 1))).
+    \end{align*}
+\end{example}
+    
+\begin{example}
+    All permutations of length 3 are separable.
+    The only permutations of length 4 that are are not separable are 2413 and 3142.
+\end{example}
+
+% We state the following well-known theorems without proof,
+% that are very useful in enumerating and understanding the avoidance sets of certain patterns:
+
+% (Theorem 2.2.36 of Kitaev's textbook)
+\begin{theorem}[\textit{folklore}]\label{thm:separable}
+    The separable permutations are those avoiding 2413 and 3412.
+\end{theorem}
+
+% Prop 8.1.6 and 8.1.7 in the book by Kitaev
+\begin{prop}[Albert and Atkinson (2010) \cite{albert-atkinson}]\label{thm:12,21}
+    If $\pi$ is an inflation of 12, 
+    say $\pi = 12[\alpha,\, \beta]$,
+    then $\alpha$ and $\beta$ are unique if $\alpha$ is sum indecomposable.
+    The same holds with 12 replaced by 21 and ``sum'' replaced by ``skew sum''.
+\end{prop}
+
+\begin{corollary}\label{cor:separable}
+    All simple permutations of length at least 4 must contain the patterns 132, 213, 231 and 312.
+\end{corollary}
+\begin{proof}
+    It is clear that simple permutations are not separable,
+    so by Theorem \ref*{thm:separable}, they must contain at least one of 2413 or 3412, 
+    both of which contain all the patterns listed. 
+\end{proof}
+
+\section{Pattern/POP containment and avoidance}\label{sect:intro-avoidance}
+
+\begin{definition} % [Containment and avoidance of patterns]
+    A \textit{pattern} is a permutation of length at least 2.
+    We say that a permutation $\pi$ \textit{contains} a pattern $p$ if and only if 
+    there exists some subsequence $\pi_{i_1}\, \pi_{i_2}\,\cdots\,\pi_{i_k}$ of $\pi$ 
+    where $\text{red}(\pi_{i_1}\, \pi_{i_2}\,\cdots\,\pi_{i_k})=p$. 
+    That is, $p_j<p_\ell$ if and only if $\pi_{i_j}<\pi_{i_\ell}$
+    for all $j,\, \ell\in [k]$. 
+    Otherwise, we say that $\pi$ \textit{avoids} $p$.
+    % 
+    If $P$ is a set of patterns, we say that $\pi$ \textit{contains} $P$ 
+    if $\pi$ contains any pattern in $P$. Otherwise we say that $\pi$ \textit{avoids} $P$.
+\end{definition}
+
+% \begin{definition}[Containment and avoidance of POPs]
+%     We say that a graph $(V',E')$ is a \textit{sub-POP} of a POP $(V,E)$ if 
+%     $V'\subseteq V$, $E'\subseteq E$ and $(V',E')$ satisfies the definitions of a POP.\\
+
+%     We say that a POP $(V,E)$ \textit{contains} a \textit{sub-POP} $(V',E')$ 
+%     if there exists a sub-POP $(V'', E'')$ of $(V,E)$ 
+%     where $(V'', E'')$ and $(V', E')$ are isomorphic as POPs.
+%     Otherwise, we say that $(V,E)$ \textit{avoids} $(V',E')$.
+% \end{definition}
+
+A partially ordered pattern generalizes the notion of a pattern whereby 
+the order between certain elements do not have to be considered.
+We are left with a partial order on the elements, 
+which we can represent using a labelled partially ordered set.
+Recall that a \textit{partial order} is a binary relation $\leq $ over a set $P$ 
+that is \textit{reflexive}, \textit{antisymmetric} and \textit{transitive}. 
+That is, for all $a,b,c\in P$, the following hold:
+\begin{enumerate}[1.]
+    \item $a\leq a$ (reflexivity);
+    \item If $a\leq b$ and $b\leq a$ then $a=b$ (antisymmetry);
+    \item If $a\leq b$ and $b\leq c$ then $a<c$ (transitivity).
+\end{enumerate}
+A set $P$ with a partial order $\leq$ is called a \textit{partially ordered set (poset)}, denoted $(P,\leq)$.
+We may write $b\geq a$ as an equivalent statement to $a\leq b$ for any $a,\, b\in P$.
+We write $a<b$ to mean that $a\leq b$ and that $a$ and $b$ are distinct. 
+
+\begin{definition} % [Partially Ordered Pattern (POP)]
+    A \textit{partially ordered pattern (POP)} $p$ of \textit{size} $k$ is a poset
+    with $k$ elements labelled $1,\,2,\,\dots,\, k$.
+    A POP can be expressed in one-line notation by indicating its size and 
+    the minimal set of relations that defines the respective poset.
+\end{definition}
+
+\begin{definition}
+    An $n$-permutation $\pi$ \textit{contains} such a POP $p$ if and only if 
+    % there exist $k$ integers $1\leq i_1<i_2<\cdots <i_k\leq n$ 
+    $\pi$ has a subsequence $\pi_{i_1}\pi_{i_2}\cdots \pi_{i_k}$
+    such that $\pi_{i_j} < \pi_{i_m}$ if $j<m$ in the poset $P$. 
+    Otherwise, we say that $\pi$ \textit{avoids} $p$.
+\end{definition}
+
+% A POP represents a set of patterns whereby
+% the labels of points denotes the positional ordering within the patterns
+% while the partial order indicate their relational ordering. 
+% The following examples makes this clear:
+
+\begin{example}
+    The pattern 3241 represented as a POP is the 4-element chain with its elements labelled 1, 2, 3 and 4, where $4<2<1<3$.
+    Note that the permutation 4213 is the inverse of 3241.
+\end{example}
+
+Recall that a poset can be represented visually as a \textit{Hasse diagram}.
+A Hasse diagram of a finite poset is a visual representation of the elements and relations in the poset,
+where only the \textit{covering relations} are shown. 
+Recall that a covering relation in a poset $(P,\leq )$ is a binary relation 
+$i\prec j$ for some $i$ and $j$ in $P$ 
+where $i<j$ and there does not exist any $k\in P$ such that both $i<k$ and $k<j$ hold.
+A Hasse diagram uniquely determines the partial order.\\
+
+A Hasse diagram of a poset with $n$ elements can also be understood as a simple directed graph $(V,E)$ with an implicit upward orientation
+where $V$ is a set of $n$ vertices and $E$ is a set of ordered pairs of distinct elements in $V$,
+i.e. $E\subseteq \{(i,j)\mid i,j\in V,\, i\neq j\}$, that satisfies the following three conditions: 
+\begin{enumerate}[1.]
+    \item if $(i,j)$ is in $E$ then $(j,i)$ is not in $E$ (antisymmetry),
+    \item if $(i,j)$ and $(j,k)$ are in $E$ then $(i,k)$ is not in $E$ (transitive reduction),
+    \item if $(i,j)$ is in $E$ then $i\leq j$ is a relation in the poset. 
+    % \item $(i,j)\in E\implies \not\exists k\in V$ such that $(i,k)\in E$ and $(k,j)\in E$.
+\end{enumerate}
+A POP is a labelled poset, and can therefore be represented visually as a labelled Hasse diagram.
+That is, as a graph $(V,E)$ defined as above where the vertices in $V$ are labelled $1,\,2,\,\dots,\, k$.
+
+\begin{example}\label{eg:POP-example}
+    The POP of size 4 where $1>3$ is illustrated in Figure \ref{fig:POP-example}.
+    It represents the patterns 2314, 2413, 3124, 3421, 3214, 3412, 4213, 4312, 4123, 4321, 4132, 4231.
+    The permutation 3472615 contains 21 occurences of the POP whereas 132456 avoids it.
+    % 3 47 2 615 -> 6
+    % 3 4726 1 5 -> 4
+    % 4 7 2 615 -> 3
+    % 4 726 1 5 -> 3
+    % 7 2 6 15 -> 2
+    % 7 26 1 5 -> 2
+    % 2 6 1 5 -> 1
+\end{example}
+
+\begin{figure}[!htbp]
+    \centering
+    \tikzfig{./}{example}
+    \caption{The Hasse diagram representation of the POP in Example \ref{eg:POP-example}}
+    \label{fig:POP-example}
+\end{figure}
+
+\begin{definition}
+    Let $P$ be a pattern, a set of patterns, or a POP. 
+    We denote $Av(P)$ as the set of permutations that avoid $P$ (called the \textit{avoidance set of $P$}),
+    and $Av_n(P)$ as the set of $n$-permutations that avoid $P$.
+    That is, $Av_n(P):=Av(P)\cap S_n$.
+\end{definition}
+
+\begin{definition}
+    Let $P_1$ and $P_2$ each be a set of patterns of a POP. We say that $P_1$ and $P_2$ are 
+    \textit{Wilf-equivalent} if and only if $\abs{Av_n(P_1)}=\abs{Av_n(P_2)}$ for all $n\geq 1$.
+\end{definition}
+
+It is not hard to check that containment is a partial order on any set of permutations.
+In the literature, sets of permutations which are \textit{closed downward} under this order are called 
+\textit{permutation classes}, or sometimes just \textit{classes}. 
+That is, $\mathcal{C}$ is a \textit{permutation class} if and only if 
+for any $\pi\in \mathcal{C}$ and any $\sigma$ contained in $\pi$,
+we have $\sigma\in \mathcal{C}$.
+If a permutation $\pi$ avoids a pattern $p$, 
+then every reduced subsequence of $\pi$ avoids $p$.
+In other words, every pattern contained in $\pi$ avoids $p$.
+Therefore $Av(p)$ and $Av_n(p)$ are permutation classes.
+The same is true if $p$ is a set of patterns or a POP.\\
+
+% In other words, if $\pi$ avoids $p$ and contains $\sigma$, 
+% then $\sigma$ must also avoid $p$.
+% In the literature, $P$ is typically called the \textit{basis} of $Av_n(P)$ and $Av(P)$,
+
+Observe that if $k_P$ is the length of the shortest pattern in a set of patterns $P$, 
+then all permutations of length less than $k_P$ avoid $P$.
+This means that $\abs{Av_n(P)}=n!$ for all $n<k_P$.
+Therefore it suffices to enumerate $Av_n(P)$ for $n\geq k_P$
+for every POP or set of patterns $P$ discussed in subsequent chapters.
+
+% \begin{definition}
+%     We say that a permutation $\pi$ \textit{contains} a POP $G$ 
+%     if and only if the POP representation of $\pi$, $G_\pi$, contains $G$.
+%     Otherwise, we say that $\pi$ \textit{avoids} $G$.\\
+    
+%     Likewise, we say that a permutation $\pi=\pi_1 \pi_2\dots \pi_n$ \textit{contains} a POP $G=(\{b_1,b_2,\dots,b_m\},E)$ 
+%     if and only if $\pi$ contains a subsequence $\pi_{i_1} \pi_{i_2} \dots \pi_{i_m} $ where 
+%     $(j,k)\in E \implies \pi_{i_j} <\pi_{i_k}$.
+%     Otherwise, we say that $\pi$ \textit{avoids} $G$.\\
+% \end{definition}
+
+% Note: This definition does not allow us the flexibility to specify whether any two points must be adjacent in a pattern that contains it (vincular patterns).
+% To allow for this, we can alter the definiition to $(V,E,\pi)$ where 
+% \begin{itemize}
+%     \item $V$ is a set of labelled points $V=\{a_1, a_2, \dots, a_n\}$
+%     \item $E$ is a set of ordered pairs $E\subseteq \{(a_i,a_j)\mid a_i\neq a_j\}$ where
+%     \item $(a_i,a_j), (a_j,a_k)\in E\iff (a_i,a_k)\in E$ and
+%     \item $(a_i,a_j)\in E\implies (a_j,a_i)\not\in E$.
+%     \item $\pi$ is a sequence of points in $V$ where subsequences may be underlined, indicating that they need to be adjacent in the permutation that includes it
+% \end{itemize}
+
+% \begin{definition}
+%     The \textit{Hasse diagram representation} of a POP $\pi$ is graph $(V,E')$ with an implicit upward orientation
+%     where $E'\subseteq E$ and 
+%     $(i,j)\in E'\implies \not\exists k\in V$ such that both $ (i,k)\in E'$ and $(k,j)\in E'$.
+% \end{definition}
+
+% \begin{definition}[Isomorphic POPs]
+%     We say that two POPs $(V=\{a_1,a_2,\dots,a_n\},E)$ and $(V'=\{b_1,b_2,\dots,b_m\},E')$ are \textit{isomorphic as POPs} if the following hold:
+%     \begin{itemize}
+%         \item $n=m$, 
+%         \item $(a_i, a_j)\in E \iff (b_i, b_j)\in E'$.
+%     \end{itemize}
+%     Otherwise, they are \textit{non-isomorphic} as POPs.
+% \end{definition}
+
+% \begin{definition}[POP representation of a permutation]
+%     Let $\pi=\pi_1 \pi_2\dots \pi_n$ be a permutation represented using one-line notation. 
+%     The \textit{POP representation} of $\pi$ is 
+%     is a POP $(V=\{b_1,b_2,\dots,b_n\}, E)$ (denoted $G_\pi$) where $b_{a_i} = i$. 
+% \end{definition}
+
+% As an example, we will prove a simple proposition that will be useful in the following chapters.
+% 
+% \begin{prop}
+%     If $\sigma$ is a simple permutation then $\sigma$ contains 213.
+% \end{prop}
+% \begin{proof}
+%     If $ \sigma=\sigma_1\sigma_2\cdots \sigma_n$ is simple, then it cannot be an inflation of 12 or 21.
+%     Thus $\sigma_1\neq 1, n$ and $\sigma_n\neq 1,n$.
+%     So there exists $i,j\neq 1,n\st\sigma_i=1, \sigma_j=n$.
+%     If $i<j$ then $\text{red}(\sigma_1\sigma_i \sigma_j)=213$. \\
+
+%     So $j<i$. If there exist $s,t\in\{1,2,\dots, j\}\st \sigma_s>\sigma_t, s<t$, then $\text{red}(\sigma_s\sigma_t\sigma_j)=213$.
+%     Thus $\sigma_1\sigma_2\cdots \sigma_j$ is an ascending sequence.\\
+    
+%     Let $\sigma_1=k$. 
+%     If $\sigma_t>k$ for any $t>i$, then $\text{red}(\sigma_1\sigma_i\sigma_t)=213$.
+%     So $\sigma_t<k$ for all $t>i$.\\
+
+%     Let $\sigma_s=k+1$. 
+%     If there exists some $r<s$ such that $\sigma_r<k$, then $\text{red}(\sigma_1\sigma_r\sigma_s)=213$.
+%     So $\sigma_r\geq k$ for all $r=1,2,\dots, s$, which means that $\sigma_1 \sigma_2\cdots\sigma_s$ is an interval, 
+%     but this contradicts the assumption that $\sigma$ is simple.\\
+
+%     \begin{center}
+%         \begin{tabular}{|llllll|lll|}\hline
+%                    &     &     & $\sigma_j=n$ &     &              &  &            &  \\
+%                    &     & \reflectbox{$\ddots$} &            & $\ddots$ &              &  &            &  \\
+%                    & \reflectbox{$\ddots$} &     &            &     & $\sigma_s=k+1$ &  &            &  \\
+%         $\sigma_1=k$ &     &     &            &     &              &  &            &  \\\hline
+%                    &     &     &            &     &              & $\cdots$ &            & $\cdots$ \\
+%                    &     &     &            &     &              &  & $\sigma_i=1$ & \\\hline
+%         \end{tabular}
+%     \end{center}
+% \end{proof}
+% Notes:
+% In fact, we proved that for any simple permutation, there is an occurence of 213 where the '1' entry in the permutation is in fact 1.
+% This suggest that there might be 'many' occurences of 213 in any simple permutation.\\
+
+\section{Matrix representations of permutations}
+% Should have changed it all to using the following convention!
+
+% --------------------------------------------- %
+% For an $n$-permutation $\pi$,
+% its \textit{permutation matrix}
+% is a binary $n\times n$ matrix, denoted $M(\pi)$ where 
+% \[M(\pi)_{i,j}=1 \iff \pi_i=j.\]
+% Moreover, its \textit{pattern matrix}
+% is an $n\times n$ matrix, denoted $M'(\pi)$, where 
+% \[M'(\pi)_{i,j}=\begin{cases}
+%     i&\text{ if }\pi_i=j,\\
+%     0&\text{ otherwise}.
+% \end{cases}\]
+% We may omit displaying the 0s and brackets
+% if no confusion would arise.
+% When illustrating these matrices, 
+% we index the bottom leftmost entry by $(1,1)$, 
+% the top leftmost entry by $(1,n)$ 
+% and the bottom rightmost entry by $(n,1)$.
+% --------------------------------------------- %
+
+\begin{definition}
+    For an $n$-permutation $\pi$,
+    its \textit{permutation matrix}
+    is a binary $n\times n$ matrix, denoted $M(\pi)$ where 
+    \[M(\pi)_{n-i+1,j}=1 \iff \pi_j=i.\]
+    Moreover, its \textit{pattern matrix}
+    is an $n\times n$ matrix, denoted $M'(\pi)$, where 
+    \[M'(\pi)_{n-i+1,j}=\begin{cases}
+        i&\text{ if }\pi_j=i,\\
+        0&\text{ otherwise}.
+    \end{cases}\]
+    We may refer to the non-zero entries in a permutation matrix or pattern matrix as \textit{points}.
+    Sometimes, we may omit displaying the 0s and the traditional brackets
+    if no confusion would arise.
+
+\end{definition}
+\begin{example}
+    Let $\pi=312$. Its permutation matrix is
+    \[M(\pi)\quad
+    =\quad\begin{pmatrix}
+        1&0&0\\
+        0&0&1\\
+        0&1&0
+    \end{pmatrix}\quad
+    =\quad\begin{matrix}
+        1& & \\
+         & &1\\
+         &1& 
+    \end{matrix}\] 
+    and its pattern matrix is
+    \[M'(\pi)\quad
+    =\quad\begin{pmatrix}
+        3&0&0\\
+        0&0&2\\
+        0&1&0
+    \end{pmatrix}\quad
+    =\quad\begin{matrix}
+        3& & \\
+         & &2\\
+         &1& 
+    \end{matrix}.\] 
+\end{example}
+
+\begin{definition}
+    The \textit{weight} of a matrix is the number non-zero entries it contains,
+    and we denote the weight of a matrix $A$ by $\abs{A}$. 
+\end{definition}
+
+\begin{example}
+    The weight of the permutation matrix of $\pi$ 
+    is equal to the length of $\pi$.
+    The weight of any column or row of a permutation matrix is 1.
+\end{example}
+
+\section{Lattice matrices}
+ 
+\begin{definition}
+    We call a matrix (or submatrix) \textit{void} if it has no rows or no columns.
+    A matrix (or submatrix) is \textit{trivial} if its weight is 0, and \textit{nontrivial} otherwise.
+    That is, a trivial matrix is either void or is a zero matrix.
+    All void matrices are trivial.
+\end{definition}
+
+If we know that a permutation contains a certain pattern,
+it might be helpful to represent its permutation as a block matrix 
+in order to prove some claims about the permutation.
+We first show an example before stating a formal definitions:\\
+
+Suppose we know that the $n$-permutation $\pi$ contains the pattern $p:=312$.
+That is, there exist $i$, $j$ and $k$ where $1\leq i<j<k\leq n$ and $\pi_i\, \pi_j\, \pi_k$ reduces to 312.
+The columns $i$, $j$ and $k$ partition the rest of the permutation matrix $M(\pi)$ into 4 (possibly trivial) blocks of columns,
+and the rows $\pi_i,\, \pi_j$ and $\pi_k$ partition the rest of the permutation matrix $M(\pi)$ into 4 (possibly trivial) blocks of rows.
+This gives rise to another representation of $M(\pi)$ as a $7\times 7$ block matrix.
+In this representation we can find the $3\times 3$ matrix $M(p)$
+interwoven with a $4\times 4$ block matrix $(\alpha_{ij})_{i,j\in [4]}$
+as depicted in Figure \ref{fig:lattice},
+with the following alterations:
+\begin{itemize}
+    \item the ones in columns $i,$ $j$ and $k$ are replaced by $\pi_i$, $\pi_j$ and $\pi_k$ respectively, \\
+    (in other words, we replace the submatrix corresponding $M(p)$ with the pattern matrix $M'(p)$)
+    \item the zeroes in columns $i,$ $j$ and $k$ that are also in row $\pi_i$, $\pi_j$ or $\pi_k$ 
+    are replaced by plus signs, 
+    \item the trivial blocks in columns $i,$ $j$ and $k$ are replaced by vertical bars,
+    \item the trivial blocks in rows $\pi_i$, $\pi_j$ and $\pi_k$ are replaced by horizontal bars, and finally,
+    \item the conventional matrix brackets are omitted.
+\end{itemize} 
+
+\noindent Note that we may also alter the ones, zeroes and $\alpha_{ij}$ blocks (where $i,j\in[n+1]$)
+differently based on what properties of the permutation we are trying to highlight.
+This figure is reminiscent of the lattice structure of gridded window panes,
+so we call it the \textit{$p$-lattice matrix of $\pi$}, or simply a \textit{lattice matrix},
+and denote it as $L_p(\pi)$.\\
+
+\begin{figure}
+    \begin{center}
+        \begin{tabular}{ccccccc}
+            $\alpha_{11}$ &   \Big |  & $\alpha_{12}$ &   \Big |  & $\alpha_{13}$ &   \Big |  & $\alpha_{14}$\\
+            --------      &     3     &    --------   &  $\Plus$  &    --------   &  $\Plus$  & --------\\
+            $\alpha_{21}$ &   \Big |  & $\alpha_{22}$ &   \Big |  & $\alpha_{23}$ &   \Big |  & $\alpha_{24}$\\
+            --------      &  $\Plus$  &    --------   &  $\Plus$  &    --------   &      2    & --------\\
+            $\alpha_{31}$ &   \Big |  & $\alpha_{32}$ &   \Big |  & $\alpha_{33}$ &   \Big |  & $\alpha_{34}$\\
+            --------      &  $\Plus$  &    --------   &      1    &    --------   &  $\Plus$  & --------\\
+            $\alpha_{41}$ &   \Big |  & $\alpha_{42}$ &   \Big |  & $\alpha_{43}$ &   \Big |  & $\alpha_{44}$\\
+        \end{tabular}
+        \caption{The lattice matrix $L_{312}(\pi)$}
+        \label{fig:lattice}
+    \end{center}
+\end{figure}
+
+\noindent In general, we may use the following definition:
+
+\begin{definition}
+Consider a permutation $\pi$ on $n$ letters and choose
+$m$ indices $1\leq i_1<i_2<\cdots i_m\leq n$.
+Write $I=(i_1,\, i_2,\, \dots,\, i_m)$ and let $p:=\text{red}(\pi_{i_1}\pi_{i_2}\, \cdots\, \pi_{i_m})$.
+We proceed to define the lattice matrix $L_p(\pi)$.
+Put $i_0=0$ and $i_{m+1}=n+1$.  
+We use the values $i_1,\, i_2,\, \dots,\, i_m$ to partition the column indices into subintervals
+and the values $\pi_{i_1},\,\pi_{i_2},\,\dots,\,\pi_{i_m}$  
+to partition the row indices into subintervals.\\
+
+A \textit{block} in $L_p(\pi)$ is a (possibly trivial) continguous block submatrix of the permutation matrix $M(\pi)$
+with its column and row indices each given by a relevant subinterval defined above. 
+To make this more explicit, we note that $\pi(i_{p\inv(1)})< \pi(i_{p\inv(2)}) < \cdots < \pi(i_{p\inv(m)})$.  
+Write $j_k:= \pi(i_{p\inv(k)})$.
+Put $j_0= 0$ and $j_{m+1}=n+1$.
+Then $M_{S\times T}$ where $S=[i_{s-1}+1,\, i_s -1]$ and $T=[j_{t-1}+1,\, j_t -1]$
+is a \textit{block}
+for all $s$ and $t$ in $[m+ 1]$.
+We label the block $M_{S\times T}$ as $\alpha_{s,t}$.
+Note that $\alpha_{s,t}$ is void if either $i_s=i_{s-1}$ or $j_t=j_{t-1}+1$.
+We may write $\alpha_{s,t}$ as $\alpha_{st}$ if no confusion would arise.
+Note that $M_{i_k, \pi(i_k)}$, $M_{i_k\times T}$ and $M_{S\times j_{k}}$ may also be referred to as blocks 
+for any $k\in [m]$ and subintervals $S$ and $T$ defined as above.\\
+
+When depicting $L_p(\pi)$, we replace the zero entries in 
+column $i_k$ by a vertical line and the zero entries in row $j_k$ by a horizontal line for every $k\in [m+1]$. 
+We also omit the traditional parentheses around the entire matrix $L_p(\pi)$.
+% We may replace the 1 in row $i_k$ and column $\pi(i_k)$ by the integer $p(k)$.\\ 
+\end{definition}
+
+
+\begin{prop}
+    It is easy to deduce the following properties of the lattice matrix $L_p(\pi)$ defined above:
+    \begin{enumerate}[1.]
+        \item $(\alpha_{s,t})_{a,b} = M_{j_{s-1}+a,\, i_{t-1}+b}$
+        for $a \in [j_s - j_{s-1}-1]$ and $b\in [i_{t} - i_{t-1}-1]$
+        \item Each horizontal (respectively, vertical) bar is either void, or is a single row (respectively, column) of 0s.
+        \item All block matrices in the same row (respectively, column) of the lattice matrix have the same number of rows (respectively, columns).
+        \item Any square block submatrix of the lattice matrix has the same total number of rows as columns.
+    \end{enumerate}
+\end{prop}
+
+We would like to describe the relationships between points in different blocks in a lattice matrix precisely.
+The following definitions provide an intuitive way to do so.
+
+\begin{definition}
+    Let $p$ and $\pi$ be permutations of length $m$ and $n$ respectively where $m\leq n$ and $\pi$ contains $p$.
+    Let $L_p(\pi)$ be the $p$-lattice matrix of $\pi$ with its blocks denoted by $\alpha_{ij}$ for $i,\, j\in [m+1]$.
+    
+    \begin{enumerate}[(a)]
+        \item For the points in $L_p(\pi)$ that correspond to the pattern $p$, we define a point being \textit{adjacent} to a block in a natural way.
+        For example, in Figure \ref{fig:lattice}, the point labelled 1 is adjacent to the blocks $\alpha_{32},\,\alpha_{33},\,\alpha_{42}$ and $\alpha_{43}$
+        while the point labelled 2 is adjacent to the blocks $\alpha_{23},\,\alpha_{24},\,\alpha_{33}$ and $\alpha_{34}$.
+        We note that every point is adjacent to exactly four blocks.
+        % \item We say that a block $\alpha_{ij}$ is \textit{adjacent} to a block $\alpha_{k\ell}$ if and only if 
+        % $i\in [k-1,k+1]$ and $j\in [\ell-1,\ell+1]$ and $(i,j)\neq (k,\ell)$.
+        \item We use the four cardinal directions, north, south, east and west to 
+        to indicate where one point lies in relation to another in the visual representation of the permutation matrix $M(\pi)$.
+        Explicitly, a point is \textit{north} (respectively, \textit{south}) of another point if and only if the row index in $M(\pi)$ of the former point is smaller than that of the latter,
+        and is \textit{west} (respectively, \textit{east}) of another point if and only if the column index in $M(\pi)$ of the former point is smaller than that of the latter.
+        \item For $i_1,i_2 \in [m+1]$, we say that $\alpha_{i_1j}$ is \textit{to the left} (respectively, \textit{to the right}) of $\alpha_{i_2j}$ 
+        if and only if all the points in $\alpha_{i_1j}$ are west (respectively, east) of all the points in $\alpha_{i_2j}$. 
+        \item For $j_1,j_2 \in [m+1]$, we say that $\alpha_{ij_1}$ is \textit{superior} (respectively, \textit{inferior} to $\alpha_{ij_2}$ 
+        if and only if all nontrivial columns of $\alpha_{ij_2}$ are north (respectively, south) of all nontrivial columns of $\alpha_{ij_2}$. 
+        \item We say that $\alpha_{ij}$ is \textit{leftmost} (respectively, \textit{rightmost})
+        if and only if the first (respectively, last) column of $\alpha_{ij}$ is nontrivial.
+        \item We say that $\alpha_{ij}$ is \textit{topmost} (respectively, \textit{bottommost})
+        if and only if the first (respectively, last) row of $\alpha_{ij}$ is nontrivial.
+        % \item We say that a submatrix $A$ of $L_p(\pi)$ `contains' the string $\sigma_1\sigma_2\cdots \sigma_k$
+        % over the alphabet of matrices $\{\alpha_{ij}, (p_s)\mid i,j\in [m+1], s\in[m] \}$
+        % if and only if $A$ contains distinct submatrices $A_1,A_2,\dots, A_k$
+        % such that $A_\ell=\sigma_\ell$ for all $\ell\in [k]$.
+        % \remark{do we need to specify the order of the columns of the $\sigma_i$s? if so, how?}
+    \end{enumerate}
+\end{definition}
+\end{document}

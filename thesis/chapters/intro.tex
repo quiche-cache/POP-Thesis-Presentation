@@ -1,0 +1,125 @@
+% !TEX root = /Users/keshiayap/Desktop/Math/3\ Summer\ 2020/masters/final/main/main.tex
+\documentclass[../main.tex]{subfiles}
+%
+\begin{document}
+
+We write $[n]$ to denote the set of integers $\{1,2,\dots,n\}$ for $n\geq 1$.
+A \textit{permutation} is a bijection from $[n]$ to itself for some $n\geq 1$.
+We call such a permutation an \textit{$n$-permutation}
+and typically denote it by $\pi=\pi_1 \,\pi_2 \,\dots \,\pi_n$, where $\pi_i=\pi(i)$.
+We say that its \textit{length} or \textit{size} (denoted $\abs{\pi}$) is $n$.
+We write $S_n$ to denote the set of all $n$-permutations.
+We denote the size of any set $S$ by $\# S$ or $\abs{S}$.
+
+\section{Background}
+A permutation $\pi$ \textit{contains} a \textit{pattern} $\sigma$
+if and only if there is a \textit{subsequence} in $\pi$ (of the same length as $\sigma$) 
+with its letters are in the same relative order as those in $\sigma$.
+For instance, the pattern $312$ occurs in 42531 (as the subsequence 423), but not in 132465.
+The permutations that avoid a pattern or a set of patterns make up an \textit{avoidance set}.
+Avoidance sets have been studied extensively
+and research in this area has important applications to numerous fields.
+Examples include 
+% extremal graph theory, 
+sorting devices in theoretical computer science, 
+Schubert varieties and Kazhdan-Lusztig polynomials,
+statistical mechanics, 
+the tandem duplication-random loss model in computational biology
+and bijective combinatorics 
+(see \cite{kitaev-textbook} and references therein).\\
+
+
+A \textit{partially ordered pattern} (abbreviated \textit{POP}) is a 
+\textit{partially ordered set} (\textit{poset}) that generalizes the notion of a pattern 
+when we are not concerned with the relative order of some of its letters,
+and therefore may represent multiple patterns.
+Specifically, a POP is a poset with $n$ elements labelled $1,\,2,\,\dots,\, n$, 
+for some $n\geq 1$.
+For any pattern that the POP represents, 
+the partial order of the elements stipulates the \textit{relative order} of letters in the pattern,
+where the labels of the elements indicate the \textit{positional order} of these letters.
+% 
+For example, the POP $p=$ \tikzfig{./}{example} represents all the patterns of length 4 
+whose first element is larger than the third element.
+That is, $p$ represents the twelve patterns \[2314,\,2413,\,3124,\,3421,\,3214,\,3412,\,4213,\,4312,\,4123,\,4321,\,4132\,\text{and }\,4231.\]
+% 
+A POP may represent a single pattern.
+For example, the pattern 3241 represented as a POP is the chain
+of four elements labelled 1, 2, 3 and 4 with the order $4<2<1<3$.
+Note that 3241 is the permutation inverse of 4213, and this is not a coincidence.\\
+% 
+A permutation \textit{contains} a POP if and only if it contains at least one of the patterns represented by that POP.
+Otherwise, it \textit{avoids} the POP.
+For example, the permutation 3472615 contains 21 occurrences of the POP $p$ (defined above) whereas 132456 avoids $p$.\\
+
+\section{Motivation and structure}
+Enumerating the permutations of different lengths in the avoidance set of a pattern or set of patterns  
+and finding one-to-one correspondences to well-known combinatorial objects 
+is a topic of great interest.
+Several classical combinatorial objects may be related to a single avoidance set, 
+and finding these connections would allow us to 
+understand seemingly disparate objects under a common framework \cite{kitaev-textbook}.
+With the aid of a computer software, Gao and Kitaev \cite{gao-kitaev-2019} 
+conducted a systematic search of connections between sequences in The Online Encyclopedia of Integer Sequences (OEIS) \cite{oeis} 
+and the enumeration of permutations avoiding POPs with 4 or 5 elements.
+They observed connections to 38 sequences in OEIS and 
+listed 15 combinatorial objects with which potentially interesting bijections might occur
+with the avoidance sets of certain POPs
+(see Table 6 and 7 of their paper).\\
+
+The goal of this thesis was to find as many bijections between the pairs of objects in ways that were meaningful.
+% answer as many of these bijective questions as possible.
+With the help of an interactive software \href{http://www.cs.otago.ac.nz/PermLab/}{PermLab} \cite{permlab},
+we successfully constructed nontrivial bijections for five of these pairs
+and found generalizations them whenever possible.
+The objects are listed in Table \ref{table:summary}
+and the bijections are discussed in Chapters \ref{chap:av1}, \ref{chap:Q}, \ref{chap:levels} and \ref{chap:av10}.
+One bijection (discussed in Section \ref{sect:juggling}) emerged directly from the original proof of the enumeration of ground-state juggling sequences by Chung and Graham \cite{chung-graham}. 
+For each of the remaining four bijections, 
+we had to first realize that both sets in the corresponding pair
+could be partitioned into subsets of corresponding sizes.
+This allowed us to construct similar recursive algorithms that can build the sets in parallel,
+which in turn yielded (one or many) bijections that could be constructed directly and explicitly.
+Thus, we ended up with 
+% something more useful - 
+a thorough understanding of the permutations that avoid each POP and of the corresponding combinatorial objects.\\
+
+During our analysis, we discovered a set of patterns that are avoided by infinitely many \textit{simple permutations} (to be defined in Chapter \ref{chap:prelim}),
+which are, in fact, enumerated by a translation of the well-known \textit{Fibonacci sequence}.
+We constructed an algorithm that allows one to obtain this set of permutations recursively
+and prove this in Chapter \ref{chap:fib}.
+Chapter \ref{chap:prelim} defines all the relevant terms and concepts in detail
+and Chapter \ref{chap:conclusion} summarises our research and lists possible avenues of further research.
+
+% \begin{itemize}
+%     \item see Page 135 of Kitaev's textbook (section 3.5)
+%     \item Egge (2007): Restricted Symmetric Permutations found $S_n^{g}(R)$ for $n\geq 0, g\in D_8$ and $R\subseteq S_3$.
+%     \item Troyka, Centrosymmetric permutations (2019) found 
+%     \item \href{https://doi.org/10.1016/j.disc.2005.06.016}{Albert and Atkinson, Simple permutations and pattern restricted permutations (2005)}.
+%     A permutation class with only finitely many simple permutations has a readily computable algebraic generating function. (as in Brignall (2008, Theorem 2.1) 
+%     \item \href{https://arxiv.org/abs/1605.04297}{Vincent Vatter, Growth rates of permutation classes: from countable to uncountable}:\\
+%     Proposition 2.3. The generating function for a sum closed class is $1/(1-g)$ where $g$ is the generating function for nonempty sum indecomposable permutations in the class.
+%     \item \href{https://link-springer-com.proxy.queensu.ca/content/pdf/10.1007/s11856-014-1098-8.pdf}{Inflations of Geometric Grid Classes of Permutations by Albert, Ruskuc, Vatter (2013)}\\
+%     Every permutation class with growth rate less than $\kappa$ has a rational generating function. This bound is tight as there are permutation classes with growth rate $\kappa \approx 2.20557$ which have nonrational generating functions
+%     \item \href{https://search-proquest-com.proxy.queensu.ca/docview/2400300156?pq-origsite=primo}{Kitaev (2003): Generalized Patterns in Words and Permutations (PhD Thesis)}
+%     \item \href{https://arxiv.org/pdf/1409.4368.pdf}{Cooper, Kirkpatrick: (2014) The Complexity of Counting Poset and Permutation Patterns}
+%     \item \href{http://www1.chapman.edu/~jipsen/gap/posets.html}{Interactive Poset and Lattice Drawing Java Applet}
+% \end{itemize}
+
+\begin{table}
+    \centering
+    \begin{tabular}{|c|c|c|c|}
+        \hline
+            \thead{POP}  & \thead{OEIS sequence \\(beginning with $n=1$)} & \thead{Equinumerous structures} & \thead{Location} \\ \hline
+            \makecell{\tikzfig{../../figures}{Av1}}  & \makecell{\href{https://oeis.org/A111281}{A111281}\\1, 2, 6, 16, 40, 100, 252,\\636, 1604, 4044,\\10196,25708, ...} & \makecell{permutations \\avoiding the patterns \\ 2413, 2431, 4213, 3412, \\ 3421, 4231, 4321, 4312}   & Chapter \ref{chap:av1} \\
+            \makecell{\tikzfig{../../figures}{Av13}} & \makecell{\href{https://oeis.org/A084509}{A084509}\\1, 2, 6, 24, 96, 384, 1536,\\6144, 24576, 98304,\\393216, 1572864, ...} & \makecell{number of ground-state \\ 3-ball juggling sequences \\ of period $n$} & Section \ref{sect:juggling} \\
+            \makecell{\tikzfig{../../figures}{Av5}}  & \makecell{\href{https://oeis.org/A025192}{A025192}\\1, 2, 6, 18, 54, 162, 486,\\1458, 4374, 13122,\\39366, 118098, ...} & \makecell{2-ary shrub forests\\of $n$ heaps avoiding\\the patterns 231, 312, 321}  & Section \ref{sect:shrub} \\
+            \makecell{\tikzfig{../../figures}{Av9}}  & \makecell{\href{https://oeis.org/A045925}{A045925}\\1, 2, 6, 12, 25,48, 91,\\168, 306, 550, 979,\\1728, 3029...} & \makecell{levels in all \\compositions of $n+1$ \\with only ones and twos} & Section \ref{sect:av9-levels} \\
+            \makecell{\tikzfig{../../figures}{Av10}} & \makecell{\href{https://oeis.org/A214663}{A214663} and \href{https://oeis.org/A232164}{A232164}\\1, 2, 6, 12, 25, 57, 124,\\268, 588, 1285, 2801,\\6118, 13362, ...} & \makecell{number of $n$-permutations \\ for which the partial sums \\of signed displacements \\ do not exceed 2}  & Chapter \ref{chap:av10} \\
+        \hline
+    \end{tabular}
+    \caption{List of POPs studied}
+    \label{table:summary}
+\end{table}
+
+\end{document}

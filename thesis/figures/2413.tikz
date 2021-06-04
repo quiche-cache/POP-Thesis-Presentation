@@ -1,0 +1,14 @@
+\begin{tikzpicture}
+	\begin{pgfonlayer}{nodelayer}
+		\node [style=node] (0) at (0, 0) {};
+		\node [style=node] (1) at (0, 1) {};
+		\node [style=node] (2) at (0, 2) {};
+		\node [style=node] (3) at (0, 3) {};
+		\node [style=none] (4) at (1, 0) {3};
+		\node [style=none] (5) at (1, 1) {1};
+		\node [style=none] (6) at (1, 2) {4};
+		\node [style=none] (8) at (1, 3) {2};
+	\begin{pgfonlayer}{edgelayer}
+		\draw [in=90, out=-90] (3) to (0);
+	\end{pgfonlayer}
+\end{tikzpicture}

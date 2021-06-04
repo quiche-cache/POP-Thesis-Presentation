@@ -1,0 +1,555 @@
+% !TEX root = ../../main.tex
+\documentclass[../main.tex]{subfiles}
+%
+\begin{document}
+
+\begin{definition}
+    Define $P_k$ to be a POP with $k$ elements where $1>3$. Its Hasse diagram is illustrated below.
+    \begin{figure}[!htbp]
+        \centering
+        \tikzfig{./}{Pk}
+        \caption{The POP $P_k$}
+        \label{fig:Pk}
+    \end{figure}
+\end{definition}
+
+\begin{definition}
+    A \textit{composition of $n$} is a way of writing $n$ as the sum of positive integers that sum to $n$,
+    that is, an expression $i_1+i_2+\cdots + i_k=n$ for some $k\geq 1$.
+    A \textit{composition of $n$ of ones and twos} has the added restriction that $i_j\in \{1,2\}$ for all $j\in [n]$. 
+    In this thesis, we will refer to a composition of $n$ of ones and twos simply as a ``composition of $n$'', 
+    and call the set $\mathcal{C}_n$.
+\end{definition}
+
+
+\begin{definition}
+    A \textit{level} in a composition of $n$ (of ones and twos) is a pair of consecutive ones or twos separated by a $+$ sign.
+    We define a \textit{marked composition} of $n$ to be a composition of $n$ 
+    with exactly one level marked with a line above the pair of ones or twos. 
+    We may denote a single summand that is part of a level by including a line above it,
+    i.e. $\overline{1}+\overline{1}=\overline{1+1}$ and $\overline{2}+\overline{2}=\overline{2+2}$.
+    % 
+    We denote the set of marked compositions of $n$ by $\mathcal{L}_n$.
+\end{definition}
+
+\noindent We refer the reader to Table \ref{table:av9-comps-levels} for examples.\\
+
+Gao and Kitaev \cite{gao-kitaev-2019} discovered that the sequence $\abs{Av_n(P_4)}_{n\geq 1}$ corresponds to the OEIS sequence \href{http://oeis.org/A045925}{A045925} 
+that enumerates the number of levels in all compositions of $n+1$ of ones and twos.
+In this chapter, we will demonstrate an explicit bijection between the two sets.
+To do so, we first construct an explicit bijection from $Av_n(P_3)$ to $\mathcal{C}_n$.
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{
+        >{\columncolor[HTML]{FFF2CC}}c |
+        >{\columncolor[HTML]{DAE8FC}}c |
+        >{\columncolor[HTML]{DAE8FC}}c |
+        >{\columncolor[HTML]{E2EFDA}}c |
+        >{\columncolor[HTML]{E2EFDA}}c 
+        }
+        $n$	&$\abs{\mathcal{C}_n}$ & $\mathcal{C}_n$                              & $\abs{\mathcal{L}_n}$ & $\mathcal{L}_n$   \\\hline
+        1	&   1   &   $1$	                                                      &           0           &    none    \\\hline
+        2	&   2   &   $1+1, 2$                                                  &           1           &    $\overline{1+1}$     \\\hline
+        3	&   3   &   \parbox{50pt}{\makecell{$1+1+1$,\\$2+1$,\\$1+2$}} 	      &           2           &    \parbox{50pt}{\makecell{$\overline{1+1}+1$,\\$1+\overline{1+1}$}}     \\\hline
+        4   &   5   &   \makecell{$1+1+1+1$,\\$1+1+2,$\\$1+2+1$,\\$2+1+1$\\$2+2$} &           6           &    \makecell{$\overline{1+1}+1+1$,\\$1+\overline{1+1}+1$,\\$1+1+\overline{1+1}$,\\$\overline{1+1}+2$,\\$2+\overline{1+1}$,\\$\overline{2+2}$}     \\
+    \end{tabular}
+    \caption{Compositions and levels of $n$ for small $n$}
+    \label{table:av9-comps-levels}
+\end{table}
+
+
+\section{Compositions of \texorpdfstring{$n$}{n}}\label{sect:av9-comps}
+
+\begin{lemma}\label{lemma:av9-comps}
+    Let $F(n)$ denote the $n$th Fibonacci number, where $F(0)=0$ and $F(1)=1$. 
+    The size of $\mathcal{C}_n$ is $F(n)$ for all $n\geq 1$.
+\end{lemma}
+\begin{proof}
+    The size of $\mathcal{C}_n$ for $n=1$ and 2 can be verified easily. 
+    For $n\geq 3$, observe that
+    \[c\in \mathcal{C}_{n-1} \iff c+1\in \mathcal{C}_{n}\quad \text{and}\quad c\in \mathcal{C}_{n-2} \iff c+2\in \mathcal{C}_{n},\]
+    so $\abs{\mathcal{C}_n}=\abs{\mathcal{C}_{n-1}}+\abs{\mathcal{C}_{n-2}}$, and $\abs{\mathcal{C}_n}=F_n$.
+\end{proof}
+
+\begin{lemma}\label{lemma:av9-avn(P3)}
+    The size of $Av_n(P_3)$ is $F(n)$ for all $n\geq 1$. 
+    Moreover, all $n$-permutations avoiding $P_3$ for $n\geq 2$ are sum decomposable.
+\end{lemma}
+\begin{proof}
+    It is easy to see that $\abs{Av_1(P_3)}=1=F(1)$ and $\abs{Av_2(P_3)}=2=F(2)$.
+    We refer the reader to Table \ref{table:av9-avn(P3)-avn(P4)} for examples.
+    It is not difficult to see that 
+    for $n\geq 3$,
+    \[\sigma\in Av_{n-1}(P_3) \iff 12[\sigma,1] \in Av_n(P_3)
+    \quad\text{and}\quad
+    \sigma\in Av_{n-2}(P_3) \iff 12[\sigma,21] \in Av_n(P_3).
+    \]
+    So by Theorem \ref{thm:12,21},
+    \[\abs{Av_n(P_3)}=\abs{Av_{n-1}(P_3)}+\abs{Av_{n-2}(P_3)}=F(n)+F(n-1)=F(n+1)\]
+    for all $n\geq 3$ as well, proving the statements.
+\end{proof}
+
+\bigskip
+The previous two lemmas suggest that there is a natural bijection from
+the set $\mathcal{C}_n$ to $Av_n(P_3)$.
+Indeed there is, as we will see in the following theorem: 
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{
+        >{\columncolor[HTML]{FFF2CC}}c |
+        >{\columncolor[HTML]{FFF2CC}}c |
+        >{\columncolor[HTML]{DAE8FC}}c |
+        >{\columncolor[HTML]{DAE8FC}}c 
+        }
+        $n$	& $F(n)$&   \thead{Compositions of $n$}  &  \thead{Permutations in $Av_n(P_3)$}  \\\hline
+        1	&   1	&       1       &     1                     \\\hline
+        2	&   2	&     $1+1$     &     $12=12[1,1]$          \\
+        	&   	&       2       &     $21=21[1,1]$          \\\hline
+        3	&   3	&    $1+1+1$    &     $123=123[1,1,1]$      \\
+            &   	&     $1+2$     &     $132=12[1,21]$        \\
+            &       &     $2+1$     &     $213=12[21,1]$        \\\hline
+        4   &   5   &   $1+1+1+1$   &     $1234=1234[1,1,1,1]$  \\
+            &       &    $2+1+1$    &     $2134=123[21,1,1]$    \\
+            &       &    $1+1+2$    &     $1243=123[1,1,21]$    \\
+            &       &    $1+2+1$    &     $1324=123[1,21,1]$    \\
+            &       &     $2+2$     &     $2143=12[21,21]$      \\
+    \end{tabular}
+    \caption{Compositions of $n$ and their images under $f$ for small $n$}
+    \label{table:av9-f-correspondence}
+\end{table}
+
+\begin{theorem}\label{thm:av9-comps,P3}
+    Let $f:\mathcal{C}_n\rightarrow Av_n(P_3)$ 
+    defined as 
+    \[f(r_1+r_2+\cdots+r_k)=123\cdots k[\alpha_1,\alpha_2,\dots,\alpha_k]\]
+    where $r_1+r_2+\cdots+r_k$ is a composition of $n$ of ones and twos,
+    and 
+    % \begin{align*}
+    %     \alpha_i=1\iff r_i=1\\
+    %     \alpha_i=21\iff r_i=2
+    % \end{align*}
+    \[\alpha_i=\begin{cases}
+        1&\text{if }r_i=1\\
+        21&\text{if }r_i=2
+    \end{cases}.\]
+    Then $f$ is is a bijection.
+    % \[f(r_1+r_2+\cdots+r_k)=\begin{cases}
+    %     1&\text{if}\quad k=1=r_1\\
+    %     21&\text{if}\quad k=1, \quad r_1=2 \\
+    %     12[f(r_1+r_2+\cdots+r_{k-1}),f(r_k)] &\text{if}\quad k\geq2.\\
+    % \end{cases}\]
+\end{theorem}
+\begin{proof}
+    We refer the reader to Table \ref{table:av9-f-correspondence} for examples for small $n$.
+    First we check that if $r_1+r_2+\cdots+r_k$ is a composition of $n$,
+    then $f(r_1+r_2+\cdots+r_k)$ is a permutation in $S_n$:
+    \begin{align*}
+        \abs{f(r_1+r_2+\cdots r_k)} 
+        & = \abs{123\cdots k[\alpha_1,\alpha_2,\dots,\alpha_k]} \\
+        & = \abs{\alpha_1}+\abs{\alpha_2}+\cdots \abs{\alpha_k} \\
+        & = r_1+r_2+\cdots r_k \\
+        & = n.
+    \end{align*}
+    
+    Moreover, it is clear that 
+    if $\alpha_i\in \{1,21\}$ 
+    for all $i\in [k]$, 
+    then the permutation \[\pi=123\cdots k[\alpha_1,\alpha_2,\dots,\alpha_k]\] avoids $P_3$.
+    It is easy to see that $f$ is injective by definition.
+    By Lemmas \ref{lemma:av9-comps} and \ref{lemma:av9-avn(P3)},
+    $\mathcal{C}_n$ and $Av_n(P_3)$ both have $F(n)$ elements,
+    so $f$ maps bijectively onto $Av_n(P_3)$.
+
+    % Note that $123\cdots k[\alpha_1,\alpha_2,\dots,\alpha_k]=12[\alpha_1,12\cdots (k-1)[\alpha_2,\alpha_3,\dots,\alpha_k]]$.
+
+    % It can easily be seen that the inverse of $f$ is given by
+    % $f': Av_n(P_3)\rightarrow \mathcal{C}_n$, where 
+    %     \[f'(1)=1,\quad
+    %     f'(21)=2,\quad\text{and}\quad
+    %     f'(12[\alpha,\beta])=f'(\alpha)+\abs{\beta}.
+    %     \]
+    % for all $\pi\in Av(P_3)$.
+\end{proof}
+
+\section{Levels of compositions of \texorpdfstring{$n$}{n}}\label{sect:av9-levels}
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{
+        >{\columncolor[HTML]{FFF2CC}}c |
+        >{\columncolor[HTML]{DAE8FC}}c |
+        >{\columncolor[HTML]{DAE8FC}}c |
+        >{\columncolor[HTML]{E2EFDA}}c |
+        >{\columncolor[HTML]{E2EFDA}}c 
+        }
+        $n$	&$\abs{Av_n(P_3)}$  & $Av_n(P_3)$                                   &   $\abs{Av_n(P_4)}$  &    $Av_n(P_4)$   \\\hline
+        1	&   1               &   1	                                        &      1               &    1    \\\hline
+        2	&   2               &   12, 21                                      &      2               &    12, 21     \\\hline
+        3	&   3               &   123, 132, 213 	                            &      6               &    \makecell{123,132,213,\\231,312,321\\\phantom{xxxxxxxxxxxxxxxxxxxx}}     \\\hline
+        4   &   5               &   \makecell{1234, 1243, 1324,\\2134, 2143}    &      12              &    \makecell{1234,1243,1324,1342,\\1423,1432,2134,2143,\\2341,2431,3142,3241}     \\
+    \end{tabular}
+    \caption{$Av_n(P_3)$ and $Av_n(P_4)$ for small $n$}
+    \label{table:av9-avn(P3)-avn(P4)}
+\end{table}
+
+\begin{lemma}\label{lemma:av9-levels}
+    For $n\geq 1$, the size of the set $\mathcal{L}_{n}$ is $(n-1)F(n-1)$.
+    Moreover, for $n\geq 3$, we can parition $\mathcal{L}_{n}$ into four sets: 
+    \begin{align*}
+        A'_n &= \{\text{marked compositions of } n \text{ that end with } 1 \text{ (not }\overline{1})\}\\
+        B'_n &= \{\text{marked compositions of } n \text{ that end with } 2 \text{ (not }\overline{2})\}\\
+        C'_n &= \{\text{marked compositions of } n \text{ that end with } \overline{1+1}\}\\
+        D'_n &= \{\text{marked compositions of } n \text{ that end with } \overline{2+2}\}
+    \end{align*}
+\end{lemma}
+
+\begin{proof}
+    For $n\in [3]$, it is easy to check that $\abs{L_{n}}=(n)-1!=(n-1)F(n-1)$, 
+    as we show in Table \ref{table:av9-comps-levels}.
+    For $n\geq 4$, we proceed by induction. 
+    Suppose that for some $k\geq 4$, the statement is true for all $n\in [k-1]$.
+    It is clear that the union of $A'_k$, $B'_k$, $C'_k$, and $D'_k$ together make up $\mathcal{L}_{k}$,
+    and that the the following statements are true for all $n$: 
+    \begin{align*}
+        m\in \mathcal{L}_n &\iff m+1\in \mathcal{L}_{n+1},\qquad
+        &c\in \mathcal{C}_{n-1} &\iff c+\overline{1+1}\in \mathcal{L}_{n+1}\\
+        m\in \mathcal{L}_{n-1} &\iff m+2\in \mathcal{L}_{n+1},\qquad
+        &c\in \mathcal{C}_{n-3} &\iff c+\overline{2+2}\in \mathcal{L}_{n+1}.
+    \end{align*}
+
+    \noindent So by the inductive hypothesis,
+    \[\abs{A'_k}=(k-2)F(k-2)
+    \qquad \text{and} \qquad
+    \abs{B'_k}=(k-3)F(k-3),\]
+    
+    \noindent and by Lemma \ref{lemma:av9-comps}, 
+    \[\abs{C'_k}=F(k)
+    \qquad \text{and} \qquad
+    \abs{D'_k}=F(k-2)\]
+    % since 
+    % \[c\in \mathcal{C}_{n-1} \iff c+\overline{1+1}\in \mathcal{L}_{n+1}
+    % \qquad \text{and} \qquad
+    % c\in \mathcal{C}_{n-3} \iff c+\overline{2+2}\in \mathcal{L}_{n+1}.
+    % \]
+
+    \noindent Therefore the size of $\mathcal{L}_k$ is  
+    \begin{align*}
+        &\abs{A'_k}+\abs{B'_k}+\abs{C'_k}+\abs{D'_k}\\
+        =&\quad (k-1)F(k-1)+(k-2)F(k-2)+F(k)+F(k-2)\\
+        =&\quad kF(k-1)-F(k-1)+kF(k-2)-2F(k-2)+F(k)+F(k-2)\\
+        =&\quad k(F(k-1)+F(k-2))-F(k-1)-F(k-2)+F(k)\\
+        =&\quad kF(k),
+    \end{align*}
+
+    \noindent and the statement is true by induction on $n$.
+\end{proof}
+
+\begin{figure}[!htbp]
+    \centering
+    \tikzfig{./}{Av9}
+    \caption{The POP $P_4$}
+    \label{fig:Av9-P4}
+\end{figure}
+
+\begin{lemma}\label{lemma:av9-avn(P4)}
+    For $n\geq 1$, the size of $Av_n(P_4)$ is $nF(n)$.
+    Moreover, for $n\geq 4$,  we can partition $Av_n(P_4)$ into four sets.
+    Specifically, $Av_n(P_4)=A_n\sqcup B_n\sqcup C_n\sqcup D_n$ where
+    \begin{align*}
+        A_n:&=\{12[1,\sigma]\,:\,\sigma\in Av_{n-1}(P_4)\},\\
+        B_n:&=\{12[21,\sigma]\,:\,\sigma\in Av_{n-2}(P_4)\},\\
+        C_n:&=\{21[\sigma,1]\,:\,\sigma\in Av_{n-1}(P_3)\}, \quad \text{and}\\
+        D_n:&=\{3142[1,1,\sigma,1]\,:\,\sigma\in Av_{n-3}(P_3)\}.
+    \end{align*}
+
+\end{lemma}
+\begin{proof}
+    For $n\leq 3$, it is easy to check that $\abs{Av_n(P_4)}=n!=nF(n)$.
+    We refer the reader to Table \ref{table:av9-avn(P3)-avn(P4)} for examples.\\
+
+    For $n\geq 4$, we may proceed by induction.
+    First, we leave it to the reader to check that the following four claims are true for all $n\geq 4$:
+    \begin{enumerate}[1.]
+        \item $12[1,\sigma] \in Av_{n}(P_4) \iff \sigma\in Av_{n-1}(P_3)$,
+        \item $12[21,\sigma]  \in Av_{n}(P_4)\iff \sigma\in Av_{n-2}(P_3)$,
+        \item $21[\sigma,1]\in Av_n(P_4) \iff \sigma\in Av_{n-1}(P_3)$, \quad and
+        \item $3142[1,1,\sigma,1]\in Av_n(P_4) \iff \sigma\in Av_{n-3}(P_4)$.
+    \end{enumerate}
+    These imply that $A_n,B_n,C_n$ and $D_n$ are subsets of $Av_n(P_4)$.\\
+    
+    Now suppose that for some $k\geq 4$, 
+    the statement is true for all $n\in[k-1]$.
+    Then by our inductive hypothesis, 
+    we have that $A_k$ contains $(k-1)F(k-1)$ elements
+    and $B_k$ contains $(k-2)F(k-2)$ elements.\\
+    
+    By Lemma \ref{lemma:av9-avn(P3)}, 
+    $Av_n(P_3)$ is counted by the $(n+1)$th Fibonacci number for all $n$, 
+    so $C_k$ contains $F(k)$ elements and 
+    $D_k$ contains $F(k-2)$ elements.\\
+    
+    It is not hard to see that the four sets are disjoint, 
+    so the total number of items in the four sets is 
+    \begin{align*}
+        &\abs{A_k}+\abs{B_k}+\abs{C_k}+\abs{D_k}\\
+        =&\quad (k-1)F(k-1)+(k-2)F(k-2)+F(k)+F(k-2)\\
+        =&\quad kF(k-1)-F(k-1)+kF(k-2)-2F(k-2)+F(k)+F(k-2)\\
+        =&\quad k(F(k-1)+F(k-2))-F(k-1)-F(k-2)+F(k)\\
+        =&\quad kF(k).
+    \end{align*}
+
+    \noindent It remains to check 
+    that any $k$-permutation avoiding $P_4$ indeed lies in $A_k, B_k, C_k$ or $D_k$.
+    By Theorem \ref{thm:12,21},
+    it suffices to show that 
+    \begin{enumerate}[(a)]
+        \item 12, 21 and 3142 are the only simple permutations that avoid $P_4$,
+        \item if $21[\alpha,\beta]$ avoids $P_4$ and $\alpha\neq 1$ is skew-sum indecomposable, then $\beta=1$, and
+        \item if $12[\alpha,\beta]$ avoids $P_4$ and $\alpha$ is sum indecomposable, then $\alpha=1$ or 21.
+    \end{enumerate} 
+
+    For (a), it is clear that 12 and 21 avoid $P_4$.
+    Since 2413 contains $P_4$, any simple permutation of length at least 4 avoiding $P_4$ 
+    must contain $3142$ by Theorem \ref{thm:separable}. 
+    Let $\pi$ be such a simple permutation. 
+    We can view it as a lattice matrix.
+    This is shown in Figure \ref{fig:Av9-P4}, 
+    with some alterations explained in the caption.
+    The blocks $\alpha_{13},\, \alpha_{14},\, \alpha_{23}$ and $\alpha_{24}$ are adjacent to the bullet point representing the number 4,
+    so they must be trivial since $\pi$ is simple.
+    Finally, $\alpha_{51}$ must be trivial,
+    otherwise $\pi$ would be sum decomposable.\\
+
+    For (b), it is clear that $\beta$ can have size at most 1, 
+    since otherwise $21[\alpha,\beta]$ would contain $P_4$ for any $\abs{\alpha}\geq 2$.\\
+
+    For (c), suppose $\alpha$ is sum indecomposable and of length at least 3. 
+    Since $\abs{\beta}\geq 1$, $\alpha$ must avoid $P_3$.
+    By (a), $\alpha$ is an inflation of $21$ or $3142$. 
+    The only inflation of 21 avoiding $P_3$ is itself, 
+    while 3142 contains $P_3$. So $\alpha=1$ or 21.
+     
+    \begin{figure}
+        \begin{center}
+            \begin{tabular}{ccccccccc}
+                1             &  \big |   &      2        & \big |    & $\alpha_{13}$ & \big |    & $\alpha_{14}$ & \big |    & 4      \\
+                ------        &  $\Plus$  &     ------    &  $\Plus$  &     ------    & $\Bullet$ &     ------    &  $\Plus$  & ------ \\
+                1             &  \big |   &      2        & \big |    & $\alpha_{23}$ & \big |    & $\alpha_{24}$ & \big |    & 4      \\
+                ------        & $\Bullet$ &     ------    &  $\Plus$  &     ------    &  $\Plus$  &     ------    &  $\Plus$  & ------ \\
+                1             &  \big |   &      2        & \big |    &        3      & \big |    &        3      & \big |    & 4      \\
+                ------        &  $\Plus$  &     ------    &  $\Plus$  &     ------    &  $\Plus$  &     ------    & $\Bullet$ & ------ \\
+                1             &  \big |   &      2        & \big |    &        3      & \big |    &        3      & \big |    & 4      \\
+                ------        &  $\Plus$  &     ------    & $\Bullet$ &     ------    &  $\Plus$  &     ------    &  $\Plus$  & ------ \\
+                $\alpha_{51}$ &  \big |   &      2        & \big |    &        3      & \big |    &        3      & \big |    & 4
+            \end{tabular}
+            \caption{The lattice matrix $L_{3142}(\pi)$, with alterations. 
+            The 1s corresponding to the pattern $3142$ are replaced by bullet points.
+            For all $i,\, j\in [5]$, $\alpha_{ij}$ is replaced by some $\ell\in [4]$ 
+            if and only if $\pi$ would contain $P_4$ if $\alpha_{ij}$ were non-trivial 
+            and any point $\alpha_{ij}$ could take the place of the point labelled $\ell$ in the POP.}
+            \label{fig:Av9(P4)}
+        \end{center}
+    \end{figure}
+\end{proof}
+
+Once again, the previous two lemmas suggest that there is a natural bijection from
+the set $\mathcal{L}_{n+1}$ to $Av_n(P_4)$ - and indeed there is, 
+as we will see in the main theorem of this section:\\
+
+\begin{theorem}
+    Let $g:\mathcal{L}_{n+1} \rightarrow Av_n(P_4)$, where $n\geq 0$ and $r_i\in \{1,2,\overline{1},\overline{2}\}$ for $i\in [k]$ and $k\geq 1$
+    \begin{align*}
+        g(r_1+r_2+\cdots r_k)&=\begin{cases}
+            1&\text{ if }\quad k=1=r_1,\\
+            21&\text{ if }\quad k=2,\quad r_{1}=r_2=\overline{1},\\
+            12[1,g(r_1+\cdots +r_{k-1})]&\text{ if }\quad r_k=1,\\
+            12[21,g(r_1+\cdots +r_{k-1})]&\text{ if }\quad r_k=2,\\
+            21[f(r_1+\cdots +r_{k-2}),1]&\text{ if }\quad r_{k-1}=r_k=\overline{1},\\
+            3142[1,1,f(r_1+\cdots +r_{k-2}),1]&\text{ if }\quad r_{k-1}=r_k=\overline{2}.
+        \end{cases}
+    \end{align*}
+    Then $g$ is a bijection.
+\end{theorem}
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{
+        >{\columncolor[HTML]{FFF2CC}}c |
+        >{\columncolor[HTML]{E2EFDA}}c |
+        >{\columncolor[HTML]{E2EFDA}}c |
+        >{\columncolor[HTML]{FCE4D6}}c |
+        >{\columncolor[HTML]{FCE4D6}}c 
+        }
+        $n$	& \parbox{70pt}{\thead{Marked\\compositions\\of $n+1$}}  &  \parbox{80pt}{\thead{Sum\\decomposables\\in $Av_n(P_4)$}}  & \parbox{80pt}{\thead{Marked\\compositions\\of $n+1$}}  &  \parbox{90pt}{\thead{Sum\\indecomposables\\in $Av_n(P_4)$}}    \\\hline
+        1   &          -         		  &          -          &   $\overline{1+1}$         &   $1$                  \\\hline
+        2   &   $\overline{1+1}+1$		  & $12=12[1,1]$        &   $1+\overline{1+1}$       &   $21=21[1,1]$         \\\hline
+        3   &   $\overline{1+1}+1+1$,	  & $123=12[1,12]$      &   $1+1+\overline{1+1}$,	 &   $231=21[12,1]$	      \\
+            &   $1+\overline{1+1}+1$	  & $132=12[1,21]$      &   $2+\overline{1+1}$	     &   $321=21[1,21]$	      \\
+            &   $\overline{1+1}+2$	      & $213=12[21,1]$      &   $\overline{2+2}$	     &   $312=21[1,12] $      \\\hline
+        4   &   $\overline{1+1}+1+1+1$	  & $1234=12[1,123]$    &   $1+1+1+\overline{1+1}$	 &   $2341=21[123,1]$     \\
+            &   $1+\overline{1+1}+1+1$	  & $1243=12[1,132]$    &   $2+1+\overline{1+1}$	 &   $2431=21[132,1]$     \\
+            &   $1+1+\overline{1+1}+1$	  & $1324=12[1,213]$    &   $1+2+\overline{1+1}$	 &   $3241=21[213,1]$     \\
+            &   $\overline{1+1}+2+1$	  & $1342=12[1,231]$    &   $1+\overline{2+2}$	     &   $3142=3142[1,1,1,1]$ \\
+            &   $2+\overline{1+1}+1$	  & $1432=12[1,321]$    &                            &                        \\        
+            &   $\overline{2+2}+1$	      & $1423=12[1,312]$    &                            &                        \\        
+            &   $\overline{1+1}+1+2$	  & $2134=12[21,12]$    &                            &                        \\        
+            &   $1+\overline{1+1}+2$	  & $2143=12[21,21]$    &                            &                        \\        
+    \end{tabular}
+    \caption{Marked compositions of $n+1$ and their images under $g$ for small $n$}
+    \label{table:av9-g-correspondence}
+\end{table}
+
+% \begin{table}[!htbp]
+%     \centering
+%     \begin{tabular}{
+%         >{\columncolor[HTML]{FFF2CC}}c |
+%         >{\columncolor[HTML]{FFF2CC}}c |
+%         >{\columncolor[HTML]{E2EFDA}}c |
+%         >{\columncolor[HTML]{E2EFDA}}c |
+%         >{\columncolor[HTML]{FCE4D6}}c |
+%         >{\columncolor[HTML]{FCE4D6}}c 
+%         }
+%         $n$	&$nF(n)$& \parbox{70pt}{\thead{Marked\\compositions\\of $n+1$}}  &  \parbox{80pt}{\thead{Sum\\decomposables\\in $Av_n(P_4)$}}  & \parbox{80pt}{\thead{Marked\\compositions\\of $n+1$}}  &  \parbox{90pt}{\thead{Sum\\indecomposables\\in $Av_n(P_4)$}}    \\\hline
+%         1	&   1	&          -         		                &          -             	                    &   $\overline{1+1}$                        &   $1$                                         \\\hline
+%         2	&   2	&   $\overline{1+1}+1$		                & $12=12[1,1]$      	                    &   $1+\overline{1+1}$                      &   $21=21[1,1]$                                    \\\hline
+%         3	&   6	&   $\overline{1+1}+1+1$,	                & $123=12[1,12]	 $                              &   $1+1+\overline{1+1}$,	                &   $231=21[12,1]$	                            \\
+%         &   	&   $1+\overline{1+1}+1$	                & $132=12[1,21]  $                              &   $2+\overline{1+1}$	                    &   $321=21[1,21]$	                                \\
+%         &       &   $\overline{1+1}+2$	                    & $213=12[21,1]	 $       	                    &   $\overline{2+2}$	                    &   $312=21[1,12] $                                 \\\hline
+%         4   &   12  &   $\overline{1+1}+1+1+1$	                & $1234=12[1,123]$	                            &   $1+1+1+\overline{1+1}$	                &   $2341=21[123,1]$                                \\
+%         &       &   $1+\overline{1+1}+1+1$	                & $1243=12[1,132]$	                            &   $2+1+\overline{1+1}$	                &   $2431=21[132,1]$                                \\
+%         &       &   $1+1+\overline{1+1}+1$	                & $1324=12[1,213]$	                            &   $1+2+\overline{1+1}$	                &   $3241=21[213,1]$                                \\
+%         &       &   $\overline{1+1}+2+1$	                & $1342=12[1,231]$	                            &   $1+\overline{2+2}$	                    &   $3142=3142[1,1,1,1]$                            \\
+%         &       &   $2+\overline{1+1}+1$	                & $1432=12[1,321]$		                        &                                           &                                                   \\        
+%         &       &   $\overline{2+2}+1$	                    & $1423=12[1,312]$		                        &                                           &                                                   \\        
+%         &       &   $\overline{1+1}+1+2$	                & $2134=12[21,12]$		                        &                                           &                                                   \\        
+%         &       &   $1+\overline{1+1}+2$	                & $2143=12[21,21]$		                        &                                           &                                                   \\        
+%     \end{tabular}
+%     \caption{Marked compositions of $n+1$ and their images under $g$ for small $n$}
+%     \label{table:av9-g-correspondence}
+% \end{table}
+\begin{proof}
+    Recall from Theorem \ref{thm:av9-comps,P3} that $f$ is a bijection,
+    so it is clear from the definition that $g$ is injective.
+    We refer the reader to Tables \ref{table:av9-seqs-levels}, \ref{table:av9-seqs-P4} and 
+    \ref{table:av9-g-correspondence} for enumerations for small $n$.\\
+
+    By Lemmas \ref{lemma:av9-levels} and \ref{lemma:av9-avn(P4)}, 
+    the sets $\mathcal{L}_{n+1}$ and $Av_n(P_4)$ both contain $nF(n)$ elements, 
+    so $g$ must be bijective. \\
+
+    \noindent In addition, it can easily be seen that the inverse of $g$ is the following:
+    \[g\inv(\pi)=\begin{cases}
+        g\inv(\alpha_2) + \abs{\alpha_1} &\text{ if }\quad \pi=12[\alpha_1,\alpha_2],\\ 
+        f\inv(\alpha) + \overline{1+1} &\text{ if }\quad \pi=21[\alpha,1],\\ 
+        f\inv(\alpha) + \overline{2+2} &\text{ if }\quad \pi=3142[1,1,\alpha,1].\\ 
+    \end{cases}\]
+\end{proof}
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{
+        >{\columncolor[HTML]{FFF2CC}}c |
+        >{\columncolor[HTML]{FFF2CC}}c 
+        >{\columncolor[HTML]{E2EFDA}}c 
+        >{\columncolor[HTML]{FCE4D6}}c } 
+        $n$& \thead{$\abs{\mathcal{L}_{n+1}}$} & \parbox{160pt}{\thead{Number of compositions\\in $\mathcal{L}_{n+1}$ where the\\last summand is not marked}} & \parbox{160pt}{\thead{Number of compositions\\in $\mathcal{L}_{n+1}$ where the\\last two terms are marked}} \\\hline
+        1  & 1   & 0   & 1   \\
+        2  & 2   & 1   & 1   \\
+        3  & 6   & 3   & 3   \\
+        4  & 12  & 8   & 4   \\
+        5  & 25  & 18  & 7   \\
+        6  & 48  & 37  & 11  \\
+        7  & 91  & 73  & 18  \\
+        8  & 168 & 139 & 29  \\
+        9  & 306 & 259 & 47  \\
+        10 & 550 & 474 & 76  \\
+        11 & 979 & 856 & 123 \\
+        $k$ & $kF(k)$ & $(k-1)F(k-1)+(k-2)F(k-2)$ & $L(k-1)=F(k-2)+F(k)$ \\
+    \end{tabular}
+    \caption{Enumerating marked compositions for small $n$}
+    \label{table:av9-seqs-levels}
+    \end{table}
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{
+        >{\columncolor[HTML]{FFF2CC}}c |
+        >{\columncolor[HTML]{FFF2CC}}c 
+        >{\columncolor[HTML]{E2EFDA}}c 
+        >{\columncolor[HTML]{FCE4D6}}c }
+        $n$& $\abs{Av_n(P_4)}$  & \parbox{160pt}{\thead{Number of\\sum decomposable\\$n$-permutations avoiding $P_4$}}  & \parbox{160pt}{\thead{Number of\\sum indecomposable\\$n$-permutations avoiding $P_4$}}   \\\hline
+        1  & 1   & 0   & 1   \\
+        2  & 2   & 1   & 1   \\
+        3  & 6   & 3   & 3   \\
+        4  & 12  & 8   & 4   \\
+        5  & 25  & 18  & 7   \\
+        6  & 48  & 37  & 11  \\
+        7  & 91  & 73  & 18  \\
+        8  & 168 & 139 & 29  \\
+        9  & 306 & 259 & 47  \\
+        10 & 550 & 474 & 76  \\
+        11 & 979 & 856 & 123 \\
+        $k$ & $kF(k)$ & $(k-1)F(k-1)+(k-2)F(k-2)$ & $L(k-1)=F(k-2)+F(k)$ \\
+    \end{tabular}
+    \caption{Enumerating sum decomposable and sum indecomposable permutations for small $n$}
+    \label{table:av9-seqs-P4}
+    \end{table}
+
+% \begin{table}[!htbp]
+%     \centering
+%     \begin{tabular}{
+%         >{\columncolor[HTML]{FFF2CC}}c |
+%         >{\columncolor[HTML]{E2EFDA}}c 
+%         >{\columncolor[HTML]{E2EFDA}}c |
+%         >{\columncolor[HTML]{E2EFDA}}c }
+%         $n$ &   \thead{Number of levels\\in $\mathcal{C}_{n}$} &   \thead{Number of levels\\in $\mathcal{C}_{n-1}$}   & \thead{\# levels\\in $\mathcal{C}_{n+1}$\\omitting\\last summand} \\\hline
+%         &   $12[1,Av_{n-1}(P_4)]$                   &   $12[21,Av_{n-2}(P_4)]$	                    & \# sum decomposable                                               \\\hline
+%         1   &   0   & 0   & \textbf{0}    \\
+%         2   &   1   & 0   & \textbf{1}    \\
+%         3   &   2   & 1   & \textbf{3}    \\
+%         4   &   6   & 2   & \textbf{8}    \\
+%         5   &   12  & 6   & \textbf{18}   \\
+%         6   &   25  & 12  & \textbf{37}   \\
+%         7   &   48  & 25  & \textbf{73}   \\
+%         8   &   91  & 48  & \textbf{139}  \\
+%         9   &   168 & 91  & \textbf{259}  \\
+%         10  &   306 & 168 & \textbf{474}  \\
+%         11  &   550 & 306 & \textbf{856}  \\\hline
+%         $k$ &   $(k-1)F(k-1)$	& $(k-2)F(k-2)$	& $(k-1)F(k-1)+(k-2)F(k-2)$ \\
+%     \end{tabular}
+%         \caption{Number of levels in $\mathcal{C}_n$ and 
+%         number of sum decomposable permutations avoiding $P_4$}
+%     \label{table:av9-SD}
+% \end{table}
+
+% \begin{table}[!htbp]
+%     \centering
+%     \begin{tabular}{
+%         >{\columncolor[HTML]{FFF2CC}}c |
+%         >{\columncolor[HTML]{FCE4D6}}c |
+%         >{\columncolor[HTML]{FCE4D6}}c |
+%         >{\columncolor[HTML]{FCE4D6}}c }
+%         $n$ &   \thead{\# levels in $\mathcal{C}_{n+1}$\\omitting\\last summand} & \thead{Compositions of $n$\\ending with 1} & \thead{Compositions of\\$n-1$ ending with 2} \\\hline
+%         &   $21[\sigma,1]$ & $3142[1,1,\tau,1]$	& \\
+%         &   $\sigma\in\abs{Av_{n-1}(P_3)}$ & $\tau\in\abs{Av_{n-3}(P_4)}$	& \makecell{\# sum indecomposable\\permutations\\in $Av_n(P_4)$ }\\\hline 
+%         1   &   1  & 0  & \textbf{1}    \\
+%         2   &   1  & 0  & \textbf{1}    \\
+%         3   &   2  & 1  & \textbf{3}    \\
+%         4   &   3  & 1  & \textbf{4}    \\
+%         5   &   5  & 2  & \textbf{7}    \\
+%         6   &   8  & 3  & \textbf{11}   \\
+%         7   &   13 & 5  & \textbf{18}   \\
+%         8   &   21 & 8  & \textbf{29}   \\
+%         9   &   34 & 13 & \textbf{47}   \\
+%         10  &   55 & 21 & \textbf{76}   \\
+%         11  &   89 & 34 & \textbf{123}  \\\hline
+%         $k$ &   $F(k)$ & $F(k-2)$ & \makecell{$L(k-1)$\\($k-1$th Lucas number)}\\
+%     \end{tabular}
+%     \caption{Number of compositions,
+%     and number of sum indecomposable permutations avoiding $P_4$ }
+%     \label{table:av9-SI}
+% \end{table}
+
+\end{document}

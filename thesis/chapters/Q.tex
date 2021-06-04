@@ -1,0 +1,456 @@
+% !TEX root = ../../main.tex
+\documentclass[../main.tex]{subfiles}
+%
+\begin{document}
+
+\begin{definition}
+    Let $Q_k$ be the POP with $k$ elements where $1>t$ for $t\in [2,n]$. 
+    The Hasse diagram of $Q_k$ is the following: 
+    \begin{figure}[!htbp]
+        \centering
+        \tikzfig{./}{Qk}
+        \caption{The POP $Q_k$}
+        \label{fig:Qk}
+    \end{figure}
+\end{definition}
+
+Gao and Kitaev \cite{gao-kitaev-2019} enumerated the avoidance set of $Q_k$ in Theorem 2 of their paper
+and observed that the sequences $\abs{Av_n(Q_4)}_{n\geq 1}$ and $\abs{Av_n(Q_5)}_{n\geq 1}$
+are listed in the OEIS database as \href{https://oeis.org/A025192}{A025192} and \href{https://oeis.org/A084509}{A084509} respectively.
+These sequences enumerate the 2-ary shrub forests of $n$ heaps avoiding the patterns 231, 312 and 321,
+and the ground state 3-ball juggling sequence of period $n$ respectively. 
+These objects will be defined in the following sections.\\
+% Gao and Kitaev sought interesting bijections between the relevant sets.\\
+
+We show that there are intimate connections between the relevant sets by constructing explicit bijections.
+In fact, we construct an explicit bijection from $Av_n(Q_{k})$ to ground state $(k-2)$-ball juggling sequence of period $n$
+which yields a bijection between the the original two sets as a special case.
+The study that led us to this bijection also produced a new way of enumerating $Q_k$ using the concept of matrix permanents.
+
+% by the enumeration of ground state juggling sequences.
+% Finally we analyse the set $Av_n(Q_4)$ and construct an explicit bijection to 
+% the 2-ary shrub forests of $n$ heaps avoiding the patterns 231, 312 and 321.
+
+\section{Enumeration of \texorpdfstring{$Av_n(Q_k)$}{Avn(Qk)}}
+
+We will enumerate $Av_n(Q_k)$ for $k,\, n\geq 1$ using the concept of matrix permanents.
+Recall that the permanent is defined on square matrices and is similar to the definition of the determinant of a matrix,
+where the signs of the summands are all positive instead of alternating.
+We restate Gao and Kitaev's proof first as a reference for comparison. 
+
+\begin{theorem}[Gao and Kitaev (2019) \cite{gao-kitaev-2019}]\label{thm:avQk}
+    For $n\geq k$, $\abs{Av_n(Q_k)} = (k-1)!\times (k-1)^{n-k+1}$. 
+\end{theorem}
+\begin{proof}
+    We proceed by induction.
+    It is clear that all $(k-1)$-permutations avoid $Q_k$,
+    so $\abs{Av_{k-1}(Q_k)}=(k-1)!$.
+    % 
+    For $n\geq k$, $\pi$ is an $n$-permutation avoiding $Q_k$
+    if and only if $n\in \pi_{[n-k+2,\, n]}$ 
+    and the $(n-1)$-permutation obtained from removing $n$ from the permutation $\pi$ avoids $Q_k$.
+    So $\abs{Av_{n}(Q_k)} = (k-1)\times \abs{Av_n (Q_{k-1})}$.
+    The desired formula can then be easily obtained from this recursion via induction on $k$.
+\end{proof}
+
+\begin{definition}
+    The \textit{permanent} of an $n\times n$ matrix $A_n=(a_{ij})_{i,j\in [n]}$ is 
+    % denoted Perm($A_n$) and defined as 
+    \[\text{Perm}(A_n):= \sum_{\pi\in S_n} \prod_{i=1}^n  a_{i j}.\]
+\end{definition}
+
+% \begin{lemma}
+%     Using the recursive definition of the permanent, we can arrive at the following definition:
+%     \[\text{Perm}(A_n)= \sum_{\pi\in S_n} \prod_{i=1}^n  a_{i \pi_i}\]
+% \end{lemma}
+
+% \begin{proof}
+%     We claim that the sum above is equal to the permanent of the matrix $A_n$ defined above. 
+%     That is, \[\sum_{\{\pi_1,\pi_2,\dots,\pi_n\}=[n]} \prod_{i=1}^n  a_{i \pi_i} = \text{Perm}(A_n)\]
+%     We proceed by induction. The claim is obviously true for $n=1$.
+%     So suppose the claim is true for some $k\geq 1$. 
+%     Recall that the permanent of a matrix is defined similarly to the determinant of a matrix, except th at the $\pm$ signs in the sum. 
+%     Let $M(j)$ denote the $M_{1,j}$ minor of the matrix $M$.
+%     \begin{align*}
+%         &\sum_{\{\pi_1,\pi_2,\dots,\pi_{k+1}\}=[k+1]} \left(\prod_{i=1}^{k+1}  a_{i \pi_i}\right) \\
+%         &=\sum_{\pi_{k+1}=1}^{k+1} \left(\sum_{\{\pi_1,\pi_2,\dots,\pi_{k}\}=[k+1]\setminus \{\pi_{k+1}\}} \left(\prod_{i=1}^{k}  a_{i \pi_i}\right) a_{(k+1)\pi_{k+1}}\right) \\
+%         &=\sum_{\pi_{k+1}=1}^{k+1}  \text{Perm} (A_{k+1}(\pi_{k+1})) \cdot a_{(k+1)\pi_{k+1}} \\
+%         &= \text{Perm}(A_{k+1})
+%     \end{align*}
+% \end{proof}
+
+The following proposition states a well-known property of permanents.
+Its proof is similar to the proof for an analogous statement for deteminants
+and is therefore omitted.
+
+\begin{prop}[\textit{folklore}]
+    The permanent of a matrix is invariant under arbitrary permutations of the rows and/or columns, 
+    as well as transposition.
+    That is, for all $n\times n$ matrices $M$ and $n$-permutation matrices $P$ and $Q$, 
+    \begin{center}
+        Perm$(M^T)=$ Perm$(M)=$ Perm$(PMQ)$.
+    \end{center}
+\end{prop}
+
+\bigskip 
+Observe that the permanent of the $n\times n$ matrix of ones is equal to $n!$ for all positive $n$,
+and recall that there are $n!$ permutations in $S_n$.
+One may ask whether there is a matrix associated with subsets of $S_n$, 
+such that the problem of enumerating those subsets can be converted into 
+computing a certain value of a matrix. 
+This is in fact possible for certain subsets of $S_n$, as we shall see.
+
+\begin{definition}
+    Let $n\geq 1$. 
+    Suppose $K$ is a set of restrictions that indicate whether 
+    $i\mapsto j$ in an $n$-permutation is allowed for all $i,\, j\in [n]$.
+    % 
+    Then define $A_n^K=(a_{ij})$ as the binary $n\times n$ matrix 
+    where, for all $i,\, j \in [n]$,
+    the $ij$th element of $A_n^K$ is denoted $a_{ij}$ and is equal to 1 if and only if 
+    having $i\mapsto j$ is allowed by $K$.
+    % 
+    We say that the matrix $A_n^K$ \textit{represents} $K$.
+\end{definition}
+
+\bigskip
+
+\begin{lemma}[Percus (1971) \cite{percus}]\label{lemma:perm}
+    Given a set of restrictions $K_n$ and matrix $A_n^K$ defined as above,
+    the number of $n$-permutations that satisfy $K$ is the permanent of $A_n^K$. 
+\end{lemma}
+\begin{proof}
+    Let $f$ be the function from $[n]$ to the set of subsets of $[n]$ such that $i\rightarrow \pi_i$ is allowed in a permutation if and only if $\pi_i\in f(i)$.
+    Let $a_{ij}$ denote the $ij$th entry of $A_n^K$. 
+    Then the number of $n$-permutations induced by $f$ is
+    \begin{align*}
+        \#\{\pi\in S_n \mid \pi_i\in f(i) \fa i\in [1,n]\}
+        % &= \#\{\pi=\pi_1\pi_2\cdots \pi_n\mid (\pi_1,\pi_2,\dots,\pi_n)\in f(1)\times f(2)\times\cdots f(n), \quad \pi\in S_n\} \\
+        % &= \#\{\pi=\pi_1\pi_2\cdots \pi_n\mid (\pi_1,\pi_2,\dots,\pi_n)\in f(1)\times f(2)\times\cdots f(n), \quad \{\pi_1,\pi_2,\dots,\pi_n\}=[n]\} \\
+        % &=\#\{\pi=\pi_1 \pi_2\cdots \pi_n \mid a_{i \pi_i}=1 \quad \forall i\in [1,n], \quad \{\pi_1,\pi_2,\dots,\pi_n\}=[n]\}\\
+        &=\#\{\pi\in S_n \mid a_{i \pi_i}=1 \fa i\in [1,n]\}\\
+        &= \sum_{\pi\in S_n} a_{1 \pi_1} a_{2 \pi_2} \cdots a_{n \pi_n} \\
+        % &= \sum_{\{\pi_1,\pi_2,\dots,\pi_n\}=[n]} a_{1 \pi_1} a_{2 \pi_2} \cdots a_{n \pi_n} \\
+        &= \sum_{\pi\in S_n} \prod_{i=1}^n  a_{i \pi_i} \\
+        % &= \sum_{\{\pi_1,\pi_2,\dots,\pi_n\}=[n]} \prod_{i=1}^n  a_{i \pi_i} 
+        &= \text{Perm}(A).
+    \end{align*} 
+    % (Coincidentally, permutations and permanent both start with 'perm'.)
+\end{proof}
+
+We can now apply the theorem to the enumeration of the avoidance set of $Q_k$ for all $k\geq 1$:
+% 
+Observe that for all $n$, an $n$-permutation $\pi$ avoids $Q_k$ if and only if 
+$t\in \pi_{[t-k+2,n]}$ for all $t\in [k,n]$.
+% That is, 
+% \[\pi_i=t\iff i\in [t-k+2,n] \iff i\geq t-k+2\]
+Therefore we have the following theorem:
+
+\begin{theorem}\label{thm:Q-matrix}
+    The $n$-permutations that avoid $Q_k$ are represented by the binary $n\times n$ matrix
+    $A_n=(a_{ij})_{i,j\in [n]}$ where $a_{ij}=1$ if and only if $i\geq j-k+2$.
+\end{theorem}
+
+Since the permanent of $A_n$ 
+is exactly $(k-1)! (k-1)^{n-k+1}$ for all $n\geq k$,
+the theorem above proves the enumeration of the avoidance set of $R_k$ for all $n$.
+
+% \newpage
+\section{Juggling sequences}\label{sect:juggling}
+% (Problem \#13)
+Suppose we have $b$ balls and a binary vector $\sigma=(\sigma_1,\sigma_2,\dots,\sigma_n)\in \{0,1\}^n$ for some integer $n\geq b$.
+Given a reference time, 
+we can throw one ball at the $i$th second 
+such that it lands in our hand again after 
+exactly $t_i$ seconds (that is, $i+t_i$ seconds after the reference time) 
+where $t_i$ is a positive integer  
+for all $i\in [n]$, if $\sigma_i=1$.
+Otherwise, we put $t_i:=0$.
+We say that the $n$-tuple of non-negative integers $T=(t_1,t_2,\dots,t_n)$ is 
+a \textit{juggling sequence of period $n$ and \textit{state} $\sigma$}
+if and only if 
+no two balls land in our hand at the same time, 
+and our sequence of throws is infinitely repeatable.
+That is, the following two conditions hold:
+\begin{itemize}
+    \item $i+t_i\equiv j+t_j\pmod{n}$ if and only if $i=j$ for all $i,j\in [n]$,
+    % That is, the map $i\rightarrow i+t_i \pmod{n}$ from $[n]$ to itself is injective.
+    \item $\sigma_i=1$ if and only if there is some $j\in [n]$ such that $i\equiv j+t_j\pmod{n}$.
+\end{itemize}
+% 
+We say that $\sigma$ is a \textit{ground state} if and only if 
+$\sigma_i=1$ if $i\in [b]$ and $\sigma_i=0$ otherwise.
+% 
+We refer the reader to \cite{juggling-drops} and \cite{chung-graham} for diagrams and further analysis on juggling sequences.\\
+
+Gao and Kitaev \cite{gao-kitaev-2019} observed that the avoidance set $Av_n(Q_5)$ and the 
+number of ground-state 3-ball juggling sequences of period $n$
+are enumerated by the same OEIS sequence \href{https://oeis.org/A084509}{A084509}.
+We will prove a natural bijection between a generalization of these two combinatorial objects,
+which is inspired by the proof of Theorem 1 of \cite{chung-graham}, restated below:
+
+\begin{theorem}\label{thm:juggling-enum}
+    The number of ground state juggling sequences of period $n$ using $b$ balls ($n\geq b$) is 
+    \[J(n,b)=\begin{cases}
+        (b+1)^{n-b} b!&\text{if }n\geq b,\\
+        n!&\text{otherwise}.
+    \end{cases}\]
+\end{theorem}
+
+\begin{proof}
+    Observe that $T=(t_1,t_2,\dots,t_n)$ is a conforming juggling sequence if and only if 
+    every ball that is thrown lands exactly at some time $t$ seconds after the reference time
+    where $t\in [n+1,n+b]$, and no two balls land on the same second.
+    That is, $\{t_i+i\mid i\in [b]\} = [n+1,n+b]$.
+    Since $t_i=0$ for $i\in [n]\setminus [b]$, 
+    the condition is equivalent to requiring 
+    % $\{t_i+i\mid i\in [n]\} = [b+1,b+n]$.
+    $\{t_i+i-b\mid i\in [n]\} = [n]$.
+    That is, the bijection $i\mapsto t_i+i-b$ defines a permutation on the set $[n]$,
+    with the additional condition that $t_i\geq 0$ for all $i\in [n]$.
+    Thus every conforming juggling sequence $T$ can be associated uniquely to a permutation $\pi$
+    where $\pi_i=t_i+i-b$.
+    The number of such permutations is then exactly the permanent of the matrix 
+    $M$ where its $ij$th entry is 1 if and only if $j-i+b\geq 0$, by Lemma \ref{lemma:perm}.
+    Computing the permanent of $M$ yields the formula assigned to $J(n,b)$.
+\end{proof}
+
+\begin{table}[!htbp]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|}
+        \hline
+        \thead{State,\\ period,\\ \# balls,\\\# juggling\\sequences} & \thead{Juggling\\sequences\\$T=(t_1,\dots,t_n)$} & \thead{$(t_1+1,\dots,t_n+n)$\\$=(\sigma_1,\dots,\sigma_n)$\\$+(b,\dots,b)$} & \thead{$\sigma\inv=\pi$\\$\in Av_n(Q_{b+2})$;\\$\sigma_i = t_i+i-b$} & \thead{Matrix\\transpose\\$M^t=M_{n,b}^t$} \\\hline
+        \makecell{$\sigma=(1,0)$;\\$n=2$;\\ $b=1$;\\$J(n,b)=2$}      & \makecell{(1,1)\\(2,0)}  & \makecell{(2,3)\\(3,2)} & \makecell{$12\inv=12$\\$21\inv=21$} & $\left(\begin{array}{cc} 1&1\\1&1 \end{array}\right)$  \\
+        \makecell{$\sigma=(1,0,0)$;\\$n=3$;\\ $b=1$;\\$J(n,b)=4$}    & \makecell{(1,1,1)\\(3,0,0)\\(2,0,1)\\(1,2,0)}  & \makecell{(2,3,4)\\(4,2,3)\\(3,2,4)\\(2,4,3)} & \makecell{$123\inv=123$\\$312\inv=231$\\$213\inv=213$\\$132\inv=132$} & $\left(\begin{array}{ccc} 0&1&1 \\ 1&1&1 \\ 1&1&1 \end{array}\right)$ \\
+        \makecell{$\sigma=(1,0,0,0)$;\\$n=4$;\\ $b=1$,\\$J(n,b)=8$}  & \makecell{(1,1,1,1)\\(3,0,0,1)\\(2,0,1,1)\\(1,2,0,1)\\(2,0,2,0)\\(4,0,0,0)\\(1,3,0,0)\\(1,1,2,0)}  & \makecell{(2,3,4,5)\\(4,2,3,5)\\(3,2,4,5)\\(2,4,3,5)\\(3,2,5,4)\\(5,2,3,4)\\(2,5,3,4)\\(2,3,5,4)} & \makecell{$1234\inv=1234$\\$3124\inv=2314$\\$2134\inv=2134$\\$1324\inv=1324$\\$2143\inv=2143$\\$4123\inv=2341$\\$1423\inv=1342$\\$1243\inv=1243$} & $\left(\begin{array}{cccc} 0&0&1&1 \\0&1&1&1 \\ 1&1&1&1 \\ 1&1&1&1 \end{array}\right)$ \\
+        \makecell{$\sigma=(1,1)$;\\$n=2$;\\ $b=2$;\\$J(n,b)=2$}      & \makecell{(2,2)\\(3,1)}  & \makecell{(3,4)\\(4,3)} & \makecell{$12\inv=12$\\$21\inv=21$} & $\left(\begin{array}{cc} 1&1\\1&1 \end{array}\right)$  \\
+        \makecell{$\sigma=(1,1,0)$;\\$n=3$;\\ $b=2$;\\$J(n,b)=6$}    & \makecell{(2,2,2)\\(2,3,1)\\(3,1,2)\\(3,3,0)\\(4,1,1)\\(4,2,0)} & \makecell{(3,4,5)\\(3,5,4)\\(4,3,5)\\(4,5,3)\\(5,3,4)\\(5,4,3)} & \makecell{$123\inv=123$\\$132\inv=132$\\$213\inv=213$\\$231\inv=312$\\$312\inv=231$\\$321\inv=321$} & $\left(\begin{array}{ccc} 1&1&1 \\ 1&1&1 \\ 1&1&1 \end{array}\right)$ \\\hline
+    \end{tabular}
+    \label{table:avQ-juggling}
+    \caption{Sample values for juggling sequences and their images under $\theta$ for small $n$ and $b$. 
+    Note that we are using the permutation matrix notation system
+    where rows are numbered from bottom to top in increasing order.}
+\end{table}
+
+The desired bijection can then be easily obtained by realizing that 
+the permutations mentioned in the proof of Theorem \ref{thm:juggling-enum}
+are exactly the permutation inverses of those avoiding $Q_{b+2}$, 
+as is carefully fleshed out in the following theorem:
+
+\begin{theorem}
+    Let $\theta$ be a function from the set of ground state juggling sequences of period $n$ using $b$ balls to $Av_n(Q_{b+2})$
+    given by $\theta((t_1,t_2,\dots,t_n))=\pi$ 
+    where $\pi_{t_i+i-b}=i$ for all $i\in [n]$.
+    Then $\theta$ is a bijection.
+\end{theorem}
+\begin{proof}
+    Since $t_i$ is nonnegative for all $i\in [n]$, we have 
+    \[\pi_{t_i+i-b}=i 
+    \iff \pi_{i}=i+b-t_i 
+    % \iff \pi_{i}-b=i-t_i 
+    \iff i \geq \pi_i-b 
+    = \pi_i - i - (b+2) + 2.
+    \]
+    Therefore, for a given $n,b$, the matrix $M$ defined in Chung and Graham's paper 
+    is exactly the transpose of the matrix that represents the avoidance of $Q_{b+2}$ as defined in Theorem \ref{thm:Q-matrix}. 
+    So the codomain of $\theta$ is indeed $Av_n(Q_{b+2})$.
+    % 
+    By Theorem \ref{thm:avQk},
+    the number of ground state $b$-ball juggling sequences of period $n$
+    is equal to 
+    the size of $Av_n(Q_{b+2})$
+    since 
+    \[Av_n(Q_{b+2}) = \begin{cases}
+        (b+1)!\times (b+1)^{n-b-1} = (b+1)^{n-b}b! &\text{if }n\geq b+2,\\
+        n!&\text{otherwise.}
+    \end{cases}\]
+
+    Therefore, since $\theta$ is injective,
+    it must also be bijective.
+    % The inverse of $\theta$ is given by
+    %     \[\theta\inv(\pi) = (\pi(1)+b-1, \pi(2)+b-2, \dots, \pi(n)+b-n).\]
+\end{proof}
+
+\noindent We refer the reader to Table \ref{table:avQ-juggling} for sample values for small $n$ and $b$.
+
+% \todo{Generalize to: badminton sequences (machine production), mancala game}
+
+\section{Shrub forests of \texorpdfstring{$n$}{n} heaps}\label{sect:shrub}
+\begin{definition}
+    Let $\mathcal{P}_{3n}$ denote the set of permutations of length $3n$
+    that avoid the patterns 231, 312 and 321 
+    and satisfies $\pi_{3i+1} < \pi_{3i+2}$ and $\pi_{3i+1} < \pi_{3i+3}$ for all $i\in [n-1]$.
+\end{definition}
+
+\begin{remark}
+    $\mathcal{P}_{3n}$ is also known as the set of \textit{2-ary shrub forests of $n$ heaps} avoiding the patterns 231, 312 and 321.
+    % and has size $2\times 3^{n-1}$ (the sequence A025192). 
+    % \footnote{D. Bevan, D. Levin, P. Nugent, J. Pantone, L. Pudwell, M. Riehl, and M. Tlachac. Pattern avoidance in forests of binary shrubs. Discr. Math. Theor. Comp. Sci., 18(2): 2016.}
+\end{remark}
+
+\bigskip
+\noindent Gao and Kitaev \cite{gao-kitaev-2019} observed that $Av_n(Q_4)$ and the 
+$\mathcal{P}_{3n}$
+are enumerated by the same OEIS sequence \href{https://oeis.org/A025192}{A025192}.
+We will show a natural bijection between these two sets for all $n\geq 1$.
+
+\begin{theorem} \label{thm:avQ-P}
+    Let
+    \[P_{3n}=\begin{cases}
+        \{123,\, 132\} &\text{if }n=1,\\ 
+        \{1 \oplus \tau \oplus \pi_{[2,3n-3]}\mid \tau\in \{123,\, 132,\, 213\}\text{ and } \pi\in \mathcal{P}_{3n-3}\} &\text{if }n\geq 2.
+    \end{cases}.\]
+    Then $P_{3n}=\mathcal{P}_{3n}$.
+\end{theorem}
+
+\begin{proof}
+    It is easy to see that $\mathcal{P}_3=\{123,\, 132\}$.
+    Let $\sigma:=1 \oplus \tau \oplus \pi_{[2,3n-3]}$
+    for some $\tau\in \{123,\, 132,\, 213\}$
+    and $\pi\in \mathcal{P}_{3n-3}$. 
+    It is clear that
+    \[\abs{\sigma}=\abs{1 \oplus \tau \oplus \pi_{[2,3n]}}=1+3+\abs{\pi_{[2,3n]}}=4+3n-3-1=3n,\]
+    so $\sigma$ is a $3n$-permutation.
+    % 
+    We know that $\pi\in \mathcal{P}_{3n-3}$, 
+    so $\sigma_{3i+1} < \sigma_{3i+2},\, \sigma_{3i+3}$ for $i=3,4,\dots,n-1$.
+    % 
+    By the definition of the direct sum $\oplus$
+    we have $\sigma_1 < \sigma_{[2,4]} < \sigma_{[5,3n]}$, 
+    so $\sigma_{3i+1} < \sigma_{3i+2}$ and $\sigma_{3i+1} < \sigma_{3i+3}$ for $i=1$ and 2 as well.
+    Since $\pi_{[2,3n-3]}$
+    and $\tau=S_3\setminus \{231,\,312,\,321\}$
+    both avoid 231, 312 and 321,
+    so do the factors $\sigma_{[1,4]}$ and $\sigma_{[5,3n]}$.
+    It is easy to see (by the definition of $\oplus$)
+    that none of the forbidden patterns may span across $\sigma_{[1,4]}$ and $\sigma_{[5,3n]}$.
+    Therefore $\sigma\in \mathcal{P}_{3n}$.\\
+
+    We claim that $\abs{P_{3n}}=2\times 3^{n-1}$ for all $n\geq 1$.
+    Indeed, $\abs{P_3}=2=2\times 3^0$.
+    Suppose this is true for some $k\geq 2$.
+    Since $\pi_1=1$ for all $\pi\in P_{3k}$,
+    we must have that $\pi_{[2,3k]}$ is distinct for each $\pi\in P_{3k}$.
+    Therefore $\abs{P_{3k+3}}=3\times \abs{P_{3k}}=2\times 3^{n-1}$,
+    and the claim is true for all $n$.
+    % 
+    Since $P_{3n}\subseteq \mathcal{P}_{3n}$ and $\abs{P_{3n}}=\abs{\mathcal{P}}_{3n}$, they must be equal for all $n\geq 1$. 
+\end{proof}
+
+\begin{theorem}\label{thm:avQ4-bij}
+    % There exists a natural bijection between $Av(Q_4)$ and the $3n$-permutations
+    % $Av(231, 312, 321)$ where $\pi_{3i+1} < \pi_{3i+2}, \pi_{3i+3}$ $1\leq i<n$, given by
+    Let $\theta: Av_n(Q_4)\rightarrow \mathcal{P}_{3n-3}$ be given by 
+    \begin{align*}
+        \theta(12)&=123, \quad \theta(21)=132, \quad \text{and for }\abs{\pi}=n\geq 3,\\
+        % \theta\left(\pi_{[1,n-1]}\,n\right ) &= 1 \oplus 132 \oplus \theta\left(\pi_{[1,n-1]}\right)_{[2,3n]},\\
+        % \theta\left(\pi_{[1,n-2]}\,n\,\pi_n\right ) &= 1 \oplus 123 \oplus \theta\left(\pi_{[1,n-2]}\,n\,\pi_n\right )_{[2,3n]},\\
+        % \theta\left(\pi_{[1,n-3]}\,n\,\pi_{[n-1,n]}\right ) &= 1 \oplus 213 \oplus \theta\left(\pi_{[1,n-3}\,n\,\pi_{[n-1,n]} \right )_{[2,3n]}.
+        \theta(\pi) &= 
+        \begin{cases}
+            1 \oplus 132 \oplus \theta\left(\pi_{[1,n-1]}\right)_{[2,3n]}, &\text{if }\pi_n=n,\\
+            1 \oplus 123 \oplus \theta\left(\pi_{[1,n-2]}\,\pi_n\right )_{[2,3n]},&\text{if }\pi_{n-1}=n,\\
+            1 \oplus 213 \oplus \theta\left(\pi_{[1,n-3]}\,\pi_{[n-1,n]} \right )_{[2,3n]} &\text{if }\pi_{n-2}=n.
+        \end{cases}
+    \end{align*}
+    Then $\theta$ is a bijection.
+\end{theorem}
+
+\begin{figure}[!htbp]
+    \centering
+    \tikzfig{./}{Q4}
+    \caption{The POP $Q_4$}
+    \label{fig:Q4}
+\end{figure}
+
+\begin{proof}
+    Recall that $k$ can only be $\pi_{n}$, $\pi_{n-1}$ or $\pi_{n-2}$ by the proof of Theorem \ref{thm:Q-matrix}.
+    So $\theta$ is defined on $Av_n(Q_4)$ for $n\geq 3$.
+    % 
+    Moreover, $\theta(Av_n(Q_4))\subseteq S_{3n-3}$ for all $n\geq 2$.
+    The base case is: $\abs{\theta(12)}=\abs{\theta(21)}=3$.
+    Suppose $\theta(Av_{k-1}(Q_4))\subseteq S_{3k-6}$ for some $k\geq 3$.
+    Then if $\pi\in Av_k(Q_4)$,
+    we have \[\abs{\theta(\pi)}=1+3+(3(k-1)-2+1)=3k=3(k+1)-3.\]
+    So $\theta$ maps into $S_{3n-3}$ for all $n$. 
+    % \rremark{is this para necessary?}
+    % 
+    Obviously $\theta(Av_2(Q_4))=\mathcal{P}_{3}$.
+    Suppose $\theta(Av_{k-1}(Q_4))\subseteq \mathcal{P}_{3k-6}$ for some $k\geq 2$.
+    Then by Theorem \ref{thm:avQ-P}, 
+    $\theta$ indeed maps $Av_k(Q_4)$ into $\mathcal{P}_{3k-3}$.
+    So $\theta(Av_{n}(Q_4))\subseteq \mathcal{P}_{3n-3}$ for all $n\geq 2$ by induction.\\
+
+    Finally, it is clear from the definition of $\theta$ that it is injective.
+    By Theorem \ref{thm:avQk}, $\abs{Av_n(Q_4)} = 3!\times 3^{n-3} = 2\times 3^{n-2}$ for $n\geq k$.
+    Since $\abs{Av_n(Q_4)}=\abs{\mathcal{P}_{3n-3}}$ for all $n$,
+    the map $\theta$ must be surjective as well.
+\end{proof}
+
+\begin{table}[!htbp]
+    \centering 
+    \begin{tabular}{|c|c|c|}
+        \hline
+        $n$ & $Av_n(Q_4)$ & $\mathcal{P}_{3n-3}$ \\\hline 
+        2   & \makecell{12\\21} & \makecell{123\\132} \\
+        3   & \makecell{123\\213\\132\\231\\312\\321}   & \makecell{124356\\124365\\123456\\123465\\132456\\132465} \\
+        \hline
+    \end{tabular}
+    \label{}
+    \caption{Sample values of $Av_n(Q_4)$ and their images under $\theta$ in $\mathcal{P}_{3n}$}
+    % \quad
+    % \begin{tabular}{ccc}
+    %     $n$ & $Av_n(Q_4)$ & $\mathcal{P}_{3n-3}$ \\
+    %     4   & \makecell{1234\\1243\\1423\\2134\\2143\\2413\\1324\\1342\\1432\\2314\\2341\\2431\\3124\\3142\\3412\\3214\\3241\\3421} 
+    %         & \makecell{} \\
+    % \end{tabular}
+\end{table}
+
+We note that our bijection is easily generalized:
+
+\begin{definition}
+    Let $Q_{k,j}$ be the POP of size $k$ where $i<j$ for all $i,j\in [k]$ where $i\neq j$,
+    as illustrated in Figure \ref{fig:Qkj}.
+    \begin{figure}[!htbp]
+        \centering
+        \tikzfig{./}{Qkj}
+        \caption{The POP $Q_{k,j}$, where $\{j,i_1,i_2,\dots,i_{k-1}\}=[k]$}
+        \label{fig:Qkj}
+    \end{figure}
+\end{definition}
+
+\begin{theorem}
+    There is a natural bijection between $Av_n(Q_{4,j})$ and $\mathcal{P}_{3n-3}$ for all $1\leq j\leq 4$.
+\end{theorem}
+
+\begin{proof}
+    Due to the symmetry of $Q_{k,j}$ and the fact that $Q_k=Q_{k,1}$,
+    it is not hard to see that $\pi\in Av_n(Q_{k})$
+    if and only if $\pi_j\, \pi_{[2,j-1]} \,\pi_1 \,\pi_{[j+1,n]}\in Av_n(Q_{k,j})$.
+    % 
+    We can then obtain a bijection from between $Av_n(Q_{4,j})$ and $\mathcal{P}_{3n-3}$ 
+    for all $1\leq j\leq 4$
+    by composing $\theta$ from Theorem \ref{thm:avQ4-bij}
+    with the bijection $\pi \mapsto \pi_j \,\pi_{[2,j-1]}\, \pi_1 \,\pi_{[j+1,n]}$.
+\end{proof}
+
+% \newpage
+% \section{Skew-sum decomposable permutations}
+% This is a separate observation that might prove useful in future: \\
+
+% Let $Q_k=q_1 q_2\dots q_k$ be the POP where $q_1>q_i$ for $i=2,3,\dots,k$ . 
+% Then the number of skew-sum decomposable $n$-permutations avoiding $Q_k$ for $k\geq 3$ is 
+% \[\sum_{i=1}^{k-2}Av_{n-i}(Q_{k-i})i!\]
+% \begin{proof}
+%     A permutation $\pi=21[\alpha_1,\alpha_2]$ avoids $Q_k$ if and only if 
+%     $1\leq \abs{\alpha_2}=:i\leq k-2$, and $\alpha_1\in Av_{n-i}(Q_{k-i})$.
+% \end{proof}
+
+% \begin{corollary}
+%     The number of skew-sum decomposable $n$-permutations avoiding $Q_k$ for $k\geq 3$ is 
+%     \[(k-1)!(k-1)^{n-(k-1)}-\left(\sum_{i=1}^{k-2}Av_{n-i}(Q_{k-i})i!\right)\]
+% \end{corollary}
+% \begin{proof}
+%     This is immediate from Theorem 2 in Gao-Kitaev's 2019 paper.
+% \end{proof}
+\end{document}

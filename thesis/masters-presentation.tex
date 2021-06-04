@@ -1,0 +1,894 @@
+\documentclass[xcolor=table]{beamer}
+
+\usepackage[sorting=ynt,block=ragged,backend=bibtex8]{biblatex}
+\addbibresource{references.bib}
+
+% Colorful tables
+\usepackage{multirow} 
+
+\usepackage{csquotes}
+% For posets
+\usepackage{tikzit}
+\input{node.tikzstyles}
+
+% For multiline tables
+\usepackage{fourier} 
+\usepackage{array}
+\usepackage{makecell}
+\renewcommand\theadalign{bc}
+\renewcommand\theadfont{\bfseries}
+\renewcommand\theadgape{\Gape[4pt]}
+\renewcommand\cellgape{\Gape[4pt]}
+
+% Content 
+\usepackage{ulem} % Underlining for emphasis
+\usepackage{hyperref} % Hyperlinks
+\usepackage{mathtools}
+\usepackage{amsthm} % For proof env and others
+\usepackage{amssymb} % \varnothing
+\usepackage{enumerate} % Allows for enumerate tagging shortut
+
+% Math mode strikeout
+\usepackage{xcolor,cancel}
+\newcommand\hcancel[2][black]{\setbox0=\hbox{$#2$}%
+\rlap{\raisebox{.45\ht0}{\textcolor{#1}{\rule{\wd0}{1pt}}}}#2} 
+
+% For declaring large plus signs
+\DeclareMathOperator*{\Plus}{\scalerel*{\color{gray} +}{\textstyle\sum}}
+\DeclareMathOperator*{\Bullet}{\scalerel*{\bullet}{\textstyle\sum}}
+
+\newcommand{\inv}{{^{-1}}} % Inverse
+\newcommand{\id}{\text{Id}}
+\newcommand{\ds}{\displaystyle}
+\newcommand{\Z}{{\mathbb Z}}
+\newcommand{\N}{{\mathbb N}}
+\newcommand{\bc}[1]{{\quad \text{(#1)}}} 	% Justification in math env
+\newcommand{\abs}[1]{{\left |#1\right |}}  % Abs value / Cardinality
+\newcommand{\ontop}[2]{\stackrel{\mathclap{\normalfont\mbox{#2}}}{#1}} % Text above equations
+\newcommand{\circled}[1]{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt} {#1}}}} % Custom circled symbols
+\newcommand{\udots}{\reflectbox{$\ddots$}}  
+\newcommand{\defterm}[1]{\textcolor{orange}{#1}}
+% Markers 
+% \theoremstyle{plain} %  sets the text in italic and adds extra space above and below
+% \newtheorem{theorem}{Theorem}[section]
+% \newtheorem{lemma}[theorem]{Lemma}
+% \newtheorem{corollary}{Corollary}[theorem]
+\newtheorem{prop}{Proposition}[section]
+
+% \theoremstyle{definition} % adds extra space above and below, but sets the text in roman
+% \newtheorem{definition}{Definition}[section]
+% \newtheorem{notation}{Notation}[section]
+% \newtheorem{conjecture}{Conjecture}
+% \newcommand{\labelenumi}{\bf \alph{enumi}.} % enumerate uses a., b., c., ...
+
+% \theoremstyle{remark} % set in roman, with no additional space above or below
+% \newtheorem{remark}{Remark}
+% \newtheorem{observation}{Observation}
+% \renewtheorem{example}{Example}[section]
+
+% Stack Exchange - How can I position an image in an arbitrary position in beamer?
+\tikzset{
+  every overlay node/.style={
+    draw=white,fill=white,anchor=north west,
+  },
+}
+% Usage:
+% \tikzoverlay at (-1cm,-5cm) {content};
+% or
+% \tikzoverlay[text width=5cm] at (-1cm,-5cm) {content};
+\def\tikzoverlay{%
+   \tikz[baseline,overlay]\node[every overlay node]
+}%
+
+% There are many different themes available for Beamer. A comprehensive
+% list with examples is given here:
+% http://deic.uab.es/~iblanes/beamer_gallery/index_by_theme.html
+% You can uncomment the themes below if you would like to use a different
+% one:
+% \usetheme{AnnArbor}
+% \usetheme{Antibes}
+% \usetheme{Bergen}
+% \usetheme{Berkeley}
+% \usetheme{Berlin}
+% \usetheme{Boadilla} 
+% \usetheme{boxes} % Option 2
+% \usetheme{CambridgeUS} % Option 3
+% \usetheme{Copenhagen}
+% \usetheme{Darmstadt}
+% \usetheme{default}
+% \usetheme{Frankfurt}
+\usetheme{Goettingen} % Option 4
+% \usetheme{Hannover} % Option 5
+% \usetheme{Ilmenau}
+% \usetheme{JuanLesPins}
+% \usetheme{Luebeck}
+% \usetheme{Madrid}
+% \usetheme{Malmoe}
+% \usetheme{Marburg} % Option 6
+% \usetheme{Montpellier} % Option 7
+% \usetheme{PaloAlto}
+% \usetheme{Pittsburgh}
+% \usetheme{Rochester}
+% \usetheme{Singapore}
+% \usetheme{Szeged}
+% \usetheme{Warsaw}
+
+\usepackage[english]{babel}
+\usepackage{bbm}
+\usepackage{graphicx}
+\usepackage{pgfplots}
+\setbeamertemplate{footline}[frame number] % Number the slides
+
+\pgfplotsset{compat=1.12}
+\usetikzlibrary{patterns}
+
+\title{Bijections from the Avoidance Sets of Partially Ordered Patterns}
+
+\subtitle{Masters Thesis Project}
+
+\author{Keshia Yap}
+% \small{Advisors: David Wehlau \& Imed Zaguia}
+\institute[Queen's University] % (optional, but mostly needed)
+{
+{\normalsize Queen's University}\\
+}
+
+\date{September 22, 2020}
+
+\subject{Combinatorics}
+% This is only inserted into the PDF information catalog. Can be left
+% out. 
+
+\pgfdeclareimage[height=2cm]{university-logo}{QueensLogo-colour.jpg}
+ \logo{\pgfuseimage{university-logo}}
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSubsection[]
+{
+  \begin{frame}<beamer>{Outline}
+    \tableofcontents[currentsection,currentsubsection]
+  \end{frame}
+}
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Outline}
+  \tableofcontents [pausesections]
+  % You might wish to add the option [pausesections]
+\end{frame}
+
+% Section and subsections will appear in the presentation overview
+% and table of contents.
+\section{Introduction}
+
+\subsection{What is a pattern?}
+    
+\begin{frame}{What is a pattern?}
+    \begin{example}
+        \begin{figure}
+            \only<1>{\tikzfig{./}{5463721}}
+            \only<2>{\tikzfig{./}{red5463721}}
+            \only<3->{\tikzfig{./}{red(572)}}
+            \caption{Graph of the permutation 5463721}
+        \end{figure}
+        The permutation 5463721 has the subsequence \textcolor{red}{572},
+        which \textit{reduces} to \textcolor{red}{$231$}
+        Write red$(572)=231$ and
+        say that 5463721 \textit{contains} the pattern 231.
+    \end{example}
+\end{frame}
+
+\begin{frame}{Pattern Reduction
+    \tikzoverlay[text width=0.01cm] at (4.15cm,2cm) {
+    \begin{figure}
+        \scalebox{0.6}{\tikzfig{./}{red5463721}}
+    \end{figure} 
+    };
+    }
+    \begin{definition}
+        Let $\pi$ be a permutation on $[n]:=\{1,\,2,\,\dots,\,n\}$
+        and $1\leq i_1<i_2<\cdots <i_k\leq n$.
+        We define the \defterm{reduction} of 
+        the subsequence $\pi_{i_1}\,\pi_{i_2}\,\cdots\,\pi_{i_k}$.
+        as the $k$-permutation \textit{order-isomorphic} to it,
+        and denote it as \defterm{red$(\pi_{i_1}\,\pi_{i_2}\,\cdots\,\pi_{i_k})$}.\\\vspace{1cm}
+
+        That is, $\text{red}(\pi_{i_1}\pi_{i_2}\,\cdots\,\pi_{i_k}) = \sigma_1\sigma_2\cdots \sigma_k$ 
+        if and only if \[ \pi_{i_s}<\pi_{i_t} \iff \sigma_{s}<\sigma_{t}.\]
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Pattern Containment and Avoidance
+    \tikzoverlay[text width=0.01cm] at (0.5cm,2cm) {
+    \begin{figure}
+        \scalebox{0.6}{\tikzfig{./}{red5463721}}
+    \end{figure} 
+    };
+    }
+    \begin{definition} % [Containment and avoidance of patterns]
+        A \defterm{pattern} is a permutation of length at least 2.
+    \end{definition}
+    \pause
+    \begin{definition}
+        We say that a permutation $\pi$ \defterm{contains} a pattern $p$ if and only if 
+        there is a subsequence $\pi_{i_1}\pi_{i_2}\,\cdots\,\pi_{i_k}$ of $\pi$ 
+        % where red$(\pi_{i_1}\pi_{i_2}\,\cdots\,\pi_{i_k})=p$. 
+        where \[\text{red}(\pi_{i_1}\pi_{i_2}\,\cdots\,\pi_{i_k})=p.\]
+        That is, $p_j<p_\ell$ if and only if $\pi_{i_j}<\pi_{i_\ell}$.\\
+        Otherwise, we say that $\pi$ \defterm{avoids} $p$.
+    \end{definition}
+    \pause
+    \begin{example}
+        \begin{itemize}
+            \item 5463721 contains 231
+            \item 1324 avoids 231
+        \end{itemize}
+    \end{example}
+\end{frame}
+
+\begin{frame}{Pattern Containment and Avoidance
+    \tikzoverlay[text width=0.01cm] at (0.5cm,2cm) {
+    \begin{figure}
+        \scalebox{0.6}{\tikzfig{./}{red5463721}}
+    \end{figure} 
+    };
+    }
+    \begin{definition}
+        Let $p$ be a pattern. Define
+        \begin{itemize}
+            \item $Av(p)$ 
+            $:=$ \defterm{avoidance set} of $p$\\
+            $:=$ the set of all permutations that avoid $p$
+            \item $Av_n(p):=Av(p)\cap S_n$
+        \end{itemize}\vspace{1cm}
+        \pause 
+        Let $P$ be a set of patterns. Define
+        \begin{itemize}
+            \item $Av(P):=\bigcap_{p\in P} Av(p)$
+            \item $Av_n(P):=Av(P)\cap S_n$
+        \end{itemize}
+    \end{definition}
+\end{frame}
+
+\subsection{POPs}
+
+\begin{frame}{Partially Ordered Patterns (POPs)}
+    Sometimes, the order between certain elements in a pattern may not be important.
+    We are left with a \textit{partially ordered pattern}, which we call a POP:
+    \begin{figure}
+        \only<1>{\tikzfig{./}{231}}
+        \only<2>{\tikzfig{./}{red231}}
+        \only<3>{\tikzfig{./}{121}}
+        \only<5->{\tikzfig{./}{231p}}
+        \only<4->{\tikzfig{./}{121-POP}}
+        \only<5->{\tikzfig{./}{132}}
+        \caption{Graph of the pattern 231 and a POP generalization of 231}
+    \end{figure}
+    \only<6>{
+    \begin{definition} 
+        A \defterm{partially ordered pattern} (POP) of size $k$ is a partially ordered set (poset)
+        with $k$ elements labelled $1,\,2,\,\dots,\,k$. \\
+    \end{definition}}
+\end{frame}
+    
+\begin{frame}{POP Containment/Avoidance}
+    \begin{definition}
+        An $n$-permutation $\pi$ \defterm{contains} a POP $P$ if and only if 
+        $\pi$ has a subsequence $\pi_{i_1}\pi_{i_2}\cdots \pi_{i_k}$,
+        % where $1\leq i_1<i_2<\cdots <i_k\leq n$ 
+        such that $\pi_{i_j} < \pi_{i_m}$ if $j<m$ in the poset $P$. \\
+        Otherwise, we say that $\pi$ \defterm{avoids} $P$.
+    \end{definition}
+
+    \begin{example}
+        The permutation \textcolor<2>{red}{34}7\textcolor<2>{red}{26}15 contains \tikzfig{./}{example} while 132456 avoids it.
+    \end{example}
+\end{frame}
+
+\begin{frame}
+    POPs generalize classical patterns.
+    \begin{example}
+        The pattern 3241 represented as a POP is the 4-element chain with its elements labelled 1, 2, 3 and 4, where $4<2<1<3$.
+    \end{example}
+    \begin{figure}
+        \tikzfig{./}{3241}
+        \caption{The POP representation of the pattern 3241}
+    \end{figure}
+    Note that the permutation 4213 is the inverse of 3241.
+\end{frame}
+
+% \begin{frame}
+% \begin{example}
+%     The POP {\tikzfig{./}{example}} is of length 4 with $1>3$ and\\
+%     represents the patterns 2314, 2413, 3124, 3421, 3214, 3412, 4213, 4312, 4123, 4321, 4132, 4231.\\
+% \end{example}
+% \end{frame}
+
+\subsection{Simple Permutations}
+
+\begin{frame}{Intervals and Factors}
+    \begin{definition}
+        For an $n$-permutation $\pi$ and any $1\leq i\leq j\leq n$,
+        the contiguous substring $\pi_i\pi_{i+1}\,\cdots\,\pi_j$ 
+        is called a \defterm{factor} of $\pi$.
+        Let \[\pi_{[i,j]}:=\pi_i\pi_{i+1}\,\cdots\,\pi_j.\]
+        % Denote $\pi_i\pi_{i+1}\,\cdots\,\pi_j$ as \defterm{$\pi_{[i,j]}$}.
+        Note that if $i=j$, then $\pi_{[i,j]}=\pi_i$.
+    \end{definition}
+    
+    \begin{definition}
+        For an $n$-permutation $\pi$, we say that $\pi_{[i,j]}$ 
+        is an \defterm{interval} if and only if it contains exactly the numbers in a contiguous interval.
+        That is, if and only if 
+        \[\{\pi_\ell\mid \ell\in [i,j]\} = [s,t]\] for some $s,t\in [n]$.
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Inflations}
+    \begin{definition}
+        Let $\sigma$ be a $k$-permutation and let $i_1, \, i_2,\, \dots,\, i_k$ be positive integers 
+        whose sum is $n$.
+        % where $i_1+i_2+\cdots i_k=n$.
+        For $\ell\in [k]$, let $\alpha^{(\ell)}$ be an $i_\ell$-permutation.
+        % of length $i_\ell$.
+        We define the \defterm{inflation} of $\sigma$ by $\alpha^{(1)}, \,\alpha^{(2)},\,\dots,\, \alpha^{(k)}$
+        (denoted $\defterm{\sigma[\alpha^{(1)},\, \alpha^{(2)},\,\dots, \,\alpha^{(k)}]}$)
+        as the $n$-permutation $\pi$,
+        % \[\pi=\defterm{\sigma[\alpha^{(1)}, \alpha^{(2)},\dots, \alpha^{(k)}]}\]
+        where the following holds:\\\vspace{0.5cm}
+        Given $s_0:=0$ and $s_\ell := i_1+i_2+\cdots i_\ell$ for $\ell\in [k]$,
+        \begin{enumerate}[1.]
+            \item the factors $\pi_{[s_{\ell-1}+1,\, s_{\ell}]}$ are intervals;
+            \item $\text{red}(\pi_{[s_{\ell-1}+1,\, s_{\ell}]}) = \alpha^{(\ell)}$;
+            \item $\pi_{s_t}<\pi_{s_u} \iff \sigma_t < \sigma_u$.
+        \end{enumerate}
+        \vspace{0.5cm}
+        We call $\sigma$ a \defterm{quotient} of $\pi$.
+        % and $\pi$ a \defterm{deflation} of $\sigma[\alpha^{(1)}, \,\alpha^{(2)},\,\dots,\, \alpha^{(k)}]$.
+    \end{definition}
+\end{frame}
+
+\begin{frame}{Inflations - Example}
+    % \begin{example}
+        \begin{align*}
+            \only<4>{
+                \textcolor{orange}{\text{qu}}&\textcolor{orange}{\text{otient}}\\
+                }
+            \textcolor<2->{red}{8697}\textcolor<2->{blue}{41352}
+            \only<3->{
+                =&\textcolor<4>{orange}{21}[\textcolor{red}{3142},\textcolor{blue}{41352}]
+                % =&\underbrace{
+                %     \hbox{
+                %         \textcolor{orange}{21}[\textcolor{red}{3142},\textcolor{blue}{41352}]
+                %     }
+                % }_{\hbox{inflation}
+                % }
+            }
+            % \underbrace{\hbox{869741352}}_{\hbox{deflation}}
+            % &\underbrace{\hbox{\textcolor{orange}{3142}[12, 12, 312, 1]}}_{\hbox{inflation}} = \underbrace{\hbox{45128673}}_{\hbox{deflation}}
+        \end{align*}
+        
+        \begin{figure}
+            \only<1>{\tikzfig{./}{869741352}}
+            \only<2->{\tikzfig{./}{869741352p}}
+            \caption{Graph of the permutation 869741352}
+        \end{figure}
+    % \end{example}
+\end{frame}
+
+
+% \begin{frame}{Inflations}
+%     \begin{example}
+%         \begin{align*}
+%             \textcolor{orange}{\text{qu}}&\textcolor{orange}{\text{otient}}\\
+%             &\underbrace{\hbox{\textcolor{orange}{21}[3142,41352]}}_{\hbox{inflation}} = 
+%             \underbrace{\hbox{869741352}}_{\hbox{deflation}}
+%             % &\underbrace{\hbox{\textcolor{orange}{3142}[12, 12, 312, 1]}}_{\hbox{inflation}} = \underbrace{\hbox{45128673}}_{\hbox{deflation}}
+%         \end{align*}
+%     \end{example}
+%     \begin{figure}
+%         \tikzfig{./}{869741352p}
+%     \end{figure}
+% \end{frame}
+
+\begin{frame}{Inflations}
+    Sometimes, there is more than one way to express a permutation as an inflation.\\\vspace{1cm}
+    % \pause
+    \begin{example}
+        \begin{align*}
+            34215
+            &= 12[3421,1]\\
+            &= 213[12,21,1]
+        \end{align*}
+    \end{example}
+    \pause
+    We seek a unique representation of permutations as inflations.
+    % \begin{example}
+    %     \begin{align*}
+    %         657341289 
+    %         % &= 12[6573412, 12]\\
+    %         &= 213[43512,12, 12]\\
+    %         &= 2314[21, 1, 21[12, 12], 12]
+    %     \end{align*}
+    %     \pause
+    %     \begin{figure}
+    %         \includegraphics[scale=0.5]{figures/tree.jpg}
+    %         \caption{The substitution decomposition tree corresponding to the permutation 657341289.\cite{kitaev-textbook}}
+    %     \end{figure}
+    % \end{example}
+\end{frame}
+
+
+\begin{frame}{Simple Permutations}
+    \begin{definition}
+        An $n$-permutation is \defterm{simple} if and only if 
+        its intervals are all of length 0, 1 or $n$.
+    \end{definition}\vspace{1cm}
+    \pause
+    \begin{example}
+        \begin{itemize}
+            \item 2413
+            \item 3142
+            \item 524613
+            % \item 68513742
+            % \item 11 8 6 3 7 5 9 1 10 12 4 2
+        \end{itemize}
+    \end{example}
+\end{frame}
+
+\begin{frame}{Simple Permutations}
+    \begin{prop}[Albert and Atkinson \cite{albert-atkinson}]
+        Every permutation may be written as the inflation of a unique simple permutation. 
+        Moreover, if $\pi$ can be written as $\sigma[\alpha^{(1)}, \alpha^{(2)}, \dots, \alpha^{(m)}]$ 
+        where $\sigma$ is simple and $m\geq 4$, 
+        then the $\alpha^{(i)}$s are unique.
+    \end{prop}\vspace{1cm}
+    \pause
+    What about $m<4$?\\
+    Note that all 3-permutations are not simple.
+    So the only simple permutations of length less than 4 are 12 and 21.
+\end{frame}
+
+\begin{frame}{Sum/Skew Sum Decomposable Permutations}
+    \begin{definition}
+        \begin{itemize}
+            \item Inflation of 12: \defterm{sum decomposable} ($\alpha\oplus \beta:=12[\alpha,\beta]$) 
+            \item Inflation of 21: \defterm{skew sum decomposable} ($\alpha\ominus \beta:=21[\alpha,\beta]$) 
+        \end{itemize}
+    \end{definition}
+    \begin{figure}
+        \includegraphics[scale=0.5]{figures/SD-SSD.jpg}
+        \caption{Illustration of $14325 \oplus 4231 = 143259786$ and $14325\ominus 4231 = 587694231$ using permutation matrices.\cite{kitaev-textbook}}
+    \end{figure}
+\end{frame}
+    
+\begin{frame}{Sum/Skew Sum Decomposable Permutations}
+    \begin{definition}
+        \begin{itemize}
+            \item Not an inflation of 12: \defterm{sum indecomposable}
+            \item Not an inflation of 21: \defterm{skew sum indecomposable}
+        \end{itemize}
+    \end{definition}
+\end{frame}
+    
+\begin{frame}{Sum/Skew Sum Decomposable Permutations}
+    \begin{prop}[Albert and Atkinson \cite{albert-atkinson}]
+        If $\pi$ is an inflation of 12, 
+        say $\pi=12[\alpha,\beta]$,  
+        and $\alpha$ is sum indecomposable,
+        then both $\alpha$ and $\beta$ are unique. 
+        The same holds with 12 replaced by 21 and ``sum'' replaced by ``skew sum''.
+    \end{prop}
+\end{frame}
+    
+% \begin{frame}{Separable Permutations}
+%     \begin{definition}
+%         The \defterm{separable permutations} are those which can be obtained
+%     by repeatedly applying the $\oplus$ and $\ominus$ operations on the permutation 1.
+%     \end{definition}
+%     \begin{figure}
+%         \includegraphics[scale=0.45]{figures/separable.jpg}
+%         \caption{Decomposition of 143259786 using $\oplus$ and $\ominus$ operations.\cite{kitaev-textbook}}
+%     \end{figure}
+% \end{frame}
+
+% \begin{frame}{Separable Permutations}
+%     \begin{theorem}[\textit{folklore}]
+%         A permutation is separable if and only if it avoids 2413 and 3412.
+%     \end{theorem}
+%     \begin{corollary}
+%         Simple permutations of length at least 4 contain 2413 or 3142, or both.
+%     \end{corollary}
+% \end{frame}
+
+% \begin{frame}{Application of simple permutations to pattern/POP avoidance}
+%     \begin{theorem}[Albert and Atkinson \cite{albert-atkinson}]
+%         A permutation class with only finitely many simple permutations has a readily computable algebraic generating function. 
+%         Moreover, if a class with finitely many simple permutations avoids a decreasing permutation of some length n, then the class is enumerated by a rational generating function.
+%     \end{theorem}
+% \end{frame}
+
+\subsection{Research Motivation}
+
+\begin{frame}{Applications of POP/pattern avoidance \cite[see][]{kitaev-textbook}}
+    \begin{itemize}
+        \item Computer Science: 
+        \begin{itemize}
+            \item Sorting permutations with stacks or other devices
+            \item Planar maps and trees (graph theory)
+        \end{itemize}
+        \item Computational biology:
+        \begin{itemize}
+            \item Genome duplication-random loss model 
+        \end{itemize}
+        \item Statistical Mechanics
+        \begin{itemize}
+            \item Partially Asymmetric Simple Exclusion Process (PASEP)
+        \end{itemize}
+        \item Encoding combinatorial objects
+        \begin{itemize}
+            \item Schr\"oder permutations 
+            \item Catalan numbers
+            \item Dyck paths
+            \item Schubert varieties and Kazhdan-Lusztig polynomials
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Motivation}
+    ``The variety of different classical combinatorial objects related to a single pattern class hierarchy is rather striking. 
+    Both the permutation patterns theory and the other structures involved benefit from the connection'' 
+    - S. Kitaev \cite[see][p. 40]{kitaev-textbook}
+\end{frame}
+
+
+\begin{frame}{Literature}
+    Gao and Kitaev \cite{gao-kitaev-2019} enumerated the avoidance sets for POPs of size 4 and 5,
+    and observed that the sequence $(\abs{Av_n(P)})_{n\geq 1}$ already exists in The Online Encyclopedia of Integer Sequences (OEIS)
+    for some POPs $P$.\\
+    \vspace{0.3cm}
+    They listed 15 POPs whose avoidance sets are enumerated by the same sequence as certain combinatorial objects.\\
+    I studied 5 pairs and constructed explicit bijections.\\
+    \vspace{0.3cm}
+    
+    \begin{center}
+        \tiny \tikzfig{./}{Av13} \hspace{1cm} \tiny\tikzfig{./}{Av5} \\\vspace{0.5cm}
+        \tiny\tikzfig{./}{tinyAv1} \hspace{1cm} \tikzfig{./}{P4} \hspace{1cm} \tikzfig{./}{R4} 
+    \end{center}
+\end{frame}
+
+\begin{frame}{Main Question}
+    \begin{table}
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+                \# & \thead{Permutations\\avoiding the POP} & \thead{Equinumerous structures} \\ \hline
+                1 & \makecell{\tikzfig{figures}{Av1}}  & \makecell{permutations \\avoiding the patterns \\ 2413, 2431, 4213, 3412, \\ 3421, 4231, 4321, 4312} \\
+                2 & \makecell{\tikzfig{figures}{Av5}}  & \makecell{2-ary shrub forests\\of $n$ heaps avoiding\\the patterns 231, 312, 321}  \\
+                3 & \makecell{\tikzfig{figures}{Av13}} & \makecell{number of ground-state \\ 3-ball juggling sequences \\ of period $n$} \\
+            \hline
+        \end{tabular}
+        % \caption{List of objects for which interesting bijections were found \cite{gao-kitaev-2019}}
+    \end{table}
+\end{frame}
+
+\begin{frame}{Main Question}
+    \begin{table}
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            \# & \thead{Permutations\\avoiding the POP} & \thead{Equinumerous structures} \\ \hline
+            4 & \makecell{\tikzfig{figures}{Av9}}  & \makecell{levels in all \\compositions of $n+1$ \\with only 1's and 2's} \\
+            5 & \makecell{\tikzfig{figures}{Av10}} & \makecell{number of $n$-permutations \\ for which the partial sums \\of signed displacements \\ do not exceed 2}  \\
+            \hline
+        \end{tabular}
+        \caption{List of objects with interesting bijections found \cite{gao-kitaev-2019}}
+    \end{table}
+\end{frame}
+
+\section{Research}
+
+% \subsection{Case Study: POP \texorpdfstring{$\lambda$}{lambda}}
+\subsection{Bijections formed}
+\subsubsection{A case study}
+\begin{frame}{POP $\lambda$ - Sum indecomposables}
+    \begin{theorem}
+        Let 
+        $P:=\{2413, 2431, 4213, 3412, 3421, 4231, 4321, 4312\}$
+        and $\lambda: = \tiny\tikzfig{./}{tinyAv1} $.
+        Let $I_k$ be the identity permutation $1\, 2\, \cdots \, k$ for all $k$.
+        % Then $\abs{Av_n(\lambda)} = \abs{Av_n(P)}$ for all $n$
+        Then the map
+        \begin{align*}
+            1&\mapsto 1\\
+            \textcolor<2>{red}{21}\textcolor<3>{orange}{[I_{n-1},1]} &\mapsto \textcolor<2>{red}{21}\textcolor<3>{orange}{[1,I_{n-1}]}\\
+            % 21[12\cdots (n-3)(n-1)(n-2),1] &\mapsto 21[1, 12\cdots (n-3)(n-1)(n-2)]\\
+            \textcolor<2>{red}{231}\textcolor<3>{orange}{[I_{n-3},21,1]} &\mapsto \textcolor<2>{red}{312}\textcolor<3>{orange}{[1, I_{n-3},21]}\\
+            \textcolor<2>{red}{21}\textcolor<3>{orange}{[I_{n-2},21]} &\mapsto \textcolor<2>{red}{231}\textcolor<3>{orange}{[21,I_{n-3},1]}\\
+            % 21[12\cdots \ell (\ell+2)\cdots (n-2)(\ell+1)]&=\\
+            % =21[132[I_{\ell},I_{n-\ell-2},1],1] &=\\
+            \textcolor<2>{red}{2431}\textcolor<3>{orange}{[I_{\ell},I_{n-\ell-2},1,1]} &\mapsto \textcolor<2>{red}{41352}\textcolor<3>{orange}{[1,I_{\ell}, 1, I_{n-\ell-3},1]} \text{for all }\ell \in [n-4]\\
+            \textcolor<2>{red}{2413}\textcolor<3>{orange}{[I_{\ell},I_{n-\ell-2},1,1]} &\mapsto \textcolor<2>{red}{3142}\textcolor<3>{orange}{[1,I_{\ell}, I_{n-\ell-2},1]} \text{for all } \ell\in [n-3]
+        \end{align*}
+        is a bijection from the \textbf{sum indecomposable} permutations in $Av_n(\lambda)$ to the \textbf{sum indecomposable} permutations in $Av_n{(P)}$.
+    \end{theorem}
+    \only<4>{}
+\end{frame}
+
+\begin{frame}{POP $\lambda$ - Sum decomposables}
+    Let $g_n$ be the map on sum indecomposable $n$-permutations as defined in the previous slide for all $n$.
+    Define the recursive function 
+    \begin{align*}
+        f_n(\pi) = 
+        \begin{cases}
+            g_n(\pi)&\text{if }\pi\text{ is sum indecomposable}\\
+            12[f_n(\alpha), f_n(\beta)] &\text{if }\pi=12[\alpha,\beta]
+        \end{cases}
+    \end{align*}
+    Then for $n\geq 1$, $f_n$ is a bijection from $Av_n(\lambda)$ to $Av_n{(P)}$.
+\end{frame}
+
+\subsubsection{Others}
+
+\begin{frame}{Juggling Sequences
+    \tikzoverlay[text width=3cm] at (2.5cm,1cm) {
+    \begin{figure}
+        \includegraphics[scale=0.12]{figures/juggling}
+    \end{figure} 
+    };
+    \footnote{\tiny{Juggle Clipart Black And White \#23791505 [JPG]. Retrieved from https://www.clipart.email/download/23791505.html.}}
+    }
+    \begin{theorem}
+    Given positive integers $n$ and $b$,
+    let $\theta$ be the function defined on the set of ground state juggling sequences of period $n$ using $b$ balls
+    to the set $Av_n\left(\tiny\tikzfig{./}{tinyQb2}\right)$,\\
+    given by $\theta((t_1,t_2,\dots,t_n))=\pi$ 
+    where $\pi_{t_i+i-b}=i$ for all $i\in [n]$.\\
+    Then $\theta$ is a bijection.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{2-ary Shrub Forests
+    \tikzoverlay[text width=0.1cm] at (2cm,0.5cm) {\tiny\tikzfig{./}{shrub}};}
+    \begin{theorem}
+    Define $\mathcal{P}_{3n}$ as the set of \defterm{2-ary shrub forests of $n$ heaps} avoiding the patterns 231, 312 and 321.
+    The function $\theta: Av_n(Q_4)\rightarrow \mathcal{P}_{3n-3}$ given by 
+    \begin{align*}
+        \theta(12)&=123, \quad \theta(21)=132, \quad \text{and for }\abs{\pi}=n\geq 3,\\
+        % \theta\left(\pi_{[1,n-1]}\,n\right ) &= 1 \oplus 132 \oplus \theta\left(\pi_{[1,n-1]}\right)_{[2,3n]},\\
+        % \theta\left(\pi_{[1,n-2]}\,n\,\pi_n\right ) &= 1 \oplus 123 \oplus \theta\left(\pi_{[1,n-2]}\,n\,\pi_n\right )_{[2,3n]},\\
+        % \theta\left(\pi_{[1,n-3]}\,n\,\pi_{[n-1,n]}\right ) &= 1 \oplus 213 \oplus \theta\left(\pi_{[1,n-3}\,n\,\pi_{[n-1,n]} \right )_{[2,3n]}.
+        \theta(\pi) &= 
+        \begin{cases}
+            1 \oplus 132 \oplus \theta\left(\pi_{[1,n-1]}\right)_{[2,3n]}, &\text{if }\pi_n=n,\\
+            1 \oplus 123 \oplus \theta\left(\pi_{[1,n-2]}\,\pi_n\right )_{[2,3n]},&\text{if }\pi_{n-1}=n,\\
+            1 \oplus 213 \oplus \theta\left(\pi_{[1,n-3]}\,\pi_{[n-1,n]} \right )_{[2,3n]} &\text{if }\pi_{n-2}=n.
+        \end{cases}
+    \end{align*}
+    is a bijection.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{Compositions}
+    Denote \defterm{$\mathcal{C}_n$} as the \defterm{set of compositions of $n$ of ones and twos}.\\\vspace{1cm}
+    \begin{theorem}
+        Let $f:\mathcal{C}_n\rightarrow Av_n\left(\tiny\tikzfig{./}{P3}\right)$ 
+    defined as 
+    \[f(r_1+r_2+\cdots+r_k)=123\cdots k[\alpha_1,\alpha_2,\dots,\alpha_k]\]
+    where $r_1+r_2+\cdots+r_k$ is a composition of $n$ of ones and twos,
+    and 
+    \[\alpha_i=\begin{cases}
+        1&\text{if }r_i=1\\
+        21&\text{if }r_i=2
+    \end{cases}.\]
+    Then $f$ is a bijection.
+    \end{theorem}
+\end{frame}
+    
+\begin{frame}{Marked Compositions}
+    Denote the \defterm{set of marked compositions of $n$} by \defterm{$\mathcal{L}_n$}.
+    \begin{theorem}
+        Let $g:\mathcal{L}_{n+1} \rightarrow Av_n\left(\tiny\tikzfig{./}{P4}\right)$, where $n\geq 0$ and $r_i\in \{1,2,\overline{1},\overline{2}\}$ for $i\in [k]$ and $k\geq 1$
+        % \begin{align*}
+        %     1 &\mapsto 1\\
+        %     \overline{1+1} &\mapsto 21\\
+        %     r_1+r_2+\cdots+r_{k-1}+1 &\mapsto 12[1,g(r_1+\cdots +r_{k-1})]
+        % \end{align*}
+    \begin{align*}
+        &g(r_1+r_2+\cdots r_k)=\\
+        &=\begin{cases}
+            1&\text{ if } k=1,\,r_1=1,\\
+            21&\text{ if } k=2,\quad r_{1}=r_2=\overline{1},\\
+            12[1,g(r_1+\cdots +r_{k-1})]&\text{ if } r_k=1,\\
+            12[21,g(r_1+\cdots +r_{k-1})]&\text{ if } r_k=2,\\
+            21[f(r_1+\cdots +r_{k-2}),1]&\text{ if } r_{k-1}=r_k=\overline{1},\\
+            3142[1,1,f(r_1+\cdots +r_{k-2}),1]&\text{ if } r_{k-1}=r_k=\overline{2}.
+        \end{cases}
+    \end{align*}
+    Then $g$ is a bijection.
+    \end{theorem}
+\end{frame}
+
+\begin{frame}{Partial Sums of Signed Displacements}
+    \begin{theorem}
+        Let $\mathfrak{S}_n$ be the set of $n$-permutations for which the \textit{partial sums of signed displacements do not exceed 2}.\\
+        Then the map $\theta: Av_n\left(\tiny\tikzfig{./}{R4}\right)\rightarrow \mathfrak{S}_n$ given by 
+        \[\theta(\pi) = 
+        \begin{cases}
+            \pi                 &\text{ if }\abs{\pi}\in[4]\\
+            \beta \oplus 3142 &\text{ if }\pi=2413\oplus \beta \text{ for some permutation }\beta\\
+            \beta \oplus \alpha &\text{ if } \pi=\alpha\oplus\beta \text{ for some permutations }\alpha\text{ and }\beta, \\
+            &\text{ where }\alpha\neq 2413.
+        \end{cases}\] 
+        is a bijection.
+    \end{theorem}
+\end{frame}
+
+\subsection{Enumeration of simples avoiding 2413, 3412, 3421}
+
+\begin{frame}{Fibonacci Simples}
+    Unlike the previous POPs studied, this set of patterns are avoided by infinitely-many simple permutaitons.
+
+    \begin{theorem} 
+        Let $P$ be a pattern, a set of patterns, or a POP.
+        Denote $Av_n^S(P)$ as the set of simple $n$-permutations avoiding $P$.\\
+        \vspace{0.7cm}
+        For $n\geq 3$, 
+        $\abs{Av_n^S(2413,3412,3421)}=F(n-3)$,
+        where $F(0)=0$, $F(1)=1$ and $F(k)=F(k-1)+F(k-2)$ for $k\geq 2$.
+        % Moreover, $Av_n^S(2413,3412,3421)$ can be partitioned into the following sets:
+        % \begin{table}
+        %     \begin{tabular}{|c|cc|}
+        %         \hline
+        %         Set & \multicolumn{2}{c|}{Form of permutation} \\\hline
+        %         $A_n$ & $(n-1)\,1\,(n-2)\,\cdots\, n\,k$ & where $k\in [3,n-3]$ \\    
+        %         $B_n$ & $(n-1)\,(n-3)\,\cdots \,(n-2)\,n\,k$ & where $k\in [2,n-3]$ \\    
+        %         $C_n$ & $(n-1)\,1\,(n-3)\,\cdots \,(n-2)\,n\,k$ & where $k\in [3,n-3]$ \\\hline
+        %     \end{tabular}
+        %     \label{table:fib-summary}
+        %     \caption{Summary of the types of permutations in $Av_n^S(2413,3412,3421)$ for $n\geq 5$}
+        % \end{table}
+    \end{theorem} 
+\end{frame}
+
+\subsection{Future work}
+
+\begin{frame}{Future work - Fibonacci Simples}
+    Observation: $Av_n^S(2413,3412,3421)=Av_n^S(2413,3412,3421,\textcolor<2>{red}{2431})$ for $n\leq 25$.
+    I conjecture that the same holds for all $n$.\vspace{1cm}
+    
+    This observation leads us to an interesting question: \\
+    Which avoidance sets have the same set of simples?
+\end{frame}
+
+\begin{frame}{Future work - levels of compositions of ones and twos}
+Define $P_k$ to be the POP \tikzfig{./}{Pk}.
+I studied $P_3$ and $P_4$.
+\begin{enumerate}[1.]
+    \item Are there any combinatorial objects that have a natural bijective relationship with the avoidance set of $P_k$ for any $k\geq 5$?
+    \item Is there a POP whose avoidance set is in bijection with the levels in compositions of ones, twos and threes?
+    \item Are there any combinatorial objects that have a natural bijective relationship with the avoidance set 
+    of the POP with $k$ elements labelled $1,2,\dots,k$ where $1>3>5$,
+    or, more generally, with  $1>3>\cdots > 2i+1$ for some $i\geq 2$? 
+\end{enumerate}
+\end{frame}
+
+\begin{frame}{Future work - partial sums of signed displacements}
+Define $R_k$ to be the POP \tikzfig{./}{Rk}.\\
+I studied $R_4$.
+\begin{enumerate}
+    \item What is the size of $Av_n(R_k)$ for all $k\geq 6$, $n\geq 1$?
+    \item What is the size of $\mathfrak{S}_{k,n}$, which we define as the set of permutations whose partial sums of signed displacements do not exceed $k$, for all $k\geq 3$?
+    \item Are there other $k$ and $\ell$ such that $\abs{\mathfrak{S}_{k,n}}=\abs{Av_n(R_\ell)}$ for all $n\geq 1$?
+    % \item Gao and Kitaev \cite{gao-kitaev-2019} observed that sequence enumerating $Av_{n-1}(R_4)$
+    % corresponds to sequence \href{https://oeis.org/A232164}{A232164} as well for $n\geq 1$.
+    % The latter sequence counts the number of 
+    % Weyl group elements, not containing an $s_r$ factor, which contribute nonzero terms to Kostant's weight multiplicity formula when computing the multiplicity of the zero-weight in the adjoint representation for the Lie algebra of type $C$ and rank $n$.
+    % Using our analysis on the set $Av(R_4)$, can we construct a natural bijection between the two relevant sets?
+\end{enumerate}
+\end{frame}
+
+\section{Bibliography}
+\begin{frame}{Bibliography}
+    \printbibliography
+\end{frame}
+
+
+\appendix
+\section<presentation>*{\appendixname}
+
+\begin{frame}{POP $\lambda$}
+    Let $P=\{2413, 2431, 4213, 3412, 3421, 4231, 4321, 4312\}$
+    and $\lambda = \tiny\tikzfig{./}{tinyAv1} $.
+    Observation: $\abs{Av_n(\lambda)} = \abs{Av_n(P)}$ for all $n$. \\\vspace{1cm}
+    Step 1:
+    \begin{table}
+        \begin{tabular}{c|c}
+            \thead{Simple permutations\\avoiding $\lambda$} & \thead{Simple permutations\\avoiding $P$}\\ \hline 
+            12, 21, 2413 & 12, 21, 3142, 41352
+        \end{tabular}
+    \end{table}
+\end{frame}
+    
+\begin{frame}{POP $\lambda$: Step 2}
+    \begin{table}
+        \begin{tabular}{c|c}
+            \thead{Size} & \thead{Subset of $Av_n(\lambda)$} \\\hline
+            $n$   & Inflations of 21 \\
+            $n-3$ & Inflations of 2413 ($n\geq 4$)\\
+            $\sum_{i=1}^{n-1}(2i-3) \abs{Av_{n-i}(\lambda)}$ & Inflations of 12
+        \end{tabular}\vspace{1cm}
+        \begin{tabular}{c|c}
+            \thead{Size} & \thead{Subset of $Av_n(P)$} \\\hline
+            4     & Inflations of 21 \\
+            $n-4$ & Inflations of 41352 ($n\geq 4$)\\
+            $n-3$ & Inflations of 3142\\
+            $\sum_{i=1}^{n-1}(2i-3) \abs{Av_{n-i}(P)}$ & Inflations of 12
+        \end{tabular}
+    \end{table}
+    \begin{center}
+        $\abs{Av_n(\lambda)} = \sum_{i=1}^{n} \abs{Av_{n-i}(P)} = \abs{Av_n(P)}$ for all $n$. 
+    \end{center}
+\end{frame}
+
+\begin{frame}{POP $\lambda$: Step 3}
+    \begin{table}
+        \begin{tabular}{c|c}
+            \thead{Simple quotient} & \thead{Sum indecomposable\\permutations in $Av_n(\lambda)$} \\\hline
+            21   & \makecell{$21[I_{n-1},1],$\\$ 21[I_{n-2},21],$\\$ 231[I_{n-3},21,1],$\\$ 2431[I_{\ell},I_{n-\ell-2},1,1], \ell=2,3,\dots,n-1$} \\
+            2413 & $ 2413[I_{\ell},I_{n-\ell-2},1,1] $, $\ell\in [n-3]$  
+        \end{tabular}\vspace{0.5cm}
+        \begin{tabular}{c|c}
+            \thead{Simple quotient} & \thead{Sum indecomposable\\permutations in $Av_n(P)$} \\\hline
+            21     & \makecell{$21[1,I_{n-1}],$\\$312[1,I_{n-3},21]$}\\
+            41352  & $41352[1,I_\ell, 1,I_{n-\ell-3},1]$, $\ell\in [n-4]$\\
+            3142   & $3142[1,I_{\ell},I_{n-\ell-2},1]$, $\ell\in [n-3]$\\
+        \end{tabular}
+    \end{table}
+\end{frame}
+
+\begin{frame}{Levels in Compositions}
+    \begin{definition}
+        Denote \defterm{$\mathcal{C}_n$} as the \defterm{set of compositions of $n$ of ones and twos}.\\\vspace{1cm}
+        % 
+        A \defterm{level} in a composition of $n$ of ones and twos is a pair of consecutive ones or twos separated by a $+$ sign.
+        I define a \defterm{marked composition} of $n$ to be a composition of $n$ 
+        with exactly one level marked by adding a line above the pair of ones or twos. 
+        I may denote a single summand that is part of a level by including a line above it,
+        i.e. $\overline{1}+\overline{1}=\overline{1+1}$ and $\overline{2}+\overline{2}=\overline{2+2}$.\\\vspace{1cm}
+        % 
+        Denote the \defterm{set of marked compositions of $n$} by \defterm{$\mathcal{L}_n$}.
+    \end{definition}
+\end{frame}
+
+
+\begin{frame}{Juggling Sequences}
+    \begin{table}
+        \centering
+        \begin{tabular}{|c|c|c|}
+            \hline
+            \thead{State\\period, \# balls\\$J(n,b)$} & \thead{Juggling\\Sequence\\$T=(t_1,\dots,t_n)$} & \thead{$\pi\in Av_n(Q_{b+2})$\\$\pi_{t_i+i-b} = i$} \\\hline
+            \makecell{$\sigma=(1,0)$\\$n=2$, $b=1$\\$J(n,b)=2$}      & \makecell{(1,1)\\(2,0)}  & \makecell{$12\inv=12$\\$21\inv=21$} \\
+            \makecell{$\sigma=(1,0,0)$\\$n=3$, $b=1$\\$J(n,b)=4$}    & \makecell{(1,1,1)\\(3,0,0)\\(2,0,1)\\(1,2,0)} & \makecell{$123\inv=123$\\$312\inv=231$\\$213\inv=213$\\$132\inv=132$} \\
+            % \makecell{$\sigma=(1,0,0,0)$\\$n=4$, $b=1$\\$J(n,b)=8$}  & \makecell{(1,1,1,1)\\(3,0,0,1)\\(2,0,1,1)\\(1,2,0,1)\\(2,0,2,0)\\(4,0,0,0)\\(1,3,0,0)\\(1,1,2,0)} & \makecell{$1234\inv=1234$\\$3124\inv=2314$\\$2134\inv=2134$\\$1324\inv=1324$\\$2143\inv=2143$\\$4123\inv=2341$\\$1423\inv=1342$\\$1243\inv=1243$}\\
+            % \makecell{$\sigma=(1,1)$\\$n=2$, $b=2$\\$J(n,b)=2$}      & \makecell{(3,4)\\(4,3)} & \makecell{$12\inv=12$\\$21\inv=21$} \\
+            % \makecell{$\sigma=(1,1,0)$\\$n=3$, $b=2$\\$J(n,b)=6$}    & \makecell{$123\inv=123$\\$132\inv=132$\\$213\inv=213$\\$231\inv=312$\\$312\inv=231$\\$321\inv=321$} \\
+            \hline
+        \end{tabular}
+        \label{table:avQ-juggling}
+        \caption{Sample values for juggling sequences and their image under $\theta$ for small $n$ and $b$.}
+    \end{table}
+\end{frame}
+
+\begin{frame}{Juggling Sequences}
+    \begin{figure}
+        \includegraphics[scale=0.5]{figures/juggling-state.jpg}
+        \caption{The juggling sequence $(4,1,5,2)$ with its associated state $\sigma=\langle 1,1,0,1\rangle$. \cite{chung-graham}}
+    \end{figure}
+\end{frame}
+\end{document}

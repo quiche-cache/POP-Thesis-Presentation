@@ -1,0 +1,426 @@
+% !TEX root = ../../main.tex
+\documentclass[../main.tex]{subfiles}
+%
+\begin{document}
+Gao and Kitaev \cite{gao-kitaev-2019} observed that there the POP $\lambda$ of size 4 where $1>2$ and $1>4$ (illustrated in Figure \ref{fig:lambda})
+and the set of patterns \[\mathcal{P}=\{2413, 2431, 4213, 3412, 3421, 4231, 4321, 4312\}\] are Wilf-equivalent.
+This was done by proving the recursive equation \[\abs{Av_n(\lambda)} = 3\abs{Av_{n-1}(\lambda)}-2\abs{Av_{n-2}(\lambda)}+2\abs{Av_{n-3}(\lambda)},\] 
+which corresponds to the OEIS sequence \href{https://oeis.org/A111281}{A111281}.
+% We know that $\abs{Av_n(\lambda)} = \abs{Av_n(\mathcal{P})} = n!$ for $n<4$.
+% Theorems \ref{theorem:Av1(lambda)} and \ref{theorem:Av1(P)}
+In this chapter, we will give a new proof that $\lambda$ and $\mathcal{P}$ are Wilf-equivalent 
+as well as provide a new recursive formula for the OEIS sequence.
+We also analyse each avoidance set in detail and construct an explicit bijection between them.
+
+\begin{figure}[!htbp]
+    \centering
+    \tikzfig{./}{Av1}
+    \caption{The POP $\lambda$}
+    \label{fig:lambda}
+\end{figure}
+
+First, we show that both avoidance sets have only finitely many simple permutations.
+Using this fact, we analyse the possible inflations of these simple permutations in each avoidance set 
+and derive a method to construct each set recursively.
+A recursively-defined bijection on the two sets follows immediately from this analysis.\\
+
+In this chapter, we use the symbol $I_k$ to denote the identity permutation $1\, 2\, 3\, \cdots \, k$ for all $k\geq 1$.
+% That is, \[I_k:=1\, 2\, 3\, \cdots \, k.\] 
+
+\section{Structure of permutations avoiding \texorpdfstring{$\lambda$}{lambda}}
+
+\begin{lemma}\label{Av1(lambda):simple}
+    The only simple permutations that avoid $\lambda$ are 12, 21 and 2413. 
+\end{lemma}
+\begin{proof}
+    It is clear that 2413 and all simple permutations of length 3 or less avoid $\lambda$.
+    Consider the permutation matrix of a simple permutation $\pi$ with length at least $4$.
+    It must contain the pattern $312$ by Corollary \ref{cor:separable},
+    say $1\leq i<j<k\leq n$ where $\text{red}(\pi_i \pi_j \pi_k)=312$.
+    We can then consider the lattice matrix $L_{312}(\pi)$ which is illustrated in Figure \ref{fig:lattice}.
+    It suffices to prove that $\alpha_{31}$ has weight 1, 
+    while the other blocks are trivial.\\
+
+    Upon inspection, it is clear that
+    if any of $\alpha_{11},\,\alpha_{13}$ or $\alpha_{ij}$, where $i,\, j\in [2,4]$, were not trivial,
+    then the permutation would contain $\lambda$. 
+    For the reader's convenience, 
+    we reproduce the figure with those $\alpha_{ij}$'s omitted in Figure \ref{fig:Av1(lambda)}. 
+    We now proceed to show that the remaining blocks, 
+    except for $\alpha_{31}$, are trivial:
+
+    \begin{figure}[!htbp]
+        \begin{center}
+            \begin{tabular}{ccccccc}
+                              &   \Big |  & $\alpha_{12}$ &   \Big |  &          &   \Big |  & $\alpha_{14}$\\
+                --------      &     3     &    --------   & $\Plus$   & -------- & $\Plus$   & --------\\
+                $\alpha_{21}$ &   \Big |  &               &   \Big |  &          &   \Big |  & \\
+                --------      & $\Plus$   &    --------   & $\Plus$   & -------- &      2    & --------\\
+                $\alpha_{31}$ &   \Big |  &               &   \Big |  &          &   \Big |  & \\
+                --------      & $\Plus$   &    --------   &      1    & -------- & $\Plus$   & --------\\
+                $\alpha_{41}$ &   \Big |  &               &   \Big |  &          &   \Big |  & \\
+            \end{tabular}
+            \caption{The lattice matrix $L_{312}(\pi)$, with some blocks omitted. The omitted blocks must be trivial for $\pi$ to avoid $\lambda$.}
+            \label{fig:Av1(lambda)}
+        \end{center}
+    \end{figure}
+
+    \begin{enumerate}[(a)]
+        \item Suppose $\alpha_{41}$ is not trivial.
+        It cannot be leftmost, 
+        since otherwise the permutation would be sum decomposable.
+        However, if $\alpha_{21}$ or $\alpha_{31}$ contains a point 
+        east of a point in $\alpha_{41}$,
+        then $\pi$ would contain $\lambda$
+        (consider the 1 in $\alpha_{21}$ or $\alpha_{31}$, together with the 1 in $\alpha_{41}$ and the points labelled 3 and 1).
+        % (consider a submatrix containing $\alpha_{21}\alpha_{41}31$ or $\alpha_{31}\alpha_{41}31$).
+        So $\alpha_{41}$ is trivial.
+        
+        \item Suppose $\alpha_{21}$ is not trivial.
+        Since it is adjacent to the block labelled 3,
+        it cannot be rightmost in its column by simpleness.
+        However, if $\alpha_{31}$ contains a point 
+        east of a point of $ \alpha_{21}$,
+        then $\pi$ would contain $\lambda$
+        (consider the 1s in $\alpha_{21}\alpha_{31}$, together with the points labelled 3 and 1).
+        So $\alpha_{21}$ is trivial.
+        
+        \item Suppose $\alpha_{14}$ is not trivial.
+        If $\alpha_{14}$ is superior to $\alpha_{12}$, 
+        then the permutation would be sum decomposable.
+        So $\alpha_{12}$ must contain a nontrivial row superior to 
+        a nontrivial row of $ \alpha_{12}$.
+        However, $\pi$ would contain then $\lambda$ 
+        (consider the 1s in $\alpha_{12}\alpha_{14}$, together with the points labelled 1 and 2).
+        % (consider a submatrix containing $\alpha_{12}12\alpha_{14}$).
+        So $\alpha_{14}$ is trivial.
+        
+        \item Observe that $\alpha_{12}$ is adjacent to the block labelled 3.
+        Since the blocks in the same row or column as $\alpha_{12}$ are trivial, 
+        $\alpha_{12}$ must also be trivial.
+    \end{enumerate}
+    
+    Finally, since all the blocks in the same row or column as $\alpha_{31}$ are trivial, 
+    $\alpha_{31}$ can have weight at most 1 by simpleness.
+    We have thus eliminated the possibility of there being a simple permutation of length at least 4 avoiding $\lambda$ that is not 2413, 
+    so our list is exhaustive.
+\end{proof}
+
+\begin{lemma}\label{Av1(lambda):21}
+    For $n\geq 4$, there are $n$ skew sum decomposable permutations in $Av_n(\lambda)$,
+    namely $21[I_{n-1},12]$, $21[I_{n-2},21]$ and 
+    $2431[I_{\ell},\, I_{n-\ell-2},\, 1,\, 1]$ where $\ell\in [2,n-1]$.
+\end{lemma}
+    
+\begin{proof}
+    Let $\pi=21[\alpha,\beta]$ be an $n$-permutation avoiding $\lambda$. 
+    It is not hard to see that if $\abs{\beta}\geq 3$, then $\pi$ contains $\lambda$.
+    So $\abs{\beta}=1$ or 2: 
+    \begin{enumerate}[1)]
+        \item Suppose $\abs{\beta}=2$. If $\alpha$ contains a descent, 
+        then the elements that make up the descent, 
+        together with $\beta$ make up $\lambda$.
+        So $\alpha$ must be an increasing sequence,
+        and indeed both  
+        $21[I_{n-1},12]$ and $21[I_{n-2},21]$ avoid $\lambda$.
+        \item Suppose $\abs{\beta}=1$. Then $\pi$ avoids $\lambda$ if and only if $\alpha  $ avoids the POP of size 3 where $1 > 2$.
+        This is exactly when the first $n-2$ elements of $\alpha$ are increasing.
+        Since $\alpha$ is assumed to be skew sum indecomposable (for uniqueness), the last element of $\alpha  $ cannot be $1$.
+        Therefore there are $n-2$ choices for the last element of $\alpha$, 
+        and only one way to order the initial elements.
+        Indeed, for all $2\leq \ell\leq n-1$, 
+        the following permutation avoids $\lambda$:
+        \begin{align*}
+            \pi
+            &=21[12\cdots \ell (\ell+2)\cdots (n-2)(\ell+1),1]\\  
+            % &=21[132[12\cdots \ell,12\cdots (n-\ell-2),1],1]\\
+            &=21[132[I_{\ell},\, I_{n-\ell-2},1],1]\\
+            % &=2431[12\cdots \ell,12\cdots (n-\ell-2),1,1]\\
+            &=2431[I_{\ell},\, I_{n-\ell-2},\, 1,\, 1]
+        \end{align*}
+    \end{enumerate}
+    Therefore, there are $(n-2)+2=n$ skew sum decomposable $n$-permutations avoiding $\lambda$ in total.
+\end{proof}
+
+\begin{lemma}\label{Av1(lambda):2413}
+    % There are $n-3$ inflations of 2413 in $Av_n(\lambda)$,
+    % namely $2413[I_{\ell}, \, I_{n-\ell-2},\,1,\,1]$ for $\ell \in [n-3]$.
+    For $n\geq 4$, there are $n-3$ that are inflations of 2413 avoiding $\lambda$ that are of length $n$.
+    Specifically, they are of the form $2413[I_{\ell}, \, I_{n-\ell-2},\,1,\,1]$ for $\ell \in [n-3]$.
+    % \[\{2413[I_{\ell}, \, I_{n-\ell-2},\,1,\,1]: \ell \in [n-3] \}\]
+\end{lemma}
+
+\begin{proof}
+    Let $\pi:=2413[\alpha,\beta,\gamma,\delta]$ be an $n$-permutation avoiding $\lambda$. 
+    We will show that $\abs{\gamma}=\abs{\delta}=1$,
+    while $\alpha$ and $\beta$ are increasing sequences but can be of variable length.\\
+
+    \noindent Suppose $\abs{\gamma}\geq 2$ or $\abs{\delta}\geq 2$. 
+    Then $\pi$ contains $\lambda$ (consider one point from $\beta$) and three points total from $\gamma$ and $\delta$.
+    Now suppose that $\alpha$ or $\beta$ contains a descent. 
+    Then the two elements that make up the descent, 
+    together with one element from $\gamma$ and one element from $\delta$ make $\lambda$.
+    Therefore, $\abs{\gamma}=\abs{\delta}=1$ and 
+    $\alpha$ and $\beta$ are increasing.\\
+
+    \noindent Finally, it is not hard to see that for all $\ell\in [n-3]$, 
+    the permutation $2413[I_{\ell}, \, I_{n-\ell-2},\,1,\,1]$ 
+    % \[2413[1\,2\,\cdots \,\ell, \,1\,2\,\cdots \,(n-\ell-2),\,1,\,1]
+    % =2413[I_{\ell}, \, I_{n-\ell-2},\,1,\,1]\] 
+    avoids $\lambda$.
+    So there are $n-3$ inflations of 2413 avoiding $\lambda$.
+\end{proof}
+
+\begin{theorem}\label{theorem:Av1(lambda)}
+    For all $n\geq 4$, $\ds \abs{Av_n(\lambda)} = 2n-3+\sum_{i=1}^{n-1}(2i-3) \abs{Av_{n-i}(\lambda)}$. 
+    % the number of $n$-permutations avoiding $\lambda$ is equal to
+\end{theorem}
+\begin{proof}
+    Lemmas \ref{Av1(lambda):simple}, \ref{Av1(lambda):21} and \ref{Av1(lambda):2413}
+    together imply that 
+    there are $2n-3$ sum indecomposable permutations in $Av_n(\lambda)$.
+    Moreover, a sum decomposable permutation $12[\alpha,\beta]$ avoids $\lambda$ 
+    if and only if $\alpha$ and $\beta$ both avoid $\lambda$.
+    Therefore, there are  $\ds\sum_{i=1}^{n-1}(2i-3) \abs{Av_{n-i}(\lambda)}$ sum decomposable permutations 
+    of the form $12[\alpha,\beta]$ in $Av_n(\lambda)$, where $\alpha$ is sum indecomposable.
+    Thus we get the recursive formula for $Av_n(\lambda)$. 
+    % The enumeration of $Av_n(\lambda)$ follows directly from these two facts, 
+    % and Theorem \ref{thm:12,21}.
+\end{proof}
+
+\section{Structure of permutations avoiding \texorpdfstring{$\mathcal{P}$}{P}}
+
+\noindent Next, we demonstrate the $n$-permutations of $Av(\mathcal{P})$ explicitly.
+Recall that \[\mathcal{P}=\{2413, \,2431, \,4213, \,3412, \,3421,\, 4231, \,4321, \,4312\}.\]
+
+\begin{lemma}\label{Av1(P):simple}
+The only simple permutations that avoid $\mathcal{P}$ are 12, 21, 3142 and 41352. 
+\end{lemma}
+\begin{proof}
+    It is clear that 3142, 41352 and all simple permutations of length $3$ or less avoid $\mathcal{P}$.
+    Consider a simple permutation $\pi$ of length at least $4$ avoiding $\mathcal{P}$ .
+    Since $\mathcal{P}$ contains 2413, $\pi$ avoids 2413 and must contain $3142$, 
+    since otherwise it would be a separable permutation and not simple by Theorem \ref{thm:separable}.\\
+
+    We present its lattice matrix $L_{3142}(\pi)$ in Figure \ref{Av1(P)},
+    with some alterations explained in the caption. 
+    It suffices to show that $\alpha_{33}$ can have weight at most 1, 
+    while the remaining $\alpha_{ij}$ are trivial:
+     
+    \begin{figure}[!htbp]
+        \begin{center}
+            \begin{tabular}{ccccccccc}
+                4312          & \big |  &      3412     & \big |  &     2431      & \big |  & $\alpha_{14}$ & \big |  & $\alpha_{15}$\\
+                ------        & $\Plus$ &     ------    & $\Plus$ &     ------    &   4     &     ------    & $\Plus$ & ------ \\
+                4312          & \big |  &      3412     & \big |  & $\alpha_{23}$ & \big |  &     2431      & \big |  & 2413\\
+                ------        &   3     &     ------    & $\Plus$ &     ------    & $\Plus$ &     ------    & $\Plus$ & ------ \\
+                3412          & \big |  &      4312     & \big |  & $\alpha_{33}$ & \big |  &     3421      & \big |  & 3412\\
+                ------        & $\Plus$ &     ------    & $\Plus$ &     ------    & $\Plus$ &     ------    &    2    & ------ \\
+                2413          & \big |  &      4231     & \big |  & $\alpha_{43}$ & \big |  &     3412      & \big |  & 3421\\
+                ------        & $\Plus$ &     ------    &   1     &     ------    & $\Plus$ &     ------    & $\Plus$ & ------ \\
+                $\alpha_{51}$ & \big |  & $\alpha_{52}$ & \big |  &     4213      & \big |  &     3412      & \big |  & 3421
+            \end{tabular}
+            \caption{The lattice matrix $L_{3142}(\pi)$ with some $\alpha_{ij}$ replaced by a pattern in $\mathcal{P}$ 
+            that $\pi$ would contain if that $\alpha_{ij}$ were nontrivial, for $i,j\in [5]$. 
+            For example, if $\alpha_{12}$ were nontrivial, then $\pi$ would contain 3412.}
+            \label{Av1(P)}
+        \end{center}
+    \end{figure}
+
+    We proceed to show that $\alpha_{ij}$ must trivial for all $i,j\in [5]$, except for $i=j=3$.
+    \begin{enumerate}[(a)]
+        \item Suppose $\alpha_{52}$ were nontrivial. 
+        Since it is adjacent to the point 1,
+        the block $\alpha_{51}$ cannot be trivial and must be superior to $\alpha_{52}$ by simpleness.
+        However, this would mean the inclusion of the pattern $2413$ 
+        (consider any submatrix containing $\alpha_{51}\, 3\, \alpha_{52}\, 1$).
+
+        \item Since $\alpha_{5j}$ are trivial for all $j\in [2,5]$, 
+        the block $\alpha_{51}$ must be trivial as well,
+        for otherwise $\pi$ would be sum decomposable.
+        
+        \item Suppose $\alpha_{14}$ were nontrivial. 
+        Since it is adjacent to the point 4,
+        the block $\alpha_{15}$ cannot be trivial and must be inferior to $\alpha_{14}$ by simpleness.
+        However, this would mean the inclusion of the pattern $2413$ 
+        (consider any submatrix containing $4\, \alpha_{14}\, 2\, \alpha_{15}$).
+        
+        \item Suppose $\alpha_{23}$ were nontrivial. 
+        Since it is adjacent to the point 4,
+        it cannot be rightmost by simpleness.
+        However, this would mean the inclusion of the pattern $3412$ 
+        (consider any submatrix containing $3\, \alpha_{23}\, \alpha_{33}\, 2$ or $3\, \alpha_{23}\, \alpha_{43} \, 2$).
+
+        \item Suppose $\alpha_{43}$ were nontrivial. 
+        Since it is adjacent to the point 1,
+        it cannot be leftmost by simpleness.
+        Then $\alpha_{33}$ must be nontrivial and lie to the left of $\alpha_{43}$.
+        However, this would mean the inclusion of the pattern $4312$ 
+        (consider any submatrix containing $3\, \alpha_{33} \,\alpha_{43}\, 2$).
+    \end{enumerate}
+
+    Since all the blocks in the same row or column as $\alpha_{33}$ are trivial, 
+    it can have weight at most 1 by simpleness.
+    Moreover, it cannot be trivial since all the other $\alpha_{ij}$s are trivial and 312 is not simple.
+    We have thus eliminated the possibility of there being a simple permutation of length at least 5 avoiding $\mathcal{P}$ that is not 41352, 
+    so our list is exhaustive.
+\end{proof}
+
+\begin{lemma}\label{Av1(P):21}
+    There are $4$ skew sum decomposable $n$-permutations in $Av(\mathcal{P})$.
+    Namely, they are $21[1, \, I_{n-1}]$, $312[1,\, I_{n-3}, \, 21]$, $21[I_{n-1},\, 1]$ and $231[21,\, I_{n-3},\, 1]$.
+\end{lemma}
+\begin{proof}
+    Let $\pi=21[\alpha,\beta]$ be a permutation avoiding $\mathcal{P}$. We have 3 cases:
+    \begin{enumerate}[1)]
+        \item If $\abs{\alpha},\abs{\beta}\geq 2$, then $\pi$ contains $3412,\,3421,\,4312$ or $4321$.
+        
+        \item Suppose $\abs{\alpha}=1$ and $\abs{\beta}\geq 2$. 
+        Then $\pi$ avoids $\mathcal{P}$ 
+        if and only if $\beta$ avoids $213,\, 231,\, 321,\, 312$. \\
+        That is, $\pi$ avoids $\mathcal{P}$ 
+        if and only if all but the last two terms of $\beta$ are strictly increasing.\\
+        There are only two such permutations, namely 
+        $21[1, \, I_{n-1}]$ and $312[1,\, I_{n-3}, \, 21]$. 
+        % \[21[1, \,1\,2\,\cdots\, (n-1)] 
+        % =21[1, \, I_{n-1}]
+        % \quad \text{and}\quad 
+        % 21[1, \,1\,2\,\cdots\, (n-3)\,(n-1)\,(n-2)]
+        % =312[1,\, I_{n-3}, \, 21].\]
+
+        \item Suppose $\abs{\beta}=1$ and $\abs{\alpha}\geq 2$. 
+        Then $\pi$ avoids $\mathcal{P}$ if and only if $\alpha$ avoids 
+        \[\text{red}(243)=132, \quad \text{red}(342)=231,\quad \text{red}(423)=312 \quad \text{and}\quad \text{red}(432)=321.\]
+        That is, if and only if all but the first two terms of $\alpha$ are strictly increasing.\\
+        There are only two such permutations, namely 
+        $21[I_{n-1},\, 1]$ and $231[21,\, I_{n-3},\, 1]$. 
+        % \[21[1\,2\,\cdots\,(n-1),\,1]
+        % =21[I_{n-1},\, 1]
+        % \quad \text{and}\quad 
+        % 21[21345\,\cdots \,(n-1),\,1]
+        % =231[21,\, I_{n-3},\, 1].\]
+    \end{enumerate}
+\end{proof}
+
+\begin{lemma}\label{Av1(P):3142}
+    There are $n-3$ inflations of 3142 of length $n$ avoiding $\mathcal{P}$.
+    Specifically, they are of the form $3142[1,\, I_{\ell}, \, I_{n-\ell-2},\,1]$ where $\ell\in[n-3]$.
+\end{lemma}
+\begin{proof}
+    Let $\pi=3142[\alpha,\beta,\gamma,\delta]$ be a permutation avoiding $\mathcal{P}$.
+    We will show that $\abs{\alpha}=\abs{\delta}=1$, 
+    while $\beta$ and $\gamma$ are increasing sequences of variable length.
+    \begin{enumerate}
+        \item If $\alpha$ contains an ascent, then $\pi$ contains 3412 
+        (consider $312[\alpha,\beta,\delta]$).\\
+        On the other hand, if $\alpha$ contains an descent, then $\pi$ contains 4312 
+        (consider $312[\alpha,\beta,\delta]$).
+        \item If $\delta$ contains an ascent, then $\pi$ contains 3412 (consider $342[]\alpha,\gamma,\delta]$).\\
+        On the other hand, if $\delta$ contains an descent, then $\pi$ contains 3421 (consider the subpermutation $342[\alpha,\gamma,\delta]$).
+        \item If $\beta$ contains an descent, then $\pi$ contains 4213 (consider $314[\alpha,\beta,\delta]$).\\
+        If $\gamma$ contains an descent, then $\pi$ contains 2431 (consider $342[\alpha,\gamma,\delta]$).
+        Therefore $\beta$ and $\gamma$ are increasing.
+    \end{enumerate}
+    
+    \noindent Finally, it is not hard to see that for all $\ell\in[n-3]$, 
+    the permutation $3142[1,\, I_{\ell}, \, I_{n-\ell-2},\,1]$ 
+    % \[3142[1,\,1\,2\,\cdots \,\ell,1\,2\,\cdots\, (n-\ell-2),\,1]
+    % =3142[1,\, I_{\ell}, \, I_{n-\ell-2},\,1]\] 
+    avoids $\lambda$.
+    Therefore, there are $n-3$ inflations of 3142 in $Av_n(\mathcal{P})$.
+\end{proof}
+
+\begin{lemma}\label{Av1(P):41352}
+    % There are $n-4$ inflations of 41352 in $Av_n(\mathcal{P})$,
+    % namely $41352[1, I_{\ell},1,I_{n-\ell-3},1]$ where $\ell \in [n-4]$.
+    There are $n-4$ inflations of 41352 of length $n$ avoiding $\mathcal{P}$.
+    Specifically, they are of the form $41352[1, I_{\ell},1,I_{n-\ell-3},1]$ where $\ell \in [n-4]$.
+\end{lemma}
+
+\begin{proof}
+    Let $41352[\alpha,\beta,\gamma,\delta,\zeta]$ be a permutation avoiding $\mathcal{P}$. 
+    We will show that 
+    $\abs{\alpha}=\abs{\gamma}=\abs{\zeta}=1$,
+    while $\beta$ and $\delta$ are both increasing sequences of variable length.
+    \begin{enumerate}
+        \item If $\alpha$ contains an ascent, then $\pi$ contains 3412 (consider $413[\alpha,\beta,\gamma]$).\\
+        If $\alpha$ contains an descent, then $\pi$ contains 4312 (consider $413[\alpha\beta,\gamma]$).\\
+        Therefore $\abs{\alpha}=1$.
+        \item If $\gamma$ contains an ascent, then $\pi$ contains 4231 (consider $432[\alpha,\gamma,\zeta]$).\\
+        If $\gamma$ contains an descent, then $\pi$ contains 4231 (consider $432[\alpha,\gamma,\zeta]$).\\
+        Therefore $\abs{\gamma}=1$.
+        \item If $\zeta$ contains an ascent, then $\pi$ contains 4312 (consider $432[\alpha,\gamma,\zeta]$).\\
+        If $\zeta$ contains an descent, then $\pi$ contains 4321 (consider $432[\alpha,\gamma,\zeta]$).\\
+        Therefore $\abs{\zeta}=1$.
+        \item If $\beta$ contains an descent, then $\pi$ contains 4213 (consider $412[\alpha,\beta,\zeta]$).\\
+        Therefore $\beta$ is increasing.
+        \item If $\delta$ contains an descent, then $\pi$ contains 2431 (consider $452[\alpha,\delta,\zeta]$).\\
+        Therefore $\delta$ is increasing.
+    \end{enumerate}
+    
+    \noindent Finally, it is not hard to see that for all $\ell \in [n-4]$,
+    the permutation $41352[1, I_{\ell},1,I_{n-\ell-3},1]$ 
+    % \[41352[1,\,1\,2\,\cdots \,\ell,\,1,\,1\,2\,\cdots \,(n-\ell-3),\,1]
+    % =41352[1,\, I_{\ell},\, 1,\, I_{n-\ell-3},\,1]\] 
+    avoids $\mathcal{P}$.
+    Therefore, there are $n-4$ inflations of 41352 in $Av_n(\mathcal{P})$.
+\end{proof}
+
+\begin{theorem}\label{theorem:Av1(P)}
+    For all $n\geq 4$, $\ds  \abs{Av_{n}(\mathcal{P})}= 2n-3+\sum_{i=1}^{n-1}(2i-3) \abs{Av_{n-i}(\mathcal{P})}$. 
+\end{theorem}
+\begin{proof}
+    From Lemma \ref{Av1(P):simple}, \ref{Av1(P):21}, \ref{Av1(P):3142} and \ref{Av1(P):41352}, 
+    we can easily see that 
+    there are $2n-3$ sum indecomposable $n$-permutations in $Av(\mathcal{P})$.
+    Moreover, a sum decomposable $n$-permutation $12[\alpha,\beta]$ avoids $\mathcal{P}$ 
+    if and only if $\alpha$ and $\beta$ both avoid $\mathcal{P}$,
+    so there are $\ds\sum_{i=1}^{n-1}(2i-3)  \abs{Av_{n-i}(\mathcal{P})}$ permutations of the form $12[\alpha,\beta]$ 
+    in $Av_n(\mathcal{P})$ where $\alpha$ is sum indecomposable.
+\end{proof}
+
+% We might also like to show that this recursive equation gives rise to the generating function 
+% \[\sum_{n\geq 0} a_nx^n=\dfrac{(1-x)^2}{1-3x+2x^2-2x^3}\] found in Theorem 19 of Gao-Kitaev's 2019 paper.\\
+
+\section{The bijection}
+Having thoroughly analysed the structure of the two avoidance sets, we are ready to construct the bijection explicitly:
+
+\begin{theorem}
+    % g(231)=g(21[12,1])=21[1,12]=312
+    % g(321)=g(21[1,21])=21[21,1]=321
+    % g(312)=g(21[1,12])=231
+    % , 21&\mapsto 21, 231\mapsto, 231\mapsto, 231\mapsto \\
+    Define $g$ to be a function that maps 
+    \begin{align*}
+        1&\mapsto 1\\
+        321&\mapsto 321\\
+        312&\mapsto 231\\
+        21[I_{k},\, 1] &\mapsto 21[1,\, I_{k}]\\
+        231[I_{k},\, 21,\, 1] &\mapsto 312[1, \, I_{k},\, 21]\\
+        21[I_{k+1},\, 21] &\mapsto 231[21,\, I_{k},\, 1]\\
+        2431[I_{k},\, I_{j+1},\, 1,\, 1] &\mapsto 41352[1,\, I_{k}, \, 1, \, I_{j},\, 1]\\
+        2413[I_{k},\, I_{j},\, 1,\, 1] &\mapsto 3142[1,\, I_{k},\,  I_{j},\, 1]
+    \end{align*}
+    for all $k,j\geq 1$.
+    Define $f:Av(\lambda)\rightarrow Av(\mathcal{P})$ by 
+    \begin{align*}
+        f(\pi) = \begin{cases}
+            g(\pi) &\text{if }\pi \text{ is sum indecomposable}\\
+            12[g(\alpha),f(\beta)] &\text{if }\pi=12[\alpha,\beta], \text{ and }\alpha\text{ is a sum indecomposable}.
+        \end{cases} 
+    \end{align*} 
+    Then $f$ is a bijection.
+    In fact, $f$ restricted to $Av_n(\lambda)$ is a bijection onto $Av_n(\mathcal{P})$.
+\end{theorem}
+
+\begin{proof}
+    From the lemmas in the previous two sections, it is clear that $g$ maps the 
+    sum indecomposable permutations in $Av_n(\lambda)$ to the sum indecomposable permutations in $Av_n(\mathcal{P})$.
+    Moreover $f$ maps permutations in $Av_n(\lambda)$ into $Av_n(\mathcal{P})$
+    by the proofs of Theorem \ref{theorem:Av1(lambda)} and Theorem \ref{theorem:Av1(P)},
+    and it is clear that $f$ is an injection.
+    Since $\abs{Av_n(\lambda)}=\abs{Av_n(\lambda)}$,
+    $f$ restricted to $Av_n(\lambda)$ is a bijection onto $Av_n(\mathcal{P})$ for all $n\geq 1$.
+    Thus $f$ is a bijection from $Av(\lambda)$ to $Av(\mathcal{P})$.
+\end{proof}
+\end{document}

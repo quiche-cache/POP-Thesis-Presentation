@@ -1,0 +1,55 @@
+% !TEX root = /Users/keshiayap/Desktop/Math/3\ Summer\ 2020/masters/final/main/main.tex
+\documentclass[../main.tex]{subfiles}
+%
+\begin{document}
+\section{Summary}
+
+In this thesis, we elucidated connections between the avoidance sets of some POPs and other combinatorial objects by constructing explicit bijections between the relevant sets,
+as a direct response to five of the 15 open questions posed by Gao and Kitaev \cite{gao-kitaev-2019}.
+These bijections were derived primarily by analysing the simple permutations of the avoidance sets and how the rest of the set could be obtained from their inflations.
+This was made possible by illustrating the permutation matrices as lattice matrices, which is a novel concept introduced in this paper.
+The bijections constructed in this paper are a testament to the fundamental role that simple permutations play in the study of pattern-avoiding permutations.
+It also demonstrates the intricate connections that avoidance sets of POPs have with many other combinatorial objects,
+and provides a way to relate seemingly disparate combinatorial objects through their connections to the family of POPs.
+We also enumerated the number of simple $n$-permutations avoiding the patterns 2413, 3412 and 3421 for all $n$,
+giving a concrete example of an avoidance set with a finite basis and infinitely many simple permutations.\\
+
+\section{Further Work}
+
+The remaining ten questions posed by Gao and Kitaev \cite{gao-kitaev-2019} remain open. 
+Given the bijections we have constructed, it would be interesting to know whether they can be generalized further, 
+by studying generalizations of the POPs or of the combinatorial objects.
+The following questions are natural extensions of the problem that was discussed in Chapter \ref{chap:levels}:
+\begin{enumerate}[1.]
+    \item Are there any combinatorial objects that have a natural bijective relationship with the avoidance set of $P_k$ for any $k\geq 5$?
+    \item Is there a POP whose avoidance set is in bijection with the levels in compositions of ones, twos and threes?
+    \item Are there any combinatorial objects that have a natural bijective relationship with the avoidance set 
+    of the POP with $k$ elements labelled $1,\, 2,\, \dots,\, k$ where $1>3>5$,
+    or, more generally, with  $1>3>\cdots > 2i+1$ for some $i\geq 2$? 
+\end{enumerate}
+
+The enumeration of $Av_n(R_k)$ for $k\geq 6$, $n\geq 1$, where $R_k$ is defined in Chapter \ref{chap:av10}, is an open question.
+It could also be interesting to enumerate $\mathfrak{S}_{k,n}$,
+which we define as the set of permutations whose partial sums of signed displacements do not exceed $k$, for all $k\geq 3$,
+and check if there exist any $k$ and $\ell$ such that 
+$\abs{\mathfrak{S}_{k,n}}=\abs{Av_n(R_\ell)}$ for all $n\geq 1$.
+Finally, Gao and Kitaev \cite{gao-kitaev-2019} observed that sequence $\abs{Av_{n-1}(R_4)}_{n\geq 2}$ 
+corresponds to sequence \href{https://oeis.org/A232164}{A232164} as well.
+The latter sequence counts the number of 
+Weyl group elements, not containing an $s_r$ factor, which contribute nonzero terms to Kostant's weight multiplicity formula when computing the multiplicity of the zero-weight in the adjoint representation for the Lie algebra of type $C$ and rank $n$.
+Using our analysis on the set $Av(R_4)$, 
+one may be able to construct a natural bijection between these two sets more easily.\\
+
+During our study of the simple permutations that avoid the patterns 2413, 3412 and 3421, 
+we discovered using the PermLab software that the addition of the pattern 2431 to the basis does not change the set of simple permutations for small $n$.
+It can be proved that the simple permutations constructed by the recursive functions 
+to build the set $Av_n^S(2413,3412,3421)$ indeed avoid 2431.
+This observation leads us to an interesting question: 
+Which avoidance sets have the same set of simples?
+
+% One key observation is that for all $k\geq 2$, there are finitely many simples in $Av_n(R_k)$ (to prove). 
+% If we can show that all but finitely-many permutations are sum-decomposable, 
+% we simply need to show that for all $n\leq N$ for some $N\geq 1$, 
+% the number of permutations in $\mathfrak{S}_{k,n}$
+% is equal to the number of sum-indecomposable permutations in $Av_n(R_k)$.
+\end{document}
